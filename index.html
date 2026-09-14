@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SONANCE · Wuthering Waves Command</title>
+<style>
+:root{--bg:#0b0f1a;--card:#141b2e;--accent:#7dd3fc;--gold:#fbbf24;--green:#34d399;--text:#e5e7eb}
+*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text)}
+body::before{content:'';position:fixed;inset:-4%;z-index:-1;pointer-events:none}
+body[data-tab="mapa"]::before{background:linear-gradient(#0b0f1ad9,#0b0f1a99),url('https://hw-pcdownload-qcloud.aki-game.net/launcher/clientUpload/kp82e0hn4uq2qqwz80.webp') center center/cover;}
+body[data-tab="portada"]::before{background:linear-gradient(#0b0f1ab3,#0b0f1a66),url('https://hw-pcdownload-qcloud.aki-game.net/launcher/clientUpload/kp82e0hn4uq2qqwz80.webp') center center/cover;}
+header{background:linear-gradient(90deg,#0ea5e9cc,#6366f1cc,#a855f7cc);padding:16px;text-align:center}
+header h1{margin:0;font-size:22px}
+nav{display:flex;gap:8px;justify-content:center;padding:10px;background:rgba(15,23,42,.9);flex-wrap:wrap;position:sticky;top:0;z-index:1000;border-bottom:1px solid #ffffff14}
+nav button{background:#1e293b;color:#fff;border:0;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700;font-size:13px}
+nav button.active{background:var(--accent);color:#000}
+main{max-width:1400px;margin:auto;padding:16px}
+.card{background:rgba(20,27,46,.9);border:1px solid #ffffff14;border-radius:16px;padding:16px;margin-bottom:16px}
+.tab{display:none}.tab.active{display:block}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.filters select,.filters input{background:#0f172a;color:#fff;border:1px solid #334155;border-radius:8px;padding:8px}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.grid6{display:grid;gap:10px;grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.grid6{grid-template-columns:1fr}}
+.item{background:rgba(15,23,42,.6);border:1px solid #ffffff14;border-radius:12px;padding:10px}
+.item h4{margin:0 0 4px;font-size:14px}.item small{color:#94a3b8}
+button.btn{background:var(--accent);border:0;border-radius:8px;padding:8px 12px;font-weight:700;cursor:pointer;margin-top:6px}
+button.btn2{background:#334155;color:#fff;border:0;border-radius:8px;padding:8px 12px;cursor:pointer;margin-top:6px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:7px;border-bottom:1px solid #26314d;text-align:left}
+.team{border-left:4px solid var(--gold);padding:10px;margin-bottom:10px;background:rgba(15,23,42,.6);border-radius:0 12px 12px 0}
+.brandname{font-size:26px;font-weight:900;letter-spacing:8px;background:linear-gradient(90deg,#7dd3fc,#a78bfa,#f472b6,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero{text-align:center;padding:30px 10px}.hero h1{font-size:clamp(48px,9vw,90px);margin:0;font-weight:900;letter-spacing:12px;background:linear-gradient(90deg,#7dd3fc,#a78bfa,#f472b6,#fbbf24,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+@media(max-width:900px){.tiles{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.tiles{grid-template-columns:1fr}}
+.tile{border-radius:18px;padding:22px 16px;text-align:center;cursor:pointer;background:rgba(15,23,42,.6);border:1px solid #ffffff1c}
+.tile:hover{border-color:#7dd3fc88;transform:translateY(-3px)}
+.tile .ic{font-size:36px;display:block;margin-bottom:8px}.tile small{display:block;color:#94a3b8;font-size:12px;margin-top:4px}
+.subtabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.subtabs button{background:#1e293b;color:#fff;border:1px solid #475569;border-radius:10px;padding:8px 14px;font-weight:800;cursor:pointer}
+.subtabs button.active{background:var(--accent);color:#000}
+.alert{background:#0f1a2e;border:1px solid #0ea5e9;border-radius:10px;padding:12px;font-size:13px;margin-bottom:12px}
+.chip{display:inline-block;background:#1e293b;border:1px solid #475569;border-radius:16px;padding:2px 9px;margin:2px;font-size:11px}
+iframe.mapframe{width:100%;height:600px;border:1px solid #334155;border-radius:12px;background:#000}
+.skill{background:rgba(15,23,42,.5);border:1px solid #ffffff12;border-radius:10px;padding:10px;margin:8px 0;font-size:13px}
+.skill b{color:var(--gold)}
+.check{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.check label{background:#1e293b;border:1px solid #475569;border-radius:8px;padding:5px 9px;font-size:12px;cursor:pointer}
+#modal{position:fixed;inset:0;background:rgba(2,4,10,.6);display:none;z-index:2000;overflow-y:auto;padding:16px}
+#modal.open{display:block}
+.sheet{max-width:900px;margin:20px auto;background:#0d1220;border:1px solid #ffffff22;border-radius:20px;padding:20px}
+.statrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:rgba(15,23,42,.5);border-radius:10px;padding:8px;margin:6px 0;font-size:13px}
+input.num{width:90px;background:#0f172a;color:#fff;border:1px solid #334155;border-radius:8px;padding:7px}
+.st-bad{color:#f87171;font-weight:800}.st-opt{color:#34d399;font-weight:800}
+.tierow{display:flex;gap:10px;margin-bottom:10px}.tierlabel{min-width:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#000}
+.tiermembers{flex:1;display:flex;gap:8px;flex-wrap:wrap;background:rgba(15,23,42,.5);border-radius:12px;padding:10px}
+.tiermember{width:110px;text-align:center;cursor:pointer;font-size:12px}.tiermember small{display:block;font-weight:700;margin-top:3px}
+.tiermember.no{opacity:.42;filter:grayscale(.6)}
+.tiermember img{width:100%;border-radius:10px;background:#1e293b}
+.port{width:100%;height:120px;border-radius:10px;background:linear-gradient(135deg,#1e293b,#312e81);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:900;color:#64748b;overflow:hidden}
+</style>
+</head>
+<body data-tab="portada">
+<header><div class="brandname" onclick="goTab('portada')" style="cursor:pointer">SONANCE</div><div style="font-size:11px;letter-spacing:3px;color:#94a3b8">WUTHERING WAVES COMMAND · PARCHE 3.6 · RECONSTRUIDO</div></header>
+<nav id="mainnav">
+<button class="active" onclick="goTab('portada',this)">🏠 Portada</button>
+<button onclick="goTab('mapa',this)">🗺️ Mapa</button>
+<button onclick="goTab('pjs',this)">👥 Personajes</button>
+<button onclick="goTab('builds',this)">🛠️ Builds</button>
+<button onclick="goTab('equipos',this)">⚔️ Equipos</button>
+<button onclick="goTab('tier',this)">🏅 Tier</button>
+<button onclick="goTab('gacha',this)">🎰 Gacha</button>
+<button onclick="goTab('hoy',this)">📅 Hoy</button>
+<button onclick="goTab('tools',this)">🧰 Tools</button>
+<button onclick="goTab('cuenta',this)">🔗 Cuenta</button>
+</nav>
+<main>
+<section id="tab-portada" class="tab active">
+<div class="hero"><h1>SONANCE</h1><p>Tu cuenta, tus builds, tu mapa. Todo Wuthering Waves en un solo mando. <b style="color:#fbbf24">Reconstruido tras el borrado — vuelve a marcar tus 47.</b></p>
+<div><span class="chip">Europa</span><span class="chip">Parche 3.6</span><span class="chip" id="chipCount">58 PJs</span><span class="chip">v7.6-rebuild</span></div></div>
+<div class="tiles">
+<div class="tile" onclick="goTab('mapa')"><span class="ic">🗺️</span><b>Mapa interactivo</b><small>Cofres y rutas 3.6</small></div>
+<div class="tile" onclick="goTab('pjs')"><span class="ic">👥</span><b>Personajes</b><small>58 kits con ficha</small></div>
+<div class="tile" onclick="goTab('builds')"><span class="ic">🛠️</span><b>Builds</b><small>Armas, ecos y mejoras</small></div>
+<div class="tile" onclick="goTab('equipos')"><span class="ic">⚔️</span><b>Mis equipos</b><small>Formación TOP</small></div>
+<div class="tile" onclick="goTab('tier')"><span class="ic">🏅</span><b>Tier List</b><small>Meta 3.6</small></div>
+<div class="tile" onclick="goTab('cuenta')"><span class="ic">🔗</span><b>Cuenta</b><small>Backup y ajustes</small></div>
+<div class="tile" onclick="goTab('gacha')"><span class="ic">🎰</span><b>Gacha</b><small>Pity y suerte</small></div>
+<div class="tile" onclick="goTab('hoy')"><span class="ic">📅</span><b>Hoy</b><small>Resets y waveplates</small></div>
+<div class="tile" onclick="goTab('tools')"><span class="ic">🧰</span><b>Herramientas</b><small>Ecos y daño</small></div>
+</div>
+</section>
+<section id="tab-mapa" class="tab"><div class="card"><h2>🗺️ Mapa interactivo 3.6</h2>
+<div class="filters"><button class="btn" onclick="setFrame('https://wuthering.gg/map')">wuthering.gg</button><button class="btn" onclick="setFrame('https://wuthering.th.gl/maps/Overworld')">th.gl Overworld</button><button class="btn2" onclick="window.open(document.getElementById('realframe').src,'_blank')">Abrir ↗</button></div>
+<iframe id="realframe" class="mapframe" src="https://wuthering.gg/map" loading="lazy"></iframe></div></section>
+<section id="tab-pjs" class="tab"><div class="card"><h2>👥 Personajes (58)</h2>
+<div class="filters"><input id="searchPj" placeholder="Buscar..." oninput="renderPjs()" style="flex:1;min-width:160px"><select id="pjEl" onchange="renderPjs()"><option value="">Todos elementos</option><option>Spectro</option><option>Fusion</option><option>Glacio</option><option>Aero</option><option>Electro</option><option>Havoc</option></select><select id="pjRol" onchange="renderPjs()"><option value="">Todos roles</option><option>DPS principal</option><option>Sub-DPS</option><option>Support</option></select><button class="btn2" onclick="toggleAll(true)">Marcar todos</button><button class="btn2" onclick="toggleAll(false)">Desmarcar</button><button class="btn2" onclick="loadMine()">Cargar mis 47</button></div>
+<p id="pjStats" style="font-size:13px;color:#6ee7b7"></p><div id="pjs" class="grid"></div></div></section>
+<section id="tab-builds" class="tab"><div class="card"><h2>🛠️ Builds 3.6</h2>
+<div class="alert">Marca por personaje: <b>¿tienes su arma? ¿ecos listos? ¿talentos?</b> Se guarda solo + exportable.</div>
+<div class="filters"><input id="bSearch" placeholder="Buscar build..." oninput="renderBuilds()" style="flex:1;min-width:160px"><select id="bFilter" onchange="renderBuilds()"><option value="all">Todos (58)</option><option value="mine">Solo los míos</option><option value="todo">Solo pendientes</option></select></div>
+<p id="buildStats" style="font-size:13px;color:#6ee7b7"></p><div id="builds" class="grid6"></div></div></section>
+<section id="tab-equipos" class="tab">
+<div class="card"><h2>🚨 Resumen: quién necesita mejorar</h2><div id="statSummary" class="grid"></div></div>
+<div class="card"><h2>⚔️ Mejores equipos según TU cuenta</h2><p id="eqInfo" style="font-size:13px;color:#94a3b8"></p><div id="teams"></div></div>
+</section>
+<section id="tab-tools" class="tab">
+<div class="card"><h2>⚔️ Comparador de daño (aprox)</h2><button class="btn" onclick="teamDPS()">Calcular con mis stats</button><div id="dpsOut" style="margin-top:8px"></div></div>
+<div class="card"><h2>🧮 Calculadora de ecos</h2>
+<div class="filters"><select id="eChar"></select><select id="eMain"><option>CRIT Rate</option><option>CRIT DMG</option><option>ATK%</option><option>HP%</option><option>Healing</option><option>Element DMG</option><option>ER%</option></select><button class="btn" onclick="echoCalc()">Evaluar</button></div>
+<div class="filters" id="eSubs"></div><div id="echoOut"></div></div>
+<div class="card"><h2>⬆️ ¿A quién subo primero?</h2><div id="queueOut"></div></div>
+</section>
+<section id="tab-tier" class="tab"><div class="card"><h2>🏅 Tier List 3.6 por rol</h2>
+<div class="filters"><select id="tierFilter" onchange="renderTiers()"><option value="all">Todos (58)</option><option value="mine">Solo los míos</option></select></div>
+<div class="subtabs"><button id="stDps" class="active" onclick="tierShow('Dps',this)">⚔️ DPS</button><button id="stSub" onclick="tierShow('Sub',this)">🌀 Sub-DPS</button><button id="stSup" onclick="tierShow('Sup',this)">💚 Supports</button></div>
+<div id="paneDps"><h3>⚔️ DPS principal</h3><div id="tierDps"></div></div>
+<div id="paneSub" style="display:none"><h3>🌀 Sub-DPS</h3><div id="tierSub"></div></div>
+<div id="paneSup" style="display:none"><h3>💚 Supports</h3><div id="tierSup"></div></div></div></section>
+<section id="tab-hoy" class="tab"><div class="card"><h2>📅 Hoy en WuWa</h2><div id="hoyBody"></div>
+<h3>⚡ Waveplates (máx 240)</h3><div class="filters"><input id="wCur" class="num" type="number" placeholder="Actuales"><button class="btn" onclick="waveCalc()">Calcular lleno</button></div><p id="wOut"></p></div></section>
+<section id="tab-gacha" class="tab"><div class="card"><h2>🎰 Gacha</h2>
+<p style="font-size:13px;color:#94a3b8">Registro manual rápido (el import por URL se re-añadirá). Pity 5★/80.</p>
+<div class="filters"><select id="gRar"><option value="5">5★</option><option value="4">4★</option><option value="3">3★</option></select><input id="gName" placeholder="Nombre (ej: Qingxiao)"><button class="btn" onclick="gachaAdd()">＋ Añadir tirada</button><button class="btn2" onclick="if(confirm('¿Borrar historial?')){gacha=[];save();renderGacha2();}">Borrar</button></div>
+<div id="gachaStats" class="grid"></div><h3>📜 Historial</h3><div style="overflow-x:auto"><table id="gachaHist"></table></div></div></section>
+<section id="tab-cuenta" class="tab"><div class="card"><h2>🔗 Mi cuenta — Europa</h2>
+<p style="font-size:13px">Todo local. Exporta a menudo.</p>
+<div class="filters"><button class="btn2" onclick="exportJSON()">⬇ Exportar todo</button><button class="btn2" onclick="document.getElementById('imp').click()">⬆ Importar</button><input type="file" id="imp" hidden accept=".json" onchange="importJSON(event)"></div>
+<div class="skill">⚽ Tu otra web de fútbol sigue intacta: abre <b>fm-lettir.html</b> en la misma carpeta.</div></div></section>
+</main>
+<div style="position:fixed;bottom:8px;right:10px;background:#000a;border:1px solid #ffffff2e;color:#7dd3fc;font-size:11px;padding:4px 10px;border-radius:20px">v7.6-rebuild · 58 pjs</div>
+<div id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
+<script>
+const RESONATORS=[
+{name:'Qingxiao',el:'Aero',arma:'Espada',rol:'DPS principal',tier:'S+'},{name:'Jingran',el:'Fusion',arma:'Mandoble',rol:'DPS principal',tier:'S+'},
+{name:'Augusta',el:'Electro',arma:'Mandoble',rol:'DPS principal',tier:'S+'},{name:'Iuno',el:'Aero',arma:'Guantelete',rol:'Sub-DPS',tier:'S+'},
+{name:'Cartethyia',el:'Aero',arma:'Espada',rol:'DPS principal',tier:'S+'},{name:'Phrolova',el:'Havoc',arma:'Rectificador',rol:'DPS principal',tier:'S+'},
+{name:'Carlotta',el:'Glacio',arma:'Pistola',rol:'DPS principal',tier:'S+'},{name:'Jinhsi',el:'Spectro',arma:'Mandoble',rol:'DPS principal',tier:'S+'},
+{name:'Shorekeeper',el:'Spectro',arma:'Rectificador',rol:'Support',tier:'S+'},{name:'Verina',el:'Spectro',arma:'Rectificador',rol:'Support',tier:'S+'},
+{name:'Zhezhi',el:'Glacio',arma:'Rectificador',rol:'Sub-DPS',tier:'S+'},{name:'Cantarella',el:'Havoc',arma:'Rectificador',rol:'Sub-DPS',tier:'S'},
+{name:'Zani',el:'Spectro',arma:'Guantelete',rol:'DPS principal',tier:'S'},{name:'Phoebe',el:'Spectro',arma:'Rectificador',rol:'Sub-DPS',tier:'S'},
+{name:'Changli',el:'Fusion',arma:'Espada',rol:'Sub-DPS',tier:'S'},{name:'Jiyan',el:'Aero',arma:'Mandoble',rol:'DPS principal',tier:'S'},
+{name:'Yinlin',el:'Electro',arma:'Rectificador',rol:'Sub-DPS',tier:'S'},{name:'Xiangli Yao',el:'Electro',arma:'Guantelete',rol:'DPS principal',tier:'S'},
+{name:'Camellya',el:'Havoc',arma:'Espada',rol:'DPS principal',tier:'S'},{name:'Roccia',el:'Havoc',arma:'Guantelete',rol:'Sub-DPS',tier:'S'},
+{name:'Lupa',el:'Fusion',arma:'Mandoble',rol:'Sub-DPS',tier:'S'},{name:'Brant',el:'Fusion',arma:'Espada',rol:'Support',tier:'S'},
+{name:'Ciaccona',el:'Aero',arma:'Pistola',rol:'Sub-DPS',tier:'S'},{name:'Qiuyuan',el:'Aero',arma:'Espada',rol:'Sub-DPS',tier:'S'},
+{name:'Lynae',el:'Spectro',arma:'Rectificador',rol:'Sub-DPS',tier:'S'},{name:'Hiyuki',el:'Glacio',arma:'Espada',rol:'DPS principal',tier:'S'},
+{name:'Mornye',el:'Fusion',arma:'Mandoble',rol:'Support',tier:'S'},{name:'Denia',el:'Fusion',arma:'Rectificador',rol:'Sub-DPS',tier:'S'},
+{name:'Chisa',el:'Havoc',arma:'Guantelete',rol:'DPS principal',tier:'S'},{name:'Sigrika',el:'Electro',arma:'Guantelete',rol:'DPS principal',tier:'S'},
+{name:'Rebecca',el:'Electro',arma:'Pistola',rol:'DPS principal',tier:'S'},{name:'Lucy',el:'Spectro',arma:'Pistola',rol:'Sub-DPS',tier:'S'},
+{name:'Galbrena',el:'Fusion',arma:'Pistola',rol:'DPS principal',tier:'S'},{name:'Aemeath',el:'Fusion',arma:'Espada',rol:'DPS principal',tier:'S'},
+{name:'Yangyang: Xuanling',el:'Havoc',arma:'Espada',rol:'DPS principal',tier:'S'},{name:'Suisui',el:'Glacio',arma:'Rectificador',rol:'DPS principal',tier:'S'},
+{name:'Luuk Herssen',el:'Spectro',arma:'Guantelete',rol:'DPS principal',tier:'S'},{name:'Lucilla',el:'Glacio',arma:'Rectificador',rol:'Sub-DPS',tier:'A'},
+{name:'Encore',el:'Fusion',arma:'Rectificador',rol:'DPS principal',tier:'A'},{name:'Calcharo',el:'Electro',arma:'Mandoble',rol:'DPS principal',tier:'A'},
+{name:'Jianxin',el:'Aero',arma:'Guantelete',rol:'Support',tier:'A'},{name:'Lingyang',el:'Glacio',arma:'Guantelete',rol:'DPS principal',tier:'A'},
+{name:'Danjin',el:'Havoc',arma:'Espada',rol:'DPS principal',tier:'A'},{name:'Sanhua',el:'Glacio',arma:'Espada',rol:'Sub-DPS',tier:'A'},
+{name:'Mortefi',el:'Fusion',arma:'Pistola',rol:'Sub-DPS',tier:'A'},{name:'Rover (Havoc)',el:'Havoc',arma:'Espada',rol:'DPS principal',tier:'A'},
+{name:'Rover (Spectro)',el:'Spectro',arma:'Espada',rol:'Support',tier:'A'},{name:'Rover (Aero)',el:'Aero',arma:'Espada',rol:'Support',tier:'A'},
+{name:'Rover (Electro)',el:'Electro',arma:'Espada',rol:'DPS principal',tier:'A'},{name:'Yangyang',el:'Aero',arma:'Espada',rol:'Support',tier:'A'},
+{name:'Baizhi',el:'Glacio',arma:'Rectificador',rol:'Support',tier:'A'},{name:'Buling',el:'Electro',arma:'Rectificador',rol:'Support',tier:'A'},
+{name:'Lumi',el:'Electro',arma:'Mandoble',rol:'Sub-DPS',tier:'B'},{name:'Youhu',el:'Glacio',arma:'Guantelete',rol:'Support',tier:'B'},
+{name:'Taoqi',el:'Havoc',arma:'Mandoble',rol:'Support',tier:'B'},{name:'Aalto',el:'Aero',arma:'Pistola',rol:'Sub-DPS',tier:'B'},
+{name:'Chixia',el:'Fusion',arma:'Pistola',rol:'Sub-DPS',tier:'B'},{name:'Yuanwu',el:'Electro',arma:'Guantelete',rol:'Sub-DPS',tier:'B'}];
+const MY_OWNED=["Augusta","Iuno","Shorekeeper","Lucy","Rebecca","Denia","Hiyuki","Sigrika","Mornye","Lynae","Chisa","Qiuyuan","Phrolova","Cartethyia","Zani","Cantarella","Phoebe","Carlotta","Camellya","Xiangli Yao","Zhezhi","Changli","Jinhsi","Yinlin","Jiyan","Jianxin","Verina","Encore","Rover (Havoc)","Rover (Spectro)","Rover (Aero)","Sanhua","Yangyang","Lumi","Youhu","Mortefi","Taoqi","Aalto","Chixia","Lucilla","Calcharo","Lingyang","Yuanwu","Danjin","Baizhi","Yangyang: Xuanling","Buling"];
+const BUILDS={
+'Augusta':{w:'Thunderflare Dominion (signature)',alt:'Verdant Summit > Aureate Zenith',set:'Crown of Valor 3pc + Void Thunder 2pc',main:'The False Sovereign',subs:'CRIT > Heavy > ATK% > ER 120%',target:'70% CR / 220% CD'},
+'Iuno':{w:'Signature Gauntlet Aero',alt:'Stonard Scalpel > F2P ER',set:'Gusts of Welkin 5pc',main:'Nightmare Kelpie',subs:'CRIT > ATK% > ER 130%',target:'ER 125-135%'},
+'Cartethyia':{w:'Defier´s Thorn (OBLIGATORIA)',alt:'Red Spring > Guardian Sword 3*',set:'Windward Pilgrimage 5pc',main:'Fleurdelys (44111)',subs:'HP% > CRIT > ER 115%',target:'50K HP / 70% CR'},
+'Phrolova':{w:'Lethean Elegy',alt:'Stringmaster > Cosmic Ripples',set:'Dream of the Lost 3pc + Havoc 2pc',main:'Nightmare Hecate',subs:'CRIT > ATK% > Skill',target:'70% CR / 240% CD'},
+'Carlotta':{w:'The Last Dance',alt:'Static Mist > Thunderbolt 4*',set:'Frosty Resolve 5pc',main:'Sentry Construct',subs:'CRIT > ATK% > Skill',target:'70% CR / 260% CD'},
+'Jinhsi':{w:'Ages of Harvest',alt:'Verdant Summit > Lustrous Razor',set:'Celestial Light 5pc',main:'Jué',subs:'CRIT > Skill > ATK%',target:'70% CR / 250% CD'},
+'Shorekeeper':{w:'Stellar Symphony',alt:'Variation 4* (BEST F2P)',set:'Rejuvenating Glow 5pc',main:'Fallacy (41111 ER+HP)',subs:'ER > HP%',target:'ER 230%+ / 40K HP'},
+'Verina':{w:'Variation 4* R5',alt:'Cosmic Ripples',set:'Rejuvenating Glow 5pc',main:'Bell Turtle (41111)',subs:'ER 200%+ > ATK%',target:'ER 200%'},
+'Camellya':{w:'Red Spring',alt:'Emerald > 4* CRIT',set:'Sun-sinking Eclipse 5pc',main:'Nightmare Crownless',subs:'CRIT > Básico% > ATK%',target:'70% CR / 250% CD'}};
+function buildFor(n){if(BUILDS[n])return BUILDS[n];const r=RESONATORS.find(x=>x.name===n);return{w:'Arma 5★ de '+r.arma+' (signature > F2P CRIT)',alt:'Ver Akademiya',set:'Set de '+r.el+' 5pc',main:'Eco 4-cost de '+r.el,subs:'CRIT > ATK% > ER',target:'70% CR / 220% CD'};}
+let owned=new Set(),checks={},stats={},gacha=[];
+try{const d=JSON.parse(localStorage.getItem('sonance76')||'{}');owned=new Set(d.owned||[]);checks=d.checks||{};stats=d.stats||{};gacha=d.gacha||[];}catch(e){}
+function save(){localStorage.setItem('sonance76',JSON.stringify({owned:[...owned],checks,stats,gacha}));}
+function goTab(id,btn){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');document.body.dataset.tab=id;document.querySelectorAll('#mainnav button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');else{const b=[...document.querySelectorAll('#mainnav button')].find(x=>x.textContent.includes({portada:'Portada',mapa:'Mapa',pjs:'Personajes',builds:'Builds',equipos:'Equipos',tier:'Tier',gacha:'Gacha',hoy:'Hoy',tools:'Tools',cuenta:'Cuenta'}[id]));if(b)b.classList.add('active');}if(id==='mapa'){const f=document.getElementById('realframe');if(!f.src)f.src='https://wuthering.gg/map';}}
+function setFrame(u){document.getElementById('realframe').src=u;}
+function toggleAll(v){RESONATORS.forEach(r=>{if(v)owned.add(r.name);else owned.delete(r.name);});save();renderAll();}
+function loadMine(){owned=new Set(MY_OWNED);save();renderAll();}
+function isMine(n){return owned.has(n);}
+function renderPjs(){const q=(document.getElementById('searchPj').value||'').toLowerCase(),fe=document.getElementById('pjEl').value,fr=document.getElementById('pjRol').value;
+const l=RESONATORS.filter(r=>(!q||r.name.toLowerCase().includes(q))&&(!fe||r.el===fe)&&(!fr||r.rol===fr));
+document.getElementById('pjStats').textContent=owned.size+' / '+RESONATORS.length+' marcados como tuyos';
+document.getElementById('pjs').innerHTML=l.map(r=>'<div class="item"><div class="port">'+r.name[0]+'</div><h4>'+r.name+' '+(isMine(r.name)?'✅':'')+'</h4><small>'+r.el+' · '+r.arma+' · '+r.rol+' · Tier '+r.tier+'</small><br><button class="btn2" onclick="toggleOne(\''+r.name.replace(/'/g,"\\'")+'\')">'+(isMine(r.name)?'Quitar':'Tengo')+'</button> <button class="btn" onclick="openChar(\''+r.name.replace(/'/g,"\\'")+'\')">Ficha</button></div>').join('');}
+function toggleOne(n){if(owned.has(n))owned.delete(n);else owned.add(n);save();renderAll();}
+function ck(n,k){return checks[n+':'+k];}
+function setCk(n,k,v){checks[n+':'+k]=v;save();renderBuilds();renderTeams();renderQueue();}
+function renderBuilds(){const q=(document.getElementById('bSearch').value||'').toLowerCase(),f=document.getElementById('bFilter').value;
+let l=RESONATORS.filter(r=>!q||r.name.toLowerCase().includes(q));if(f==='mine')l=l.filter(r=>isMine(r.name));
+l=l.filter(r=>{if(f!=='todo')return true;return !(ck(r.name,'w')&&ck(r.name,'e')&&ck(r.name,'s'));});
+let pend=l.filter(r=>isMine(r.name)&&!(ck(r.name,'w')&&ck(r.name,'e')&&ck(r.name,'s'))).length;
+document.getElementById('buildStats').textContent=l.length+' builds · '+pend+' pendientes de tus marcados';
+document.getElementById('builds').innerHTML=l.map(r=>{const b=buildFor(r.name);const done=ck(r.name,'w')&&ck(r.name,'e')&&ck(r.name,'s');
+return '<div class="item" style="'+(done?'opacity:.75':'')+'"><h4>'+r.name+' '+(isMine(r.name)?'✅':'')+'</h4><small><b style="color:#fff">'+b.w+'</b><br>Alt: '+b.alt+'<br>Set: '+b.set+'<br>Eco: '+b.main+'<br>Subs: '+b.subs+'<br>Objetivo: '+b.target+'</small><div class="check"><label><input type="checkbox" '+(ck(r.name,'w')?'checked':'')+' onchange="setCk(\''+r.name.replace(/'/g,"\\'")+'\',\'w\',this.checked)"> Arma</label><label><input type="checkbox" '+(ck(r.name,'e')?'checked':'')+' onchange="setCk(\''+r.name.replace(/'/g,"\\'")+'\',\'e\',this.checked)"> Ecos</label><label><input type="checkbox" '+(ck(r.name,'s')?'checked':'')+' onchange="setCk(\''+r.name.replace(/'/g,"\\'")+'\',\'s\',this.checked)"> Talentos</label></div><button class="btn2" onclick="openChar(\''+r.name.replace(/'/g,"\\'")+'\')">Ficha/stats</button></div>';}).join('');}
+function openChar(n){const r=RESONATORS.find(x=>x.name===n);const b=buildFor(n);const s=stats[n]||{};
+document.getElementById('sheet').innerHTML='<button class="btn2" style="float:right" onclick="closeModal()">✕</button><h2>'+n+' '+(isMine(n)?'✅':'')+'</h2><p style="color:#94a3b8">'+r.el+' · '+r.arma+' · '+r.rol+' · Tier '+r.tier+'</p><div class="skill"><b>Arma:</b> '+b.w+'<br><small>Alt: '+b.alt+'</small><br><b>Set:</b> '+b.set+'<br><b>Eco:</b> '+b.main+'<br><b>Subs:</b> '+b.subs+'<br><b>Objetivo:</b> '+b.target+'</div><h3>📊 Mis stats</h3><div class="statrow">ATK <input class="num" id="s_atk" type="number" value="'+(s.atk||'')+'" placeholder="-"> CR <input class="num" id="s_cr" type="number" value="'+(s.cr||'')+'" placeholder="%"> CD <input class="num" id="s_cd" type="number" value="'+(s.cd||'')+'" placeholder="%"> ER <input class="num" id="s_er" type="number" value="'+(s.er||'')+'" placeholder="%"> Bono <input class="num" id="s_bo" type="number" value="'+(s.bo||'')+'" placeholder="%"></div><div class="filters"><button class="btn" onclick="saveStats(\''+n.replace(/'/g,"\\'")+'\')">💾 Guardar stats</button><button class="btn2" onclick="toggleOne(\''+n.replace(/'/g,"\\'")+'\');openChar(\''+n.replace(/'/g,"\\'")+'\')">'+(isMine(n)?'Quitar de míos':'Marcar mío')+'</button></div><div class="skill">La vinculación es manual (Kuro no da API por UID): estos números + checks SON tu cuenta. Se exportan con el JSON.</div>';
+document.getElementById('modal').classList.add('open');}
+function saveStats(n){stats[n]={atk:+document.getElementById('s_atk').value||0,cr:+document.getElementById('s_cr').value||0,cd:+document.getElementById('s_cd').value||0,er:+document.getElementById('s_er').value||0,bo:+document.getElementById('s_bo').value||0};save();renderTeams();renderQueue();closeModal();}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function teamScore(members){return members.reduce((a,n)=>{const s=stats[n];if(!s||!s.atk)return a;const dps=s.atk*(1+Math.min(s.cr,100)/100*(s.cd/100))*(1+(s.bo||0)/100);const r=RESONATORS.find(x=>x.name===n);const w=r.rol.includes('DPS principal')?1:(r.rol.includes('Sub')?0.55:0.2);return a+dps*w;},0);}
+function bestTeams(){const mine=[...owned];const dps=mine.filter(n=>RESONATORS.find(r=>r.name===n).rol.includes('DPS')),sub=mine.filter(n=>RESONATORS.find(r=>r.name===n).rol==='Sub-DPS'),sup=mine.filter(n=>RESONATORS.find(r=>r.name===n).rol==='Support');
+const rank=n=>(RESONATORS.find(r=>r.name===n).tier==='S+'?3:(RESONATORS.find(r=>r.name===n).tier==='S'?2:1));
+dps.sort((a,b)=>rank(b)-rank(a));sub.sort((a,b)=>rank(b)-rank(a));sup.sort((a,b)=>rank(b)-rank(a));
+const out=[];for(let i=0;i<6;i++){if(!dps[i])break;out.push([dps[i],sub[i%Math.max(sub.length,1)],sup[i%Math.max(sup.length,1)]].filter(Boolean));}return out;}
+function renderTeams(){const t=bestTeams();document.getElementById('eqInfo').textContent=t.length+' equipos con tus '+owned.size+' PJs · guarda stats en fichas para el semáforo';
+document.getElementById('teams').innerHTML=t.map((m,i)=>'<div class="team"><b>Equipo '+(i+1)+'</b> <small>score '+Math.round(teamScore(m))+'</small><br>'+m.map(n=>'<span class="chip" onclick="openChar(\''+n.replace(/'/g,"\\'")+'\')" style="cursor:pointer">'+n+(stats[n]&&stats[n].atk?' 📊':' ⚠️')+'</span>').join(' ')+'</div>').join('')||'Marca tus PJs primero';
+const mine=[...owned];document.getElementById('statSummary').innerHTML=mine.slice(0,12).map(n=>{const s=stats[n];const cls=!s||!s.atk?'':(s.cr>=65&&s.cd>=220?'st-opt':'st-bad');return '<div class="item"><h4 class="'+cls+'">'+n+'</h4><small>'+(s&&s.atk?('ATK '+s.atk+' · CR '+s.cr+'% · CD '+s.cd+'%'):'sin datos — abre ficha')+'</small></div>';}).join('');}
+function teamDPS(){const t=bestTeams();document.getElementById('dpsOut').innerHTML=t.map((m,i)=>'<div class="skill"><b>Equipo '+(i+1)+':</b> '+m.join(' + ')+' → <b>'+Math.round(teamScore(m))+'</b></div>').join('')||'Sin datos';}
+function renderQueue(){const mine=[...owned];const rank=n=>(RESONATORS.find(r=>r.name===n).tier==='S+'?0:(RESONATORS.find(r=>r.name===n).tier==='S'?1:2));
+mine.sort((a,b)=>rank(a)-rank(b));document.getElementById('queueOut').innerHTML=mine.slice(0,10).map((n,i)=>'<div class="skill"><b>'+(i+1)+'. '+n+'</b> '+(ck(n,'w')&&ck(n,'e')&&ck(n,'s')?'✅ listo':'⚠️ le falta: '+['w:'+(!ck(n,'w')?'arma':'ok'),'e:'+(!ck(n,'e')?'ecos':'ok'),'s:'+(!ck(n,'s')?'talentos':'ok')].filter(x=>x.includes('arma')||x.includes('ecos')||x.includes('talentos')).join(' '))+'</div>').join('');}
+function tierShow(k,btn){document.querySelectorAll('.subtabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('paneDps').style.display=k==='Dps'?'block':'none';document.getElementById('paneSub').style.display=k==='Sub'?'block':'none';document.getElementById('paneSup').style.display=k==='Sup'?'block':'none';}
+function renderTiers(){const f=document.getElementById('tierFilter').value;const fil=r=>f==='mine'?isMine(r.name):true;
+const mk=(rol)=>{const tiers=['S+','S','A','B'];const col={'S+':'#ef4444',S:'#fbbf24',A:'#a78bfa',B:'#64748b'};return tiers.map(t=>{const l=RESONATORS.filter(r=>r.tier===t&&r.rol===rol&&fil(r));if(!l.length)return '';return '<div class="tierow"><div class="tierlabel" style="background:'+col[t]+'">'+t+'</div><div class="tiermembers">'+l.map(r=>'<div class="tiermember '+(isMine(r.name)?'':'no')+'" onclick="openChar(\''+r.name.replace(/'/g,"\\'")+'\')"><div class="port">'+r.name[0]+'</div><small>'+r.name+(isMine(r.name)?' ✅':'')+'</small></div>').join('')+'</div></div>';}).join('');};
+document.getElementById('tierDps').innerHTML=mk('DPS principal');document.getElementById('tierSub').innerHTML=mk('Sub-DPS');document.getElementById('tierSup').innerHTML=mk('Support');}
+function waveCalc(){const c=+document.getElementById('wCur').value||0;const m=Math.max(0,240-c);const mins=m*6;const h=Math.floor(mins/60);document.getElementById('wOut').textContent='Lleno en '+h+'h '+(mins%60)+'min';}
+function renderHoy(){const d=new Date();document.getElementById('hoyBody').innerHTML='<div class="skill">Hoy '+d.toLocaleDateString('es-ES')+' · reset diario 05:00 · Fase 1: <b>Qingxiao + Denia</b> · Fase 2: <b>Jingran + Hiyuki + Mornye</b></div>';}
+function gachaAdd(){const n=document.getElementById('gName').value||'Tirada';gacha.unshift({n,r:document.getElementById('gRar').value,d:new Date().toLocaleDateString()});document.getElementById('gName').value='';save();renderGacha2();}
+function renderGacha2(){document.getElementById('gachaStats').innerHTML='<div class="item"><h4>Total '+gacha.length+'</h4><small>5★: '+gacha.filter(g=>g.r==='5').length+' · 4★: '+gacha.filter(g=>g.r==='4').length+'</small></div>';
+document.getElementById('gachaHist').innerHTML='<tr><th>Nombre</th><th>Rar</th><th>Fecha</th></tr>'+gacha.slice(0,100).map(g=>'<tr><td>'+g.n+'</td><td>'+g.r+'★</td><td>'+g.d+'</td></tr>').join('');}
+function echoCalc(){const c=document.getElementById('eChar').value,m=document.getElementById('eMain').value;const sel=[...document.querySelectorAll('.esub:checked')].map(x=>x.value);let sc=50+sel.length*8+(m.includes('CRIT')?10:0);let v=sc>=85?'OP — guárdalo':(sc>=70?'Bueno':(sc>=55?'Aceptable':'Comida'));document.getElementById('echoOut').innerHTML='<div class="skill"><b>'+c+' · '+m+':</b> '+v+' ('+sc+'/100) con '+sel.join(', ')+'</div>';}
+function renderEchoTools(){document.getElementById('eChar').innerHTML=RESONATORS.map(r=>'<option>'+r.name+'</option>').join('');document.getElementById('eSubs').innerHTML=['CRIT Rate','CRIT DMG','ATK%','ER%','Bono elemental','HP%'].map(s=>'<label><input type="checkbox" class="esub" value="'+s+'"> '+s+'</label>').join(' ');}
+function exportJSON(){const b=new Blob([JSON.stringify({owned:[...owned],checks,stats,gacha},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='sonance-backup.json';a.click();}
+function importJSON(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);owned=new Set(d.owned||[]);checks=d.checks||{};stats=d.stats||{};gacha=d.gacha||[];save();renderAll();alert('Importado ✅');}catch(err){alert('Error JSON');}};r.readAsText(f);}
+function renderAll(){renderPjs();renderBuilds();renderTeams();renderTiers();renderHoy();renderGacha2();renderQueue();document.getElementById('chipCount').textContent=RESONATORS.length+' PJs';}
+renderEchoTools();renderAll();
+</script>
+</body>
+</html>
