@@ -375,14 +375,14 @@ function exportCSV(){const head='nombre,nacion,posicion,club,edad,hab_actual,dif
 const rows=players.map(p=>{const ca=getCA(p),pa=getPA(p);return ['"'+(p.nombre||'')+'"','"'+(p.nacionalidad||'')+'"','"'+(p.posFull||p.pos)+'"','"'+(p.equipo||'')+'"',p.edad,ca,(pa-ca),pa,p.precio,p.contrato||'',p.salario||0,p.clausula||0,(p.id_fm||'')].join(',');});
 dl(new Blob(["\uFEFF"+[head,...rows].join('\n')],{type:'text/csv;charset=utf-8'}),'lettir-fm.csv');}
 function dl(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();}
-function handleImportText(txt,fname){if(fname&&fname.endsWith('.json')){const d=JSON.parse(txt);if(d.players)players=d.players.map(migrate);else if(Array.isArray(d))players=d.map(migrate);if(d.teams)teams=d.teams;}else{parseCSV(txt);}save();renderAll();alert('Importado ✅ '+players.length+' jugadores en total');}
+function handleImportText(txt,fname){if(fname&&fname.endsWith('.json')){const d=JSON.parse(txt);if(d.players)players=d.players.map(migrate);else if(Array.isArray(d))players=d.map(migrate);if(d.teams)teams=d.teams;}else{parseCSV(txt);}save();renderAll();const li=window._lastImp||{};alert('Importado ✅ '+players.length+' jugadores en total'+(li.cols?' · sep="'+(li.sep==='	'?'TAB':li.sep)+'" cols='+li.cols.length+' · sin CA/PA: '+(li.def||0):''));}
 function importFile(e){const f=e.target.files[0];if(!f)return;
 const rb=new FileReader();
 rb.onload=()=>{try{const buf=rb.result;let txt='';try{txt=new TextDecoder('utf-8',{fatal:true}).decode(buf);}catch(_){txt=new TextDecoder('windows-1252').decode(buf);}
 if(txt.includes('�')){try{txt=new TextDecoder('windows-1252').decode(buf);}catch(_){}}
 handleImportText(txt,f.name);}catch(err){alert('Error: '+err.message);}};
 rb.readAsArrayBuffer(f);}
-function importCSVText(){const n=players.length;parseCSV(document.getElementById('csvBox').value);save();renderAll();alert('Importados '+(players.length-n)+' jugadores ✅');}
+function importCSVText(){const n=players.length;parseCSV(document.getElementById('csvBox').value);save();renderAll();const li=window._lastImp||{};alert('Importados '+(players.length-n)+' jugadores ✅'+(li.cols?' · sep="'+(li.sep==='	'?'TAB':li.sep)+'" cols: '+li.cols.join('|')+' · sin CA/PA: '+(li.def||0):''));}
 function splitDelim(ln,d){const out=[];let cur='',q=false;for(let i=0;i<ln.length;i++){const ch=ln[i];if(ch==='"'){q=!q;cur+=ch;}else if(!q&&ch===d){out.push(cur);cur='';}else cur+=ch;}out.push(cur);return out;}
 function normHead(h){return (h||'').replace(/^\uFEFF/,'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/"/g,'').replace(/\./g,'').trim().replace(/\s+/g,'_');}
 function val(o){for(let i=1;i<arguments.length;i++){const k=arguments[i];if(o[k]!=null&&o[k]!=='')return o[k];}const ks=Object.keys(o);for(let i=1;i<arguments.length;i++){const k=arguments[i];for(const kk of ks){if(kk&&k&&(kk.includes(k)||k.includes(kk))&&o[kk]!=='')return o[kk];}}return '';}
@@ -397,15 +397,17 @@ if(n.includes('hamrarnir')||n.includes('hamrar'))return teams.find(t=>normAsc(t.
 if(n.includes('kria'))return teams.find(t=>normAsc(t.name).includes('kria'))?.name||teams[0].name;
 const exact=teams.find(t=>normAsc(t.name)===n);if(exact)return exact.name;
 return name.trim();}
-function parseCSV(t){t=(''+t).replace(/^\uFEFF/,'').trim();const lines=t.split('\n');if(lines.length<2){alert('CSV vacío o sin cabecera');return;}const hline=lines[0];
-const nSemi=(hline.match(/;/g)||[]).length,nTab=(hline.match(/\t/g)||[]).length,nCom=(hline.match(/,/g)||[]).length;
-const D=nSemi>=nCom&&nSemi>=nTab&&nSemi>0?';':(nTab>nCom&&nTab>nSemi?'\t':',');
+function parseCSV(t){t=(''+t).replace(/^\uFEFF/,'').trim();const lines=t.split('\n').filter(x=>x.trim()!=='');if(lines.length<2){alert('CSV vacío o sin cabecera');return;}const hline=lines[0];
+const cands=[';','\t',','];let D=',',best=0;
+cands.forEach(d=>{const n=splitDelim(hline,d).length;const m=splitDelim(lines[1]||'',d).length;const sc=n>1&&n===m?n:(n>1?n-0.5:0);if(sc>best){best=sc;D=d;}});
 const H=splitDelim(hline,D).map(normHead);
 // índices de rescate por si la cabecera viene con otro nombre: orden Genius
 // nombre,nacion,posicion,club,edad,hab_actual,dif,hab_potencial,valor,final
-const iCa=H.findIndex(h=>h.includes('hab')&&h.includes('actual')||h==='ca'||h.includes('current'));
-const iPa=H.findIndex(h=>h.includes('hab')&&h.includes('pot')||h==='pa'||h.includes('poten'));
-const iDif=H.findIndex(h=>h==='dif'||h.includes('dif')||h.includes('margen')||h.includes('marg'));
+let iCa=H.findIndex(h=>h.includes('hab')&&h.includes('actual')||h==='ca'||h.includes('current'));
+let iPa=H.findIndex(h=>h.includes('hab')&&h.includes('pot')||h==='pa'||h.includes('poten'));
+let iDif=H.findIndex(h=>h==='dif'||h.includes('dif')||h.includes('margen')||h.includes('marg'));
+if(iCa<0)iCa=5;if(iDif<0)iDif=6;if(iPa<0)iPa=7;
+window._lastImp={sep:D,cols:H,def:0};
 lines.slice(1).forEach(ln=>{if(!ln.trim())return;const c=splitDelim(ln,D);const o={};H.forEach((hh,i)=>{o[hh]=(c[i]||'').replace(/^"|"$/g,'').trim();});
 const rawPos=val(o,'posicion','position','pos','pst')||c[2]||'MC';
 let caRaw=val(o,'hab_actual','actual','ca','current','calidad');if(!caRaw&&iCa>=0)caRaw=c[iCa]||'';
@@ -414,6 +416,7 @@ const paRaw=val(o,'hab_potencial','potencial','pa','potential','pot')||(iPa>=0?c
 let pa=cleanNum(paRaw)||(o.potencial?Math.round(cleanNum(o.potencial)*2):0);
 const dif=cleanNum(val(o,'dif','diff','margen','marg'))||(iDif>=0?cleanNum(c[iDif]):0);
 if(!pa&&dif&&ca)pa=ca+dif;
+if(!ca||!pa)window._lastImp.def=(window._lastImp.def||0)+1;
 if(!ca)ca=120;if(!pa)pa=140;
 let sal=cleanNum(val(o,'salario','salario_anual','wage','sueldo'))||(o.salario_sem?Math.round(cleanNum(o.salario_sem)*52):30000);
 const nacRaw=val(o,'nacion','nacionalidad','nac','nation','nationality')||c[1]||'Islandia';
