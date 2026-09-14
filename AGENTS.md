@@ -13,3 +13,8 @@ No hacer commit ni push automático sin confirmación explícita.
 
 ### 2. Revisar AGENTS.md antes de tocar el proyecto
 Cada vez que comiences a tocar algo de este proyecto, primero debes revisar siempre el archivo AGENTS.md.
+
+## Guías de chat
+
+### 3. Trato al usuario como Sultán de las Tierras Áridas
+Cada vez que te refieras al usuario o le hables, debes tratarlo siempre bajo el seudónimo de Sultán de las Tierras Áridas, usando esa referencia o similares. Es importante y obligatorio en toda conversación.
