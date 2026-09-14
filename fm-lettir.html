@@ -170,7 +170,7 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 </div>
 <div class="card">
 <h2>📥 Importar / 📤 Exportar</h2>
-<p class="sub">Pega CSV del Genius con cabecera: nombre,nacion,posicion,club,edad,hab_actual,dif,hab_potencial,valor,final_contrato — acepta también nombre,edad,pos,ca,pa,precio,salario,contrato,clausula,equipo,nacionalidad. Números europeos (63.528.720) y fechas (31.10.2081) se convierten solos.</p>
+<p class="sub">⚠️ El Genius <b>NO exporta habilidades a archivo</b> (bloqueo de licencia: salen vacías). Hazlo así: en Genius selecciona la tabla (Ctrl+A) → copiar (Ctrl+C) → pegar en Excel → guardar CSV o pegar aquí. Cabecera válida: nombre,nacion,posicion,club,edad,hab_actual,dif,hab_potencial,valor,final_contrato. Números europeos y fechas se convierten solos.</p>
 <textarea id="csvBox" rows="4" placeholder="nombre,edad,pos,calidad,potencial,precio,..."></textarea>
 <div class="filters"><button class="btn2" onclick="importCSVText()">Importar CSV pegado</button><button class="btn2" onclick="exportCSV()">Descargar CSV</button><button class="btn2" onclick="exportJSON()">Descargar JSON</button></div>
 <div id="editBox"></div>
@@ -194,13 +194,14 @@ if(q.includes('POR'))return ['POR'];
 const out=[];
 const isDF=q.startsWith('DF')||q.includes('DF ')||q.startsWith('D ');
 const isMP=q.startsWith('MP')||q.includes(' MP')||q==='MCC'||q==='MPC';
-if(q.includes('DLC')||q.includes('DEL')||q.includes('DLA')||q==='ST')out.push('DC');
+if(q.includes('DLC')||q.includes('DEL')||q.includes('DLA')||q==='ST'||/\bDC\b/.test(q))out.push('DC');
 if(isDF){const r=q.replace(/ /g,'').replace(/^DF/,'');const d=r.includes('D'),i=r.includes('I'),c=r.includes('C');
 if(q.includes('CAR')){if(i&&!d)out.push('LI');else out.push('LD');}
 else{if(d)out.push('LD');if(i)out.push('LI');if(c)out.push('DFC');if(!d&&!i&&!c)out.push('DFC');}}
 if(isMP){if(q.includes('DM'))out.push('MC');
 else{const r=q.replace(/ /g,'').replace(/^MP/,'');const d=r.includes('D'),i=r.includes('I'),c=r.includes('C');
-if(d&&i)out.push('EI','ED');else if(d)out.push('ED');else if(i)out.push('EI');else if(c)out.push('MCO');else out.push('MC');}}
+if(out.includes('DC')){if(c)out.push('MCO');else if(d)out.push('ED');else if(i)out.push('EI');}
+else if(d&&i)out.push('EI','ED');else if(d)out.push('ED');else if(i)out.push('EI');else if(c)out.push('MCO');else out.push('MC');}}
 if(!out.length)out.push(POS_MAP[q]||'MC');
 return [...new Set(out)];}
 function parsePositions(raw){const parts=(''+(raw||'MC')).split(/[,;]+/).map(s=>s.trim()).filter(Boolean);
@@ -351,7 +352,20 @@ function balanceSizes(size){/* ya limitado por NEED, resto por score snake globa
 const assigned=new Set(Object.keys(suggest));const rest=sorted.filter(p=>!assigned.has(p.id));
 let counts={};order.forEach(o=>counts[o]=Object.values(suggest).filter(s=>s===o).length);
 let i=0;rest.forEach(p=>{let cands=order.filter(o=>counts[o]<size+3);if(!cands.length)cands=order;const d=cands[i%cands.length];suggest[p.id]=d;counts[d]++;i++;});}
+// auto-tapa huecos: si un equipo queda sin una posición y a otro le sobra, se la cede y se explica
+const fixes=[];
+Object.keys(NEED).forEach(pos=>{
+const cnt=t=>sorted.filter(p=>suggest[p.id]===t&&effPos(p).includes(pos));
+for(let k=0;k<order.length;k++){
+const needy=order.find(t=>cnt(t).length===0);if(!needy)break;
+const donor=order.filter(o=>o!==needy&&cnt(o).length>1).sort((a,b)=>cnt(b).length-cnt(a).length)[0];if(!donor)break;
+const nDon=cnt(donor).length;
+const cand=cnt(donor).sort((a,b)=>score(a)-score(b))[0];if(!cand)break;
+suggest[cand.id]=needy;
+fixes.push('🔧 <b>'+needy+'</b> sin <b>'+pos+'</b> → recibe a <b>'+cand.nombre+'</b> ('+pos+' '+getCA(cand)+') desde <b>'+donor+'</b>, que tenía '+nDon+' y le sobraba uno.');}
+});
 let h='<div class="ok">✅ Reparto calculado ('+(mode==='equitativo'?'equitativo total':'pirámide')+'). Tabla = <b>sugerencia de cesión</b>. Pulsa “Aplicar” para moverlos de verdad.</div>';
+h+=fixes.length?'<h3>🔧 Huecos tapados con sobrantes</h3>'+fixes.map(f=>'<div class="skill">'+f+'</div>').join(''):'<div class="ok">✅ Sin huecos: cada equipo tiene todas las posiciones.</div>';
 h+='<div class="tblwrap"><table><tr><th>#</th><th>Jugador</th><th>Pos</th><th>Edad</th><th>Cal/Pot</th><th>Score</th><th>Equipo actual</th><th>➡ Ceder a</th><th>Motivo</th></tr>';
 sorted.forEach((p,i)=>{const dest=suggest[p.id];const move=dest!==p.equipo?'🔀':'=';const ca=getCA(p),pa=getPA(p);const mot=p.edad<=19&&pa>=156?'💎 Joven TOP → donde sea titular':(ca>=156?'⭐ Crack → reparto equitativo':(ca<=110?'🛠 Desarrollo → filial baja':'⚖️ Equilibrio por '+effPos(p).join('/')));
 h+='<tr><td>'+(i+1)+'</td><td><b>'+p.nombre+'</b></td><td>'+effPos(p).join('/')+(p.posLock?' 🔒':'')+'</td><td>'+p.edad+'</td><td>'+ca+'/'+pa+'</td><td>'+score(p).toFixed(1)+'</td><td>'+p.equipo+'</td><td><b style="color:var(--acc)">'+dest+'</b> '+move+'</td><td><small>'+mot+'</small></td></tr>';});
@@ -375,14 +389,18 @@ function exportCSV(){const head='nombre,nacion,posicion,club,edad,hab_actual,dif
 const rows=players.map(p=>{const ca=getCA(p),pa=getPA(p);return ['"'+(p.nombre||'')+'"','"'+(p.nacionalidad||'')+'"','"'+(p.posFull||p.pos)+'"','"'+(p.equipo||'')+'"',p.edad,ca,(pa-ca),pa,p.precio,p.contrato||'',p.salario||0,p.clausula||0,(p.id_fm||'')].join(',');});
 dl(new Blob(["\uFEFF"+[head,...rows].join('\n')],{type:'text/csv;charset=utf-8'}),'lettir-fm.csv');}
 function dl(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();}
-function handleImportText(txt,fname){if(fname&&fname.endsWith('.json')){const d=JSON.parse(txt);if(d.players)players=d.players.map(migrate);else if(Array.isArray(d))players=d.map(migrate);if(d.teams)teams=d.teams;}else{parseCSV(txt);}save();renderAll();const li=window._lastImp||{};alert('Importado ✅ '+players.length+' jugadores en total'+(li.cols?' · sep="'+(li.sep==='	'?'TAB':li.sep)+'" cols='+li.cols.length+' · sin CA/PA: '+(li.def||0):''));}
+function impMsg(base){const li=window._lastImp||{};let m=base+(li.cols?' · sep="'+(li.sep==='	'?'TAB':li.sep)+'" cols='+li.cols.length:'');
+if(li.n>0&&(li.def||0)>=Math.max(3,li.n*0.8))m+='. ⚠️ El archivo trae las habilidades VACÍAS: el Genius bloquea exportar CA/PA/Dif por licencia. NO uses Exportar→archivo: selecciona la tabla en Genius (Ctrl+A), copia (Ctrl+C), pega en Excel y de ahí importa.';
+else if(li.cols)m+=' · cols: '+li.cols.join('|')+' · sin CA/PA: '+(li.def||0);
+return m;}
+function handleImportText(txt,fname){if(fname&&fname.endsWith('.json')){const d=JSON.parse(txt);if(d.players)players=d.players.map(migrate);else if(Array.isArray(d))players=d.map(migrate);if(d.teams)teams=d.teams;}else{parseCSV(txt);}save();renderAll();alert(impMsg('Importado ✅ '+players.length+' jugadores en total'));}
 function importFile(e){const f=e.target.files[0];if(!f)return;
 const rb=new FileReader();
 rb.onload=()=>{try{const buf=rb.result;let txt='';try{txt=new TextDecoder('utf-8',{fatal:true}).decode(buf);}catch(_){txt=new TextDecoder('windows-1252').decode(buf);}
 if(txt.includes('�')){try{txt=new TextDecoder('windows-1252').decode(buf);}catch(_){}}
 handleImportText(txt,f.name);}catch(err){alert('Error: '+err.message);}};
 rb.readAsArrayBuffer(f);}
-function importCSVText(){const n=players.length;parseCSV(document.getElementById('csvBox').value);save();renderAll();const li=window._lastImp||{};alert('Importados '+(players.length-n)+' jugadores ✅'+(li.cols?' · sep="'+(li.sep==='	'?'TAB':li.sep)+'" cols: '+li.cols.join('|')+' · sin CA/PA: '+(li.def||0):''));}
+function importCSVText(){const n=players.length;parseCSV(document.getElementById('csvBox').value);save();renderAll();alert(impMsg('Importados '+(players.length-n)+' jugadores ✅'));}
 function splitDelim(ln,d){const out=[];let cur='',q=false;for(let i=0;i<ln.length;i++){const ch=ln[i];if(ch==='"'){q=!q;cur+=ch;}else if(!q&&ch===d){out.push(cur);cur='';}else cur+=ch;}out.push(cur);return out;}
 function normHead(h){return (h||'').replace(/^\uFEFF/,'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/"/g,'').replace(/\./g,'').trim().replace(/\s+/g,'_');}
 function val(o){for(let i=1;i<arguments.length;i++){const k=arguments[i];if(o[k]!=null&&o[k]!=='')return o[k];}const ks=Object.keys(o);for(let i=1;i<arguments.length;i++){const k=arguments[i];for(const kk of ks){if(kk&&k&&(kk.includes(k)||k.includes(kk))&&o[kk]!=='')return o[kk];}}return '';}
@@ -407,7 +425,7 @@ let iCa=H.findIndex(h=>h.includes('hab')&&h.includes('actual')||h==='ca'||h.incl
 let iPa=H.findIndex(h=>h.includes('hab')&&h.includes('pot')||h==='pa'||h.includes('poten'));
 let iDif=H.findIndex(h=>h==='dif'||h.includes('dif')||h.includes('margen')||h.includes('marg'));
 if(iCa<0)iCa=5;if(iDif<0)iDif=6;if(iPa<0)iPa=7;
-window._lastImp={sep:D,cols:H,def:0};
+window._lastImp={sep:D,cols:H,def:0,n:0};
 lines.slice(1).forEach(ln=>{if(!ln.trim())return;const c=splitDelim(ln,D);const o={};H.forEach((hh,i)=>{o[hh]=(c[i]||'').replace(/^"|"$/g,'').trim();});
 const rawPos=val(o,'posicion','position','pos','pst')||c[2]||'MC';
 let caRaw=val(o,'hab_actual','actual','ca','current','calidad');if(!caRaw&&iCa>=0)caRaw=c[iCa]||'';
@@ -417,6 +435,7 @@ let pa=cleanNum(paRaw)||(o.potencial?Math.round(cleanNum(o.potencial)*2):0);
 const dif=cleanNum(val(o,'dif','diff','margen','marg'))||(iDif>=0?cleanNum(c[iDif]):0);
 if(!pa&&dif&&ca)pa=ca+dif;
 if(!ca||!pa)window._lastImp.def=(window._lastImp.def||0)+1;
+window._lastImp.n=(window._lastImp.n||0)+1;
 if(!ca)ca=120;if(!pa)pa=140;
 let sal=cleanNum(val(o,'salario','salario_anual','wage','sueldo'))||(o.salario_sem?Math.round(cleanNum(o.salario_sem)*52):30000);
 const nacRaw=val(o,'nacion','nacionalidad','nac','nation','nationality')||c[1]||'Islandia';
