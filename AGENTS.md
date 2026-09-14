@@ -10,3 +10,6 @@ Cada vez que terminemos una fase o paso importante del proyecto, el agente debe 
 2. Si quiero subirlo a GitHub una vez acabado.
 
 No hacer commit ni push automático sin confirmación explícita.
+
+### 2. Revisar AGENTS.md antes de tocar el proyecto
+Cada vez que comiences a tocar algo de este proyecto, primero debes revisar siempre el archivo AGENTS.md.
