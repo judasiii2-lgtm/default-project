@@ -91,20 +91,20 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 <section id="tab-jugadores" class="tab">
 <div class="card">
 <h2>👥 Plantilla total (100+ jugadores)</h2>
-<p class="sub">Busca, filtra por equipo / posición / estado. Clica ✏️ para editar, 📋 para duplicar, ❌ para vender/borrar. Todo se guarda solo en tu navegador.</p>
+<p class="sub">Busca, filtra por equipo / posición / línea. Clica ✏️ para editar, 📋 para duplicar, ❌ para vender/borrar. CA/PA escala Genie 0-200. Todo se guarda solo en tu navegador.</p>
 <div class="filters">
 <input id="fSearch" placeholder="🔍 Buscar nombre..." oninput="renderPlayers()">
 <select id="fTeam" onchange="renderPlayers()"><option value="">Todos los equipos</option></select>
 <select id="fPos" onchange="renderPlayers()"><option value="">Todas posiciones</option><option>POR</option><option>LD</option><option>DFC</option><option>LI</option><option>MCD</option><option>MC</option><option>MCO</option><option>EI</option><option>ED</option><option>DC</option></select>
 <select id="fLinea" onchange="renderPlayers()"><option value="">Todas líneas</option><option value="POR">Porteros</option><option value="DEF">Defensas</option><option value="MED">Medios</option><option value="DEL">Delanteros</option></select>
-<select id="fSort" onchange="renderPlayers()"><option value="calidad">Orden: Calidad</option><option value="potencial">Orden: Potencial</option><option value="edad">Orden: Edad</option><option value="precio">Orden: Precio</option><option value="nombre">Orden: Nombre</option></select>
+<select id="fSort" onchange="renderPlayers()"><option value="calidad">Orden: CA</option><option value="potencial">Orden: PA</option><option value="edad">Orden: Edad</option><option value="precio">Orden: Precio</option><option value="nombre">Orden: Nombre</option></select>
 <button class="btn2" onclick="exportJSON()">⬇ JSON</button>
 <button class="btn2" onclick="exportCSV()">⬇ CSV/Excel</button>
 <button class="btn2" onclick="document.getElementById('impFile').click()">⬆ Importar</button>
 <input type="file" id="impFile" hidden accept=".json,.csv" onchange="importFile(event)">
 </div>
 <div class="tblwrap"><table>
-<thead><tr><th>Jugador</th><th>Pos</th><th>Edad</th><th>Cal</th><th>Pot</th><th>Precio</th><th>Equipo</th><th>Estado</th><th>Acc</th></tr></thead>
+<thead><tr><th>Nombre</th><th>Nación</th><th>Posición</th><th>Club</th><th>Edad</th><th>Hab. actual</th><th>Dif</th><th>Hab. potencial</th><th>Valor</th><th>Final contrato</th></tr></thead>
 <tbody id="pBody"></tbody>
 </table></div>
 </div>
@@ -152,16 +152,14 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 <label>Nombre*<input id="a_nombre" placeholder="Ej: Jón Sigurðsson"></label>
 <label>Edad<input id="a_edad" type="number" value="21" min="15" max="42"></label>
 <label>Posición<select id="a_pos"><option>POR</option><option>LD</option><option>DFC</option><option>LI</option><option>MCD</option><option>MC</option><option>MCO</option><option>EI</option><option>ED</option><option>DC</option></select></label>
-<label>Pierna<select id="a_pierna"><option>Diestro</option><option>Zurdo</option><option>Ambidiestro</option></select></label>
-<label>Calidad actual (1-99)<input id="a_cal" type="number" value="65" min="1" max="99"></label>
-<label>Potencial (1-99)<input id="a_pot" type="number" value="80" min="1" max="99"></label>
+<label>Nacionalidad<input id="a_nac" placeholder="Islandia" value="Islandia"></label>
+<label>CA actual (0-200 Genie)<input id="a_ca" type="number" value="130" min="1" max="200"></label>
+<label>PA potencial (0-200 Genie)<input id="a_pa" type="number" value="160" min="1" max="200"></label>
 <label>Precio (€)<input id="a_precio" type="number" value="250000"></label>
 <label>Salario €/año<input id="a_sal" type="number" value="60000"></label>
-<label>Altura (cm)<input id="a_alt" type="number" value="182"></label>
 <label>Fin contrato<input id="a_con" type="number" value="2028" min="2026" max="2035"></label>
 <label>Cláusula (€)<input id="a_clau" type="number" value="1000000"></label>
 <label>Equipo<select id="a_equipo"></select></label>
-<label>Estado<select id="a_est"><option>Primer equipo</option><option>Cedido</option><option>Cantera</option><option>Transferible</option><option>Lesionado</option></select></label>
 <label>Minutos temp.<input id="a_min" type="number" value="0"></label>
 <label>Goles<input id="a_gol" type="number" value="0"></label>
 <label>Asistencias<input id="a_asi" type="number" value="0"></label>
@@ -172,7 +170,7 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 </div>
 <div class="card">
 <h2>📥 Importar / 📤 Exportar</h2>
-<p class="sub">Pega CSV con cabecera: nombre,edad,pos,calidad,potencial,precio,salario,altura,pierna,contrato,clausula,equipo,estado,minutos,goles,asist</p>
+<p class="sub">Pega CSV del Genius con cabecera: nombre,nacion,posicion,club,edad,hab_actual,dif,hab_potencial,valor,final_contrato — acepta también nombre,edad,pos,ca,pa,precio,salario,contrato,clausula,equipo,nacionalidad. Números europeos (63.528.720) y fechas (31.10.2081) se convierten solos.</p>
 <textarea id="csvBox" rows="4" placeholder="nombre,edad,pos,calidad,potencial,precio,..."></textarea>
 <div class="filters"><button class="btn2" onclick="importCSVText()">Importar CSV pegado</button><button class="btn2" onclick="exportCSV()">Descargar CSV</button><button class="btn2" onclick="exportJSON()">Descargar JSON</button></div>
 <div id="editBox"></div>
@@ -181,6 +179,33 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 </main>
 <script>
 const POS_LINE={POR:'POR',LD:'DEF',DFC:'DEF',LI:'DEF',MCD:'MED',MC:'MED',MCO:'MED',EI:'DEL',ED:'DEL',DC:'DEL'};
+const POS_MAP={GK:'POR',POR:'POR',DL:'LI',LI:'LI',DR:'LD',LD:'LD',DC:'DFC',DFC:'DFC',DM:'MCD',MCD:'MCD',MC:'MC',AMC:'MCO',MCO:'MCO',AML:'EI',EI:'EI',AMR:'ED',ED:'ED',ST:'DC',MCL:'MC',MCR:'MC',DCL:'DFC',DCR:'DFC'};
+function normPos(p){p=(p||'MC').toUpperCase().trim();
+// toma primera posición si vienen varias: "MP DI, DLC" -> "MP DI"
+p=p.split(',')[0].trim();
+// códigos directos ya nuestros o FM inglés
+const direct={POR:'POR',GK:'POR',DL:'LI',LI:'LI',DR:'LD',LD:'LD',DC:'DFC',DFC:'DFC',DM:'MCD',MCD:'MCD',MC:'MC',AMC:'MCO',MCO:'MCO',AML:'EI',EI:'EI',AMR:'ED',ED:'ED',ST:'DC',MCL:'MC',MCR:'MC',DCL:'DFC',DCR:'DFC',MCC:'MC'};
+if(direct[p])return direct[p];
+// códigos Genius en español: POR, DF-*, MP-*, DLC/DC
+if(p.includes('POR'))return 'POR';
+const isDF=p.startsWith('DF')||p.includes('DF ');
+const isMP=p.startsWith('MP')||p.includes(' MP')||p==='MCC';
+const isDL=p.includes('DLC')||p==='_DC'||p.startsWith('DC ')||p.startsWith('DEL')||p.includes(' CAR');
+// delantero
+if(isDL||(!isDF&&!isMP&&(p.includes('DLC')||p.includes('DEL')||p.includes('DC'))))return 'DC';
+// defensas: DF D->LD, DF I->LI, DF C/DIC/IC->DFC
+if(isDF||p.startsWith('D ')){const hasD=/(^| )D( |$)/.test(p)||p.includes(' D ')||p.endsWith(' D')||p.includes('DDR')||p.includes('DF D');const hasI=p.includes(' I')||p.endsWith(' I')||p.includes('DIL')||p.includes('DF I');if(hasD&&!hasI)return 'LD';if(hasI&&!hasD)return 'LI';return 'DFC';}
+// medios: MP D->ED, MP I->EI, MP C/MCC->MC, MCD explícito
+if(isMP||p.startsWith('M ')){if(p.includes('MCD')||p.includes('DM'))return 'MCD';const hasD=p.includes(' D')||p.endsWith(' D');const hasI=p.includes(' I')||p.endsWith(' I');const hasC=p.includes(' C')||p.endsWith(' C')||p.includes('MCC');if(hasD&&!hasI&&!hasC)return 'ED';if(hasI&&!hasD&&!hasC)return 'EI';if(p.includes('MCO')||p.includes('AMC')||p.includes('MP/C'))return 'MCO';return 'MC';}
+return POS_MAP[p]||'MC';}
+function cleanNum(v){if(v==null||v==='')return 0;let s=(''+v).trim().replace(/€/g,'').trim();
+if(/^\d{1,3}(\.\d{3})+($|,)/.test(s)){s=s.replace(/\./g,'');}
+s=s.replace(/\s/g,'').replace(/,/g,'.');const n=parseFloat(s);return isNaN(n)?0:n;}
+function contractYear(v){if(v==null||v==='')return 2028;const m=(''+v).match(/(\d{4})/);if(m)return +m[1];const n=parseInt(v);return isNaN(n)?2028:n;}
+function getCA(p){if(p.ca!=null&&!isNaN(+p.ca))return +p.ca;if(p.calidad!=null)return Math.max(1,Math.min(200,Math.round(+p.calidad*2)));return 100;}
+function getPA(p){if(p.pa!=null&&!isNaN(+p.pa))return +p.pa;if(p.potencial!=null)return Math.max(1,Math.min(200,Math.round(+p.potencial*2)));return 120;}
+function q99(v){return Math.round(v/2);}
+function migrate(p){p.pos=normPos(p.pos);if(p.ca==null&&p.calidad!=null)p.ca=Math.round(+p.calidad*2);if(p.pa==null&&p.potencial!=null)p.pa=Math.round(+p.potencial*2);if(p.ca==null)p.ca=100;if(p.pa==null)p.pa=120;if(p.nacionalidad==null)p.nacionalidad=p.nac||p.nacion||'Islandia';if(p.salario==null)p.salario=+(p.sal||p.salario_sem!=null?p.salario_sem*52:30000)||30000;return p;}
 const NEED={POR:3,LD:2,DFC:4,LI:2,MCD:2,MC:3,MCO:2,EI:2,ED:2,DC:3}; // 25 ideal
 const DEFAULT_TEAMS=[
 {name:'Lettir',div:'Besta deild karla · Nivel 1',tipo:'CENTRAL',color:'#22c55e'},
@@ -189,11 +214,11 @@ const DEFAULT_TEAMS=[
 {name:'Hamrarnir · Grupo A',div:'5. deild karla A · Nivel 6',tipo:'FILIAL',color:'#a78bfa'},
 {name:'Kría · Grupo B',div:'5. deild karla B · Nivel 6',tipo:'FILIAL',color:'#f472b6'}];
 let players=[],teams=[],suggest={};
-try{players=JSON.parse(localStorage.getItem('lettir_players')||'[]');teams=JSON.parse(localStorage.getItem('lettir_teams')||'null')||JSON.parse(JSON.stringify(DEFAULT_TEAMS));}catch(e){teams=JSON.parse(JSON.stringify(DEFAULT_TEAMS));}
+try{players=(JSON.parse(localStorage.getItem('lettir_players')||'[]')).map(migrate);teams=JSON.parse(localStorage.getItem('lettir_teams')||'null')||JSON.parse(JSON.stringify(DEFAULT_TEAMS));}catch(e){teams=JSON.parse(JSON.stringify(DEFAULT_TEAMS));}
 if(!players.length){genDemo(true);}
 function save(){localStorage.setItem('lettir_players',JSON.stringify(players));localStorage.setItem('lettir_teams',JSON.stringify(teams));}
 function uid(){return 'p'+Date.now().toString(36)+Math.floor(Math.random()*999);}
-function score(p){let s=p.calidad*0.6+p.potencial*0.4;if(p.edad<=19&&p.potencial>=75)s+=3;if(p.edad>=32)s-=2;return s;}
+function score(p){const ca=getCA(p),pa=getPA(p);let s=ca*0.6+pa*0.4;if(p.edad<=19&&pa>=150)s+=6;if(p.edad>=32)s-=4;return s;}
 function fmt(n){if(n>=1e6)return (n/1e6).toFixed(1)+'M';if(n>=1e3)return Math.round(n/1e3)+'K';return n;}
 function goTab(id,btn){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById('tab-'+id).classList.add('active');document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');}
 // ---- DEMO 110 ----
@@ -202,10 +227,10 @@ const FN=['Jón','Sigurður','Guðmundur','Kristján','Einar','Ólafur','Davíð
 const LN=['Sigurðsson','Jónsson','Einarsson','Guðmundsson','Kristjánsson','Ólafsson','Davíðsson','Arnarson','Pálsson','Ragnarsson','Hákonarson','Viktorsson','Bjarnason','Þórsson','Magnússon','Stefánsson'];
 const POSPOOL=['POR','POR','LD','LD','DFC','DFC','DFC','DFC','LI','LI','MCD','MCD','MC','MC','MC','MCO','MCO','EI','EI','ED','ED','DC','DC','DC'];
 function genDemo(silent){players=[];const tn=DEFAULT_TEAMS.map(t=>t.name);
-for(let i=0;i<110;i++){const pos=POSPOOL[i%POSPOOL.length];let cal,pot;
-const r=Math.random();if(r<0.09){cal=rnd(78,88);pot=rnd(82,94);}else if(r<0.35){cal=rnd(68,78);pot=rnd(75,88);}else if(r<0.7){cal=rnd(58,68);pot=rnd(65,82);}else{cal=rnd(45,58);pot=rnd(55,75);}
-const edad=pot>=85?rnd(16,21):rnd(17,33);
-players.push({id:uid()+i,nombre:FN[rnd(0,FN.length-1)]+' '+LN[rnd(0,LN.length-1)],edad,pos,calidad:cal,potencial:pot,precio:cal*cal*180+pot*900+ rnd(0,200000),salario:cal*2200+rnd(0,30000),altura:pos==='POR'?rnd(186,200):rnd(172,194),pierna:Math.random()<0.7?'Diestro':(Math.random()<0.6?'Zurdo':'Ambidiestro'),contrato:rnd(2027,2030),clausula:cal*90000,equipo:tn[i%5],estado:'Primer equipo',minutos:rnd(0,2500),goles:POS_LINE[pos]==='DEL'?rnd(0,18):rnd(0,5),asist:rnd(0,10)});}
+for(let i=0;i<110;i++){const pos=POSPOOL[i%POSPOOL.length];let ca,pa;
+const r=Math.random();if(r<0.09){ca=rnd(156,176);pa=rnd(164,188);}else if(r<0.35){ca=rnd(136,156);pa=rnd(150,176);}else if(r<0.7){ca=rnd(116,136);pa=rnd(130,164);}else{ca=rnd(90,116);pa=rnd(110,150);}
+const edad=pa>=170?rnd(16,21):rnd(17,33);
+players.push({id:uid()+i,nombre:FN[rnd(0,FN.length-1)]+' '+LN[rnd(0,LN.length-1)],edad,pos,ca,pa,precio:q99(ca)*q99(ca)*360+pa*1800+rnd(0,200000),salario:q99(ca)*4400+rnd(0,30000),contrato:rnd(2027,2030),clausula:q99(ca)*180000,equipo:tn[i%5],nacionalidad:Math.random()<0.8?'Islandia':'Noruega',minutos:rnd(0,2500),goles:POS_LINE[pos]==='DEL'?rnd(0,18):rnd(0,5),asist:rnd(0,10)});}
 save();if(!silent)renderAll();}
 // ---- RENDER ----
 function teamOpts(){const s1=document.getElementById('a_equipo'),s2=document.getElementById('fTeam');if(s1)s1.innerHTML=teams.map(t=>'<option>'+t.name+'</option>').join('');if(s2){const v=s2.value;s2.innerHTML='<option value="">Todos los equipos</option>'+teams.map(t=>'<option>'+t.name+'</option>').join('');if(v)s2.value=v;}}
@@ -214,39 +239,40 @@ function renderKPIs(){document.getElementById('nJ').textContent=players.length;
 const avg=a=>a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1):'-';
 const el=document.getElementById('kpis');
 el.innerHTML='<div class="kpi"><b>'+players.length+'</b><small>Jugadores totales</small></div>'
-+'<div class="kpi"><b>'+avg(players.map(p=>p.calidad))+'</b><small>Media calidad</small></div>'
-+'<div class="kpi"><b>'+avg(players.map(p=>p.potencial))+'</b><small>Media potencial</small></div>'
++'<div class="kpi"><b>'+avg(players.map(p=>getCA(p)))+'</b><small>Media CA (0-200)</small></div>'
++'<div class="kpi"><b>'+avg(players.map(p=>getPA(p)))+'</b><small>Media PA (0-200)</small></div>'
 +'<div class="kpi"><b>'+fmt(players.reduce((x,p)=>x+(+p.precio||0),0))+' €</b><small>Valor plantilla</small></div>';}
 function renderMatrix(){const poss=Object.keys(NEED);let h='<tr><th>POS / Equipo</th>'+teams.map(t=>'<th>'+t.name+'</th>').join('')+'<th>TOTAL</th></tr>';
 poss.forEach(pos=>{h+='<tr><td><b>'+pos+'</b> <span class="pill">'+POS_LINE[pos]+'</span></td>';let tot=0;
-teams.forEach(t=>{const l=players.filter(p=>p.equipo===t.name&&p.pos===pos);tot+=l.length;const m=l.length?(l.reduce((x,p)=>x+p.calidad,0)/l.length).toFixed(0):'-';
+teams.forEach(t=>{const l=players.filter(p=>p.equipo===t.name&&p.pos===pos);tot+=l.length;const m=l.length?(l.reduce((x,p)=>x+getCA(p),0)/l.length).toFixed(0):'-';
 const cls=l.length<Math.max(1,NEED[pos]-2)?'low':(l.length>=NEED[pos]-1?'good':'');h+='<td class="'+cls+'">'+l.length+' <small style="color:var(--mut)">('+m+')</small></td>';});h+='<td><b>'+tot+'</b></td></tr>';});
-h+='<tr><td><b>TOTAL / media</b></td>'+teams.map(t=>{const l=players.filter(p=>p.equipo===t.name);const m=l.length?(l.reduce((x,p)=>x+p.calidad,0)/l.length).toFixed(1):'-';return '<td><b>'+l.length+'</b> <small>('+m+')</small></td>';}).join('')+'<td><b>'+players.length+'</b></td></tr>';
+h+='<tr><td><b>TOTAL / media CA</b></td>'+teams.map(t=>{const l=players.filter(p=>p.equipo===t.name);const m=l.length?(l.reduce((x,p)=>x+getCA(p),0)/l.length).toFixed(1):'-';return '<td><b>'+l.length+'</b> <small>('+m+')</small></td>';}).join('')+'<td><b>'+players.length+'</b></td></tr>';
 document.getElementById('matrix').innerHTML=h;
 let al='';teams.forEach(t=>{Object.keys(NEED).forEach(pos=>{const n=players.filter(p=>p.equipo===t.name&&p.pos===pos).length;if(n===0)al+='<div class="alert">⚠️ <b>'+t.name+'</b> sin ningún <b>'+pos+'</b> — cede uno ahí.</div>';});});
-const avgs=teams.map(t=>{const l=players.filter(p=>p.equipo===t.name);return l.length?l.reduce((x,p)=>x+p.calidad,0)/l.length:0;});
-const mx=Math.max(...avgs,0),mn=Math.min(...avgs,99);
-if(avgs.length&&mx-mn>4)al+='<div class="alert">⚖️ Desequilibrio: diferencia de media '+ (mx-mn).toFixed(1) +' pts entre el más fuerte ('+mx.toFixed(1)+') y el más flojo ('+mn.toFixed(1)+'). Usa 🔀 Reparto equitativo.</div>';
-else al+='<div class="ok">✅ Equilibrio OK: diferencia de medias '+(mx-mn).toFixed(1)+' pts. Plantillas nivel TOP.</div>';
+const avgs=teams.map(t=>{const l=players.filter(p=>p.equipo===t.name);return l.length?l.reduce((x,p)=>x+getCA(p),0)/l.length:0;});
+const mx=Math.max(...avgs,0),mn=Math.min(...avgs,200);
+if(avgs.length&&mx-mn>8)al+='<div class="alert">⚖️ Desequilibrio: diferencia de media '+ (mx-mn).toFixed(1) +' pts CA entre el más fuerte ('+mx.toFixed(1)+') y el más flojo ('+mn.toFixed(1)+'). Usa 🔀 Reparto equitativo.</div>';
+else al+='<div class="ok">✅ Equilibrio OK: diferencia de medias '+(mx-mn).toFixed(1)+' pts CA. Plantillas nivel TOP.</div>';
 document.getElementById('alertas').innerHTML=al;}
-function renderTops(){const by=[...players].sort((a,b)=>b.potencial-a.potencial).slice(0,8),by2=[...players].sort((a,b)=>b.calidad-a.calidad).slice(0,8),by3=[...players].sort((a,b)=>b.precio-a.precio).slice(0,8);
-const row=p=>'<div style="font-size:12.5px;padding:4px 0;border-bottom:1px solid #223344"><b>'+p.nombre+'</b> <span class="pill">'+p.pos+'</span> <span class="star">'+p.calidad+'/'+p.potencial+'</span><br><small style="color:var(--mut)">'+p.edad+' años · '+p.equipo+' · '+fmt(p.precio)+'€</small></div>';
+function renderTops(){const by=[...players].sort((a,b)=>getPA(b)-getPA(a)).slice(0,8),by2=[...players].sort((a,b)=>getCA(b)-getCA(a)).slice(0,8),by3=[...players].sort((a,b)=>b.precio-a.precio).slice(0,8);
+const row=p=>'<div style="font-size:12.5px;padding:4px 0;border-bottom:1px solid #223344"><b>'+p.nombre+'</b> <span class="pill">'+p.pos+'</span> <span class="star">'+getCA(p)+'/'+getPA(p)+'</span><br><small style="color:var(--mut)">'+p.edad+' años · '+(p.nacionalidad||'')+' · '+p.equipo+' · '+fmt(p.precio)+'€</small></div>';
 document.getElementById('topPot').innerHTML=by.map(row).join('');document.getElementById('topCal').innerHTML=by2.map(row).join('');document.getElementById('topVal').innerHTML=by3.map(row).join('');}
 function renderPlayers(){const q=(document.getElementById('fSearch').value||'').toLowerCase(),ft=document.getElementById('fTeam').value,fp=document.getElementById('fPos').value,fl=document.getElementById('fLinea').value,so=document.getElementById('fSort').value;
 let l=players.filter(p=>(!q||p.nombre.toLowerCase().includes(q))&&(!ft||p.equipo===ft)&&(!fp||p.pos===fp)&&(!fl||POS_LINE[p.pos]===fl));
-l.sort((a,b)=>so==='nombre'?a.nombre.localeCompare(b.nombre):so==='edad'?a.edad-b.edad:so==='precio'?b.precio-a.precio:so==='potencial'?b.potencial-a.potencial:b.calidad-a.calidad);
-document.getElementById('pBody').innerHTML=l.slice(0,400).map(p=>'<tr><td><b>'+p.nombre+'</b><br><small style="color:var(--mut)">'+p.edad+'a · '+p.pierna+' · '+p.altura+'cm · '+(p.contrato||'')+'</small></td><td><span class="badge b-'+POS_LINE[p.pos].toLowerCase()+'">'+p.pos+'</span></td><td>'+p.edad+'</td><td><b>'+p.calidad+'</b><div class="bar"><div style="width:'+p.calidad+'%"></div></div></td><td><span class="star">'+p.potencial+'</span><div class="bar"><div style="width:'+p.potencial+'%;background:linear-gradient(90deg,#fbbf24,#f472b6)"></div></div></td><td>'+fmt(p.precio)+'€<br><small style="color:var(--mut)">'+fmt(p.salario||0)+'/a</small></td><td>'+(suggest[p.id]&&suggest[p.id]!==p.equipo?'<s style="color:var(--mut)">'+p.equipo+'</s><br><b style="color:var(--acc)">→ '+suggest[p.id]+'</b>':p.equipo)+'</td><td><small>'+(p.estado||'')+(p.minutos?' · '+p.minutos+'min':'')+(p.goles||p.asist?' · '+p.goles+'g/'+p.asist+'a':'')+'</small></td><td><button class="btn2" onclick="editPlayer(\''+p.id+'\')">✏️</button> <button class="btn2" onclick="dupPlayer(\''+p.id+'\')">📋</button> <button class="danger" onclick="delPlayer(\''+p.id+'\')">❌</button></td></tr>').join('');}
+l.sort((a,b)=>so==='nombre'?a.nombre.localeCompare(b.nombre):so==='edad'?a.edad-b.edad:so==='precio'?b.precio-a.precio:so==='potencial'?getPA(b)-getPA(a):getCA(b)-getCA(a));
+document.getElementById('pBody').innerHTML=l.slice(0,400).map(p=>{const ca=getCA(p),pa=getPA(p),mg=pa-ca;
+return '<tr><td><b style="cursor:pointer" onclick="editPlayer(\''+p.id+'\')">'+p.nombre+'</b> <small><button class="btn2" style="padding:2px 6px;margin:0" onclick="editPlayer(\''+p.id+'\')">✏️</button><button class="btn2" style="padding:2px 6px;margin:0" onclick="dupPlayer(\''+p.id+'\')">📋</button><button class="danger" style="padding:2px 6px" onclick="delPlayer(\''+p.id+'\')">❌</button></small></td><td><small>'+(p.nacionalidad||'')+'</small></td><td><span class="badge b-'+POS_LINE[p.pos].toLowerCase()+'">'+p.pos+'</span><br><small style="color:var(--mut)">'+(p.posFull||'')+'</small></td><td>'+(suggest[p.id]&&suggest[p.id]!==p.equipo?'<s style="color:var(--mut)">'+p.equipo+'</s><br><b style="color:var(--acc)">→ '+suggest[p.id]+'</b>':p.equipo)+'</td><td>'+p.edad+'</td><td><b>'+ca+'</b></td><td>'+mg+'</td><td><span class="star">'+pa+'</span></td><td>'+fmt(p.precio)+'€</td><td>'+(p.contrato||'')+'</td></tr>';}).join('');}
 function renderTeams(){const c=document.getElementById('teamCards');
-c.innerHTML=teams.map((t,i)=>{const l=players.filter(p=>p.equipo===t.name);const m=l.length?(l.reduce((x,p)=>x+p.calidad,0)/l.length).toFixed(1):'-';
-return '<div class="team" style="border-top-color:'+t.color+'"><h4>'+t.name+'</h4><small>'+t.div+'</small><br><span class="badge '+(t.tipo==='CENTRAL'?'b-central':'b-filial')+'">'+t.tipo+'</span><div style="margin:8px 0"><b style="font-size:22px">'+l.length+'</b> <small>jug · media '+m+'</small></div><div class="filters" style="margin:0"><button class="btn2" onclick="editTeam('+i+')">✏️</button><button class="danger" onclick="delTeam('+i+')">🗑</button></div></div>';}).join('');
+c.innerHTML=teams.map((t,i)=>{const l=players.filter(p=>p.equipo===t.name);const m=l.length?(l.reduce((x,p)=>x+getCA(p),0)/l.length).toFixed(1):'-';
+return '<div class="team" style="border-top-color:'+t.color+'"><h4>'+t.name+'</h4><small>'+t.div+'</small><br><span class="badge '+(t.tipo==='CENTRAL'?'b-central':'b-filial')+'">'+t.tipo+'</span><div style="margin:8px 0"><b style="font-size:22px">'+l.length+'</b> <small>jug · media CA '+m+'</small></div><div class="filters" style="margin:0"><button class="btn2" onclick="editTeam('+i+')">✏️</button><button class="danger" onclick="delTeam('+i+')">🗑</button></div></div>';}).join('');
 let h='';teams.forEach(t=>{const l=players.filter(p=>p.equipo===t.name).sort((a,b)=>score(b)-score(a));
-const xi=l.slice(0,11).map(p=>p.nombre+' ('+p.pos+' '+p.calidad+')').join(', ')||'—';
-h+='<details '+(t.tipo==='CENTRAL'?'open':'')+'><summary>'+t.name+' — '+l.length+' jug · XI: '+xi.slice(0,120)+'...</summary><div class="tblwrap"><table><tr><th>Jugador</th><th>Pos</th><th>Edad</th><th>Cal/Pot</th><th>Precio</th><th>G/A</th></tr>'+l.map(p=>'<tr><td>'+p.nombre+'</td><td>'+p.pos+'</td><td>'+p.edad+'</td><td>'+p.calidad+'/'+p.potencial+'</td><td>'+fmt(p.precio)+'€</td><td>'+(p.goles||0)+'/'+(p.asist||0)+'</td></tr>').join('')+'</table></div></details>';});
+const xi=l.slice(0,11).map(p=>p.nombre+' ('+p.pos+' '+getCA(p)+')').join(', ')||'—';
+h+='<details '+(t.tipo==='CENTRAL'?'open':'')+'><summary>'+t.name+' — '+l.length+' jug · XI: '+xi.slice(0,120)+'...</summary><div class="tblwrap"><table><tr><th>Jugador</th><th>Pos</th><th>Edad</th><th>CA/PA</th><th>Precio</th><th>G/A</th></tr>'+l.map(p=>'<tr><td>'+p.nombre+'</td><td>'+p.pos+'</td><td>'+p.edad+'</td><td>'+getCA(p)+'/'+getPA(p)+'</td><td>'+fmt(p.precio)+'€</td><td>'+(p.goles||0)+'/'+(p.asist||0)+'</td></tr>').join('')+'</table></div></details>';});
 document.getElementById('teamSquads').innerHTML=h||'Sin jugadores';}
 // ---- CRUD ----
 function addPlayer(){const g=id=>document.getElementById(id).value;
 const nombre=g('a_nombre').trim();if(!nombre){alert('Pon el nombre');return;}
-players.push({id:uid(),nombre,edad:+g('a_edad'),pos:g('a_pos'),pierna:g('a_pierna'),calidad:+g('a_cal'),potencial:+g('a_pot'),precio:+g('a_precio'),salario:+g('a_sal'),altura:+g('a_alt'),contrato:+g('a_con'),clausula:+g('a_clau'),equipo:g('a_equipo'),estado:g('a_est'),minutos:+g('a_min'),goles:+g('a_gol'),asist:+g('a_asi')});
+players.push(migrate({id:uid(),nombre,edad:+g('a_edad'),pos:g('a_pos'),nacionalidad:g('a_nac')||'ISL',ca:+g('a_ca'),pa:+g('a_pa'),precio:+g('a_precio'),salario:+g('a_sal'),contrato:+g('a_con'),clausula:+g('a_clau'),equipo:g('a_equipo'),minutos:+g('a_min'),goles:+g('a_gol'),asist:+g('a_asi')}));
 save();renderAll();document.getElementById('a_nombre').value='';alert('Guardado ✅');}
 function editPlayer(id){const p=players.find(x=>x.id===id);if(!p)return;
 const box=document.getElementById('editBox');
@@ -254,15 +280,15 @@ box.innerHTML='<div class="card" style="border-color:var(--gold)"><h3>✏️ Edi
 +'<label>Nombre<input id="e_nombre" value="'+p.nombre+'"></label><label>Edad<input id="e_edad" type="number" value="'+p.edad+'"></label>'
 +'<label>Pos<select id="e_pos">'+['POR','LD','DFC','LI','MCD','MC','MCO','EI','ED','DC'].map(o=>'<option '+(o===p.pos?'selected':'')+'>'+o+'</option>').join('')+'</select></label>'
 +'<label>Equipo<select id="e_equipo">'+teams.map(t=>'<option '+(t.name===p.equipo?'selected':'')+'>'+t.name+'</option>').join('')+'</select></label>'
-+'<label>Calidad<input id="e_cal" type="number" value="'+p.calidad+'"></label><label>Potencial<input id="e_pot" type="number" value="'+p.potencial+'"></label>'
-+'<label>Precio<input id="e_precio" type="number" value="'+p.precio+'"></label><label>Salario<input id="e_sal" type="number" value="'+(p.salario||0)+'"></label>'
++'<label>Nac<input id="e_nac" value="'+(p.nacionalidad||'ISL')+'"></label><label>CA (0-200)<input id="e_ca" type="number" value="'+getCA(p)+'"></label>'
++'<label>PA (0-200)<input id="e_pa" type="number" value="'+getPA(p)+'"></label>'
++'<label>Precio<input id="e_precio" type="number" value="'+p.precio+'"></label><label>Salario/año<input id="e_sal" type="number" value="'+(p.salario||0)+'"></label>'
 +'<label>Contrato<input id="e_con" type="number" value="'+(p.contrato||2028)+'"></label><label>Cláusula<input id="e_clau" type="number" value="'+(p.clausula||0)+'"></label>'
-+'<label>Estado<select id="e_est">'+['Primer equipo','Cedido','Cantera','Transferible','Lesionado'].map(o=>'<option '+(o===p.estado?'selected':'')+'>'+o+'</option>').join('')+'</select></label>'
 +'<label>Min/G/A<input id="e_min" value="'+(p.minutos||0)+'"></label></div><div class="filters"><button class="btn" onclick="saveEdit(\''+id+'\')">💾 Guardar</button><button class="btn2" onclick="document.getElementById(\'editBox\').innerHTML=\'\'">Cerrar</button></div></div>';
 goTab('add',document.querySelector('[data-t="add"]'));}
 function saveEdit(id){const p=players.find(x=>x.id===id);const g=x=>document.getElementById(x).value;
-Object.assign(p,{nombre:g('e_nombre'),edad:+g('e_edad'),pos:g('e_pos'),equipo:g('e_equipo'),calidad:+g('e_cal'),potencial:+g('e_pot'),precio:+g('e_precio'),salario:+g('e_sal'),contrato:+g('e_con'),clausula:+g('e_clau'),estado:g('e_est'),minutos:+g('e_min')});
-save();renderAll();document.getElementById('editBox').innerHTML='';}
+Object.assign(p,{nombre:g('e_nombre'),edad:+g('e_edad'),pos:normPos(g('e_pos')),equipo:g('e_equipo'),nacionalidad:g('e_nac')||'ISL',ca:Math.max(1,Math.min(200,+g('e_ca')||100)),pa:Math.max(1,Math.min(200,+g('e_pa')||120)),precio:+g('e_precio'),salario:+g('e_sal'),contrato:+g('e_con'),clausula:+g('e_clau'),minutos:+g('e_min')});
+migrate(p);save();renderAll();document.getElementById('editBox').innerHTML='';}
 function dupPlayer(id){const p=players.find(x=>x.id===id);const c={...p,id:uid(),nombre:p.nombre+' (2)'};players.push(c);save();renderAll();}
 function delPlayer(id){if(!confirm('¿Vender/borrar jugador?'))return;players=players.filter(x=>x.id!==id);save();renderAll();}
 function addTeam(){const n=prompt('Nombre del nuevo equipo central:');if(!n)return;teams.push({name:n,div:'Por definir',tipo:'CENTRAL',color:'#22c55e'});save();renderAll();}
@@ -289,21 +315,21 @@ Object.keys(NEED).forEach(pos=>{let pool=sorted.filter(p=>p.pos===pos);
 let dir=1,idx=0;
 pool.forEach(p=>{suggest[p.id]=order[idx];idx+=dir;if(idx>=order.length){idx=order.length-1;dir=-1;}else if(idx<0){idx=0;dir=1;}});});
 // protección jóvenes: si un sub19 top acabó en Lettir sin minutos, mandarlo al filial más flojo en su posición
-if(prot){Object.keys(NEED).forEach(pos=>{let young=sorted.filter(p=>p.pos===pos&&p.edad<=19&&p.potencial>=75);
+if(prot){Object.keys(NEED).forEach(pos=>{let young=sorted.filter(p=>p.pos===pos&&p.edad<=19&&getPA(p)>=150);
 young.forEach(y=>{if(suggest[y.id]===order[0]){let dest=order.slice(1).sort((a,b)=>avgCal(a,pos)-avgCal(b,pos))[0];if(dest)suggest[y.id]=dest;}});});}}
-function avgCal(team,pos){const l=players.filter(p=>suggest[p.id]===team&&p.pos===pos);return l.length?l.reduce((x,p)=>x+p.calidad,0)/l.length:0;}
+function avgCal(team,pos){const l=players.filter(p=>suggest[p.id]===team&&p.pos===pos);return l.length?l.reduce((x,p)=>x+getCA(p),0)/l.length:0;}
 function balanceSizes(size){/* ya limitado por NEED, resto por score snake global */
 const assigned=new Set(Object.keys(suggest));const rest=sorted.filter(p=>!assigned.has(p.id));
 let counts={};order.forEach(o=>counts[o]=Object.values(suggest).filter(s=>s===o).length);
 let i=0;rest.forEach(p=>{let cands=order.filter(o=>counts[o]<size+3);if(!cands.length)cands=order;const d=cands[i%cands.length];suggest[p.id]=d;counts[d]++;i++;});}
 let h='<div class="ok">✅ Reparto calculado ('+(mode==='equitativo'?'equitativo total':'pirámide')+'). Tabla = <b>sugerencia de cesión</b>. Pulsa “Aplicar” para moverlos de verdad.</div>';
 h+='<div class="tblwrap"><table><tr><th>#</th><th>Jugador</th><th>Pos</th><th>Edad</th><th>Cal/Pot</th><th>Score</th><th>Equipo actual</th><th>➡ Ceder a</th><th>Motivo</th></tr>';
-sorted.forEach((p,i)=>{const dest=suggest[p.id];const move=dest!==p.equipo?'🔀':'=';const mot=p.edad<=19&&p.potencial>=78?'💎 Joven TOP → donde sea titular':(p.calidad>=78?'⭐ Crack → reparto equitativo':(p.calidad<=55?'🛠 Desarrollo → filial baja':'⚖️ Equilibrio por '+p.pos));
-h+='<tr><td>'+(i+1)+'</td><td><b>'+p.nombre+'</b></td><td>'+p.pos+'</td><td>'+p.edad+'</td><td>'+p.calidad+'/'+p.potencial+'</td><td>'+score(p).toFixed(1)+'</td><td>'+p.equipo+'</td><td><b style="color:var(--acc)">'+dest+'</b> '+move+'</td><td><small>'+mot+'</small></td></tr>';});
+sorted.forEach((p,i)=>{const dest=suggest[p.id];const move=dest!==p.equipo?'🔀':'=';const ca=getCA(p),pa=getPA(p);const mot=p.edad<=19&&pa>=156?'💎 Joven TOP → donde sea titular':(ca>=156?'⭐ Crack → reparto equitativo':(ca<=110?'🛠 Desarrollo → filial baja':'⚖️ Equilibrio por '+p.pos));
+h+='<tr><td>'+(i+1)+'</td><td><b>'+p.nombre+'</b></td><td>'+p.pos+'</td><td>'+p.edad+'</td><td>'+ca+'/'+pa+'</td><td>'+score(p).toFixed(1)+'</td><td>'+p.equipo+'</td><td><b style="color:var(--acc)">'+dest+'</b> '+move+'</td><td><small>'+mot+'</small></td></tr>';});
 h+='</table></div>';
 // resumen por equipo
 h+='<h3>📦 Plantillas resultantes (sugeridas)</h3><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">';
-order.forEach(t=>{const l=sorted.filter(p=>suggest[p.id]===t);const m=l.length?(l.reduce((x,p)=>x+p.calidad,0)/l.length).toFixed(1):'-';const mp=l.length?(l.reduce((x,p)=>x+p.potencial,0)/l.length).toFixed(1):'-';
+order.forEach(t=>{const l=sorted.filter(p=>suggest[p.id]===t);const m=l.length?(l.reduce((x,p)=>x+getCA(p),0)/l.length).toFixed(1):'-';const mp=l.length?(l.reduce((x,p)=>x+getPA(p),0)/l.length).toFixed(1):'-';
 h+='<div class="kpi"><b>'+t+'</b><small>'+l.length+' jug · media '+m+' · pot '+mp+'</small></div>';});
 h+='</div>';
 document.getElementById('repOut').innerHTML=h;
@@ -312,20 +338,62 @@ if(apply){/* no auto-aplica, solo muestra; el usuario pulsa Aplicar */}
 }
 function applySuggestion(){if(!Object.keys(suggest).length){alert('Primero calcula el reparto');return;}
 if(!confirm('¿Mover a todos a su equipo sugerido?'))return;
-players.forEach(p=>{if(suggest[p.id]){if(suggest[p.id]!==p.equipo)p.estado='Cedido';p.equipo=suggest[p.id];}});
+players.forEach(p=>{if(suggest[p.id])p.equipo=suggest[p.id];});
 save();renderAll();alert('Cesiones aplicadas ✅');}
-// ---- IMPORT/EXPORT ----
+// ---- IMPORT/EXPORT Genie 0-200 ----
 function exportJSON(){const b=new Blob([JSON.stringify({teams,players},null,2)],{type:'application/json'});dl(b,'lettir-fm.json');}
-function exportCSV(){const head='nombre,edad,pos,calidad,potencial,precio,salario,altura,pierna,contrato,clausula,equipo,estado,minutos,goles,asist';
-const rows=players.map(p=>[p.nombre,p.edad,p.pos,p.calidad,p.potencial,p.precio,p.salario||0,p.altura||'',p.pierna||'',p.contrato||'',p.clausula||0,'"'+p.equipo+'"',p.estado||'',p.minutos||0,p.goles||0,p.asist||0].join(','));
-dl(new Blob([[head,...rows].join('\n')],{type:'text/csv'}),'lettir-fm.csv');}
+function exportCSV(){const head='nombre,nacion,posicion,club,edad,hab_actual,dif,hab_potencial,valor,final_contrato,salario,clausula,id_fm';
+const rows=players.map(p=>{const ca=getCA(p),pa=getPA(p);return ['"'+(p.nombre||'')+'"','"'+(p.nacionalidad||'')+'"',(p.posFull||p.pos),'"'+(p.equipo||'')+'"',p.edad,ca,(pa-ca),pa,p.precio,p.contrato||'',p.salario||0,p.clausula||0,(p.id_fm||'')].join(',');});
+dl(new Blob(["\uFEFF"+[head,...rows].join('\n')],{type:'text/csv;charset=utf-8'}),'lettir-fm.csv');}
 function dl(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();}
-function importFile(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();
-r.onload=()=>{try{if(f.name.endsWith('.json')){const d=JSON.parse(r.result);if(d.players)players=d.players;if(d.teams)teams=d.teams;}else{parseCSV(r.result);}save();renderAll();alert('Importado ✅');}catch(err){alert('Error: '+err.message);}};r.readAsText(f);}
-function importCSVText(){parseCSV(document.getElementById('csvBox').value);save();renderAll();}
-function parseCSV(t){const lines=t.trim().split('\n');if(lines.length<2)return;const H=lines[0].toLowerCase().split(',');
-lines.slice(1).forEach(ln=>{const c=ln.split(',');const o={id:uid()+Math.random()};H.forEach((hh,i)=>{o[hh.trim()]= (c[i]||'').replace(/"/g,'');});
-players.push({id:o.id||uid(),nombre:o.nombre||'Sin nombre',edad:+o.edad||20,pos:(o.pos||'MC').toUpperCase(),calidad:+o.calidad||60,potencial:+o.potencial||70,precio:+o.precio||100000,salario:+o.salario||30000,altura:+o.altura||180,pierna:o.pierna||'Diestro',contrato:+o.contrato||2028,clausula:+o.clausula||500000,equipo:o.equipo||teams[0].name,estado:o.estado||'Primer equipo',minutos:+o.minutos||0,goles:+o.goles||0,asist:+o.asist||0});});}
+function handleImportText(txt,fname){if(fname&&fname.endsWith('.json')){const d=JSON.parse(txt);if(d.players)players=d.players.map(migrate);else if(Array.isArray(d))players=d.map(migrate);if(d.teams)teams=d.teams;}else{parseCSV(txt);}save();renderAll();alert('Importado ✅ '+players.length+' jugadores en total');}
+function importFile(e){const f=e.target.files[0];if(!f)return;
+const rb=new FileReader();
+rb.onload=()=>{try{const buf=rb.result;let txt='';try{txt=new TextDecoder('utf-8',{fatal:true}).decode(buf);}catch(_){txt=new TextDecoder('windows-1252').decode(buf);}
+if(txt.includes('�')){try{txt=new TextDecoder('windows-1252').decode(buf);}catch(_){}}
+handleImportText(txt,f.name);}catch(err){alert('Error: '+err.message);}};
+rb.readAsArrayBuffer(f);}
+function importCSVText(){const n=players.length;parseCSV(document.getElementById('csvBox').value);save();renderAll();alert('Importados '+(players.length-n)+' jugadores ✅');}
+function splitDelim(ln,d){const out=[];let cur='',q=false;for(let i=0;i<ln.length;i++){const ch=ln[i];if(ch==='"'){q=!q;cur+=ch;}else if(!q&&ch===d){out.push(cur);cur='';}else cur+=ch;}out.push(cur);return out;}
+function normHead(h){return (h||'').replace(/^\uFEFF/,'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/"/g,'').replace(/\./g,'').trim().replace(/\s+/g,'_');}
+function val(o){for(let i=1;i<arguments.length;i++){const k=arguments[i];if(o[k]!=null&&o[k]!=='')return o[k];}const ks=Object.keys(o);for(let i=1;i<arguments.length;i++){const k=arguments[i];for(const kk of ks){if(kk&&k&&(kk.includes(k)||k.includes(kk))&&o[kk]!=='')return o[kk];}}return '';}
+function normAsc(s){return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+// Enlaza el nombre del club del Genius (con/sin acentos) con tus 5 equipos oficiales
+function mapTeam(name){const n=normAsc(name).trim();
+if(!n)return teams[0].name;
+if(n.includes('lettir'))return teams.find(t=>normAsc(t.name).includes('lettir'))?.name||teams[0].name;
+if(n.includes('hottur')||n.includes('hot'))return teams.find(t=>normAsc(t.name).includes('hottur'))?.name||teams[0].name;
+if(n.includes('magni')||n.includes('grenivik'))return teams.find(t=>normAsc(t.name).includes('magni'))?.name||teams[0].name;
+if(n.includes('hamrarnir')||n.includes('hamrar'))return teams.find(t=>normAsc(t.name).includes('hamrarnir'))?.name||teams[0].name;
+if(n.includes('kria'))return teams.find(t=>normAsc(t.name).includes('kria'))?.name||teams[0].name;
+const exact=teams.find(t=>normAsc(t.name)===n);if(exact)return exact.name;
+return name.trim();}
+function parseCSV(t){t=(''+t).replace(/^\uFEFF/,'').trim();const lines=t.split('\n');if(lines.length<2){alert('CSV vacío o sin cabecera');return;}const hline=lines[0];
+const nSemi=(hline.match(/;/g)||[]).length,nTab=(hline.match(/\t/g)||[]).length,nCom=(hline.match(/,/g)||[]).length;
+const D=nSemi>=nCom&&nSemi>=nTab&&nSemi>0?';':(nTab>nCom&&nTab>nSemi?'\t':',');
+const H=splitDelim(hline,D).map(normHead);
+// índices de rescate por si la cabecera viene con otro nombre: orden Genius
+// nombre,nacion,posicion,club,edad,hab_actual,dif,hab_potencial,valor,final
+const iCa=H.findIndex(h=>h.includes('hab')&&h.includes('actual')||h==='ca'||h.includes('current'));
+const iPa=H.findIndex(h=>h.includes('hab')&&h.includes('pot')||h==='pa'||h.includes('poten'));
+const iDif=H.findIndex(h=>h==='dif'||h.includes('dif')||h.includes('margen')||h.includes('marg'));
+lines.slice(1).forEach(ln=>{if(!ln.trim())return;const c=splitDelim(ln,D);const o={};H.forEach((hh,i)=>{o[hh]=(c[i]||'').replace(/^"|"$/g,'').trim();});
+const rawPos=val(o,'posicion','position','pos','pst')||c[2]||'MC';
+let caRaw=val(o,'hab_actual','actual','ca','current','calidad');if(!caRaw&&iCa>=0)caRaw=c[iCa]||'';
+let ca=cleanNum(caRaw)||(o.calidad?Math.round(cleanNum(o.calidad)*2):0);
+const paRaw=val(o,'hab_potencial','potencial','pa','potential','pot')||(iPa>=0?c[iPa]:'');
+let pa=cleanNum(paRaw)||(o.potencial?Math.round(cleanNum(o.potencial)*2):0);
+const dif=cleanNum(val(o,'dif','diff','margen','marg'))||(iDif>=0?cleanNum(c[iDif]):0);
+if(!pa&&dif&&ca)pa=ca+dif;
+if(!ca)ca=120;if(!pa)pa=140;
+let sal=cleanNum(val(o,'salario','salario_anual','wage','sueldo'))||(o.salario_sem?Math.round(cleanNum(o.salario_sem)*52):30000);
+const nacRaw=val(o,'nacion','nacionalidad','nac','nation','nationality')||c[1]||'Islandia';
+const nomRaw=val(o,'nombre','name','jugador')||c[0]||'';
+const clubRaw=val(o,'club','equipo','team')||c[3]||'';
+const edadRaw=val(o,'edad','age')||c[4]||'';
+const valorRaw=val(o,'valor','precio','value','price')||c[8]||'';
+const finRaw=val(o,'final_contrato','contrato','contract','final')||c[9]||'';
+players.push(migrate({id:uid()+Math.random(),id_fm:val(o,'id_fm','uid'),nombre:nomRaw||'Sin nombre',edad:Math.round(cleanNum(edadRaw))||20,pos:normPos(rawPos),posFull:(rawPos||'').toUpperCase(),nacionalidad:nacRaw,ca:Math.max(1,Math.min(200,Math.round(ca)||120)),pa:Math.max(1,Math.min(200,Math.round(pa)||140)),precio:Math.round(cleanNum(valorRaw))||100000,salario:Math.round(sal)||30000,contrato:contractYear(finRaw),clausula:Math.round(cleanNum(val(o,'clausula','release')))||0,equipo:mapTeam(clubRaw)||teams[0].name,minutos:0,goles:0,asist:0}));});}
 renderAll();
 </script>
 </body>
