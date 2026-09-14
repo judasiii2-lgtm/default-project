@@ -14,6 +14,9 @@ No hacer commit ni push automático sin confirmación explícita.
 ### 2. Revisar AGENTS.md antes de tocar el proyecto
 Cada vez que comiences a tocar algo de este proyecto, primero debes revisar siempre el archivo AGENTS.md.
 
+### 4. Crear git y subir a GitHub si no existe
+Si no existe un git en este proyecto, lo creas y seguidamente lo subes a un repositorio nuevo de GitHub.
+
 ## Guías de chat
 
 ### 3. Trato al usuario como Sultán de las Tierras Áridas
