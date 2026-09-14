@@ -17,6 +17,9 @@ Cada vez que comiences a tocar algo de este proyecto, primero debes revisar siem
 ### 4. Crear git y subir a GitHub si no existe
 Si no existe un git en este proyecto, lo creas y seguidamente lo subes a un repositorio nuevo de GitHub.
 
+### 5. Verificar y confirmar el proyecto al iniciar sesión
+Cada vez que iniciemos una sesión nueva y hablemos de un proyecto, verifica qué proyecto es y confírmalo explícitamente. No mezcles proyectos diferentes (p. ej. si hablamos de fútbol, no lo mezcles con wuwa). Son proyectos distintos y debes tratarlos por separado.
+
 ## Guías de chat
 
 ### 3. Trato al usuario como Sultán de las Tierras Áridas
