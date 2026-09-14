@@ -95,7 +95,7 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 <div class="filters">
 <input id="fSearch" placeholder="🔍 Buscar nombre..." oninput="renderPlayers()">
 <select id="fTeam" onchange="renderPlayers()"><option value="">Todos los equipos</option></select>
-<select id="fPos" onchange="renderPlayers()"><option value="">Todas posiciones</option><option>POR</option><option>LD</option><option>DFC</option><option>LI</option><option>MCD</option><option>MC</option><option>MCO</option><option>EI</option><option>ED</option><option>DC</option></select>
+<select id="fPos" onchange="renderPlayers()"><option value="">Todas posiciones</option><option>POR</option><option>LD</option><option>DFC</option><option>LI</option><option>MC</option><option>MCO</option><option>EI</option><option>ED</option><option>DC</option></select>
 <select id="fLinea" onchange="renderPlayers()"><option value="">Todas líneas</option><option value="POR">Porteros</option><option value="DEF">Defensas</option><option value="MED">Medios</option><option value="DEL">Delanteros</option></select>
 <select id="fSort" onchange="renderPlayers()"><option value="calidad">Orden: CA</option><option value="potencial">Orden: PA</option><option value="edad">Orden: Edad</option><option value="precio">Orden: Precio</option><option value="nombre">Orden: Nombre</option></select>
 <button class="btn2" onclick="exportJSON()">⬇ JSON</button>
@@ -121,7 +121,7 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 <button class="btn2" onclick="resetTeams()">↺ Restablecer los 5 de Islandia</button>
 </div>
 </div>
-<div class="card"><h3>📋 Plantilla por equipo + XI ideal</h3><div id="teamSquads"></div></div>
+<div class="card"><h3>📋 Plantilla por equipo + XI New Sun Days</h3><div id="teamSquads"></div></div>
 </section>
 
 <!-- REPARTO -->
@@ -151,7 +151,7 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 <div class="formgrid" id="pForm">
 <label>Nombre*<input id="a_nombre" placeholder="Ej: Jón Sigurðsson"></label>
 <label>Edad<input id="a_edad" type="number" value="21" min="15" max="42"></label>
-<label>Posición<select id="a_pos"><option>POR</option><option>LD</option><option>DFC</option><option>LI</option><option>MCD</option><option>MC</option><option>MCO</option><option>EI</option><option>ED</option><option>DC</option></select></label>
+<label>Posición<select id="a_pos"><option>POR</option><option>LD</option><option>DFC</option><option>LI</option><option>MC</option><option>MCO</option><option>EI</option><option>ED</option><option>DC</option></select></label>
 <label>Nacionalidad<input id="a_nac" placeholder="Islandia" value="Islandia"></label>
 <label>CA actual (0-200 Genie)<input id="a_ca" type="number" value="130" min="1" max="200"></label>
 <label>PA potencial (0-200 Genie)<input id="a_pa" type="number" value="160" min="1" max="200"></label>
@@ -178,26 +178,37 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 </section>
 </main>
 <script>
-const POS_LINE={POR:'POR',LD:'DEF',DFC:'DEF',LI:'DEF',MCD:'MED',MC:'MED',MCO:'MED',EI:'DEL',ED:'DEL',DC:'DEL'};
-const POS_MAP={GK:'POR',POR:'POR',DL:'LI',LI:'LI',DR:'LD',LD:'LD',DC:'DFC',DFC:'DFC',DM:'MCD',MCD:'MCD',MC:'MC',AMC:'MCO',MCO:'MCO',AML:'EI',EI:'EI',AMR:'ED',ED:'ED',ST:'DC',MCL:'MC',MCR:'MC',DCL:'DFC',DCR:'DFC'};
-function normPos(p){p=(p||'MC').toUpperCase().trim();
-// toma primera posición si vienen varias: "MP DI, DLC" -> "MP DI"
-p=p.split(',')[0].trim();
-// códigos directos ya nuestros o FM inglés
-const direct={POR:'POR',GK:'POR',DL:'LI',LI:'LI',DR:'LD',LD:'LD',DC:'DFC',DFC:'DFC',DM:'MCD',MCD:'MCD',MC:'MC',AMC:'MCO',MCO:'MCO',AML:'EI',EI:'EI',AMR:'ED',ED:'ED',ST:'DC',MCL:'MC',MCR:'MC',DCL:'DFC',DCR:'DFC',MCC:'MC'};
-if(direct[p])return direct[p];
-// códigos Genius en español: POR, DF-*, MP-*, DLC/DC
-if(p.includes('POR'))return 'POR';
-const isDF=p.startsWith('DF')||p.includes('DF ');
-const isMP=p.startsWith('MP')||p.includes(' MP')||p==='MCC';
-const isDL=p.includes('DLC')||p==='_DC'||p.startsWith('DC ')||p.startsWith('DEL')||p.includes(' CAR');
-// delantero
-if(isDL||(!isDF&&!isMP&&(p.includes('DLC')||p.includes('DEL')||p.includes('DC'))))return 'DC';
-// defensas: DF D->LD, DF I->LI, DF C/DIC/IC->DFC
-if(isDF||p.startsWith('D ')){const hasD=/(^| )D( |$)/.test(p)||p.includes(' D ')||p.endsWith(' D')||p.includes('DDR')||p.includes('DF D');const hasI=p.includes(' I')||p.endsWith(' I')||p.includes('DIL')||p.includes('DF I');if(hasD&&!hasI)return 'LD';if(hasI&&!hasD)return 'LI';return 'DFC';}
-// medios: MP D->ED, MP I->EI, MP C/MCC->MC, MCD explícito
-if(isMP||p.startsWith('M ')){if(p.includes('MCD')||p.includes('DM'))return 'MCD';const hasD=p.includes(' D')||p.endsWith(' D');const hasI=p.includes(' I')||p.endsWith(' I');const hasC=p.includes(' C')||p.endsWith(' C')||p.includes('MCC');if(hasD&&!hasI&&!hasC)return 'ED';if(hasI&&!hasD&&!hasC)return 'EI';if(p.includes('MCO')||p.includes('AMC')||p.includes('MP/C'))return 'MCO';return 'MC';}
-return POS_MAP[p]||'MC';}
+const POS_LINE={POR:'POR',LD:'DEF',DFC:'DEF',LI:'DEF',MC:'MED',MCO:'MED',EI:'DEL',ED:'DEL',DC:'DEL'};
+const NEED={POR:2,LD:2,DFC:4,LI:2,MC:4,MCO:2,EI:2,ED:2,DC:2}; // 22 ideal New Sun Days: 2 por puesto (POR y DC a 2, se juega con 1)
+// XI New Sun Days V-I: POR + LD DFC DFC LI + MC MC + ED MCO EI + DC
+const TACTIC=[{slot:'POR',pos:'POR',rol:'PCI-De'},{slot:'LD',pos:'LD',rol:'LAT-At'},{slot:'DFC1',pos:'DFC',rol:'DCT-De'},{slot:'DFC2',pos:'DFC',rol:'DCT-De'},{slot:'LI',pos:'LI',rol:'LAT-At'},{slot:'MC1',pos:'MC',rol:'MC-Ap'},{slot:'MC2',pos:'MC',rol:'MC-Ap'},{slot:'ED',pos:'ED',rol:'DLI-Ap'},{slot:'MCO',pos:'MCO',rol:'MP-At'},{slot:'EI',pos:'EI',rol:'DLI-Ap'},{slot:'DC',pos:'DC',rol:'DLA-At'}];
+const POS_MAP={GK:'POR',POR:'POR',DL:'LI',LI:'LI',DR:'LD',LD:'LD',DC:'DFC',DFC:'DFC',DM:'MC',MCD:'MC',MC:'MC',AMC:'MCO',MCO:'MCO',AML:'EI',EI:'EI',AMR:'ED',ED:'ED',ST:'DC',MCL:'MC',MCR:'MC',DCL:'DFC',DCR:'DFC'};
+function normTok(q){return (q||'').toUpperCase().trim().replace(/\//g,' ')
+.replace(/\bMPD\b/g,'MP D').replace(/\bMPI\b/g,'MP I').replace(/\bMPC\b/g,'MP C')
+.replace(/\bDFD\b/g,'DF D').replace(/\bDFI\b/g,'DF I').replace(/\bDFDIC\b/g,'DF DIC')
+.replace(/\bMCD\b/g,'MC').replace(/\s+/g,' ').trim();}
+function parsePart(q){q=normTok(q);if(!q)return [];
+const direct={POR:['POR'],GK:['POR'],LD:['LD'],DR:['LD'],LI:['LI'],DL:['LI'],DFC:['DFC'],DCL:['DFC'],DCR:['DFC'],'DF C':['DFC'],'DF DIC':['DFC'],DM:['MC'],MC:['MC'],MCL:['MC'],MCR:['MC'],MCC:['MC'],MCO:['MCO'],AMC:['MCO'],MPC:['MCO'],'MP C':['MCO'],EI:['EI'],AML:['EI'],ED:['ED'],AMR:['ED'],DC:['DC'],ST:['DC'],DLC:['DC'],DEL:['DC'],DLA:['DC']};
+if(direct[q])return direct[q].slice();
+if(q.includes('POR'))return ['POR'];
+const out=[];
+const isDF=q.startsWith('DF')||q.includes('DF ')||q.startsWith('D ');
+const isMP=q.startsWith('MP')||q.includes(' MP')||q==='MCC'||q==='MPC';
+if(q.includes('DLC')||q.includes('DEL')||q.includes('DLA')||q==='ST')out.push('DC');
+if(isDF){const r=q.replace(/ /g,'').replace(/^DF/,'');const d=r.includes('D'),i=r.includes('I'),c=r.includes('C');
+if(q.includes('CAR')){if(i&&!d)out.push('LI');else out.push('LD');}
+else{if(d)out.push('LD');if(i)out.push('LI');if(c)out.push('DFC');if(!d&&!i&&!c)out.push('DFC');}}
+if(isMP){if(q.includes('DM'))out.push('MC');
+else{const r=q.replace(/ /g,'').replace(/^MP/,'');const d=r.includes('D'),i=r.includes('I'),c=r.includes('C');
+if(d&&i)out.push('EI','ED');else if(d)out.push('ED');else if(i)out.push('EI');else if(c)out.push('MCO');else out.push('MC');}}
+if(!out.length)out.push(POS_MAP[q]||'MC');
+return [...new Set(out)];}
+function parsePositions(raw){const parts=(''+(raw||'MC')).split(/[,;]+/).map(s=>s.trim()).filter(Boolean);
+let out=[];parts.forEach(pt=>{out=out.concat(parsePart(pt));});out=[...new Set(out)];
+return out.length?out:['MC'];}
+function normPos(p){return parsePositions(p)[0]||'MC';}
+// posiciones efectivas: si el usuario fijó una manual, manda; si no, todas las del Genius
+function effPos(p){if(p.posLock)return [p.posLock];if(Array.isArray(p.posList)&&p.posList.length)return p.posList;return [p.pos||'MC'];}
 function cleanNum(v){if(v==null||v==='')return 0;let s=(''+v).trim().replace(/€/g,'').trim();
 if(/^\d{1,3}(\.\d{3})+($|,)/.test(s)){s=s.replace(/\./g,'');}
 s=s.replace(/\s/g,'').replace(/,/g,'.');const n=parseFloat(s);return isNaN(n)?0:n;}
@@ -205,8 +216,7 @@ function contractYear(v){if(v==null||v==='')return 2028;const m=(''+v).match(/(\
 function getCA(p){if(p.ca!=null&&!isNaN(+p.ca))return +p.ca;if(p.calidad!=null)return Math.max(1,Math.min(200,Math.round(+p.calidad*2)));return 100;}
 function getPA(p){if(p.pa!=null&&!isNaN(+p.pa))return +p.pa;if(p.potencial!=null)return Math.max(1,Math.min(200,Math.round(+p.potencial*2)));return 120;}
 function q99(v){return Math.round(v/2);}
-function migrate(p){p.pos=normPos(p.pos);if(p.ca==null&&p.calidad!=null)p.ca=Math.round(+p.calidad*2);if(p.pa==null&&p.potencial!=null)p.pa=Math.round(+p.potencial*2);if(p.ca==null)p.ca=100;if(p.pa==null)p.pa=120;if(p.nacionalidad==null)p.nacionalidad=p.nac||p.nacion||'Islandia';if(p.salario==null)p.salario=+(p.sal||p.salario_sem!=null?p.salario_sem*52:30000)||30000;return p;}
-const NEED={POR:3,LD:2,DFC:4,LI:2,MCD:2,MC:3,MCO:2,EI:2,ED:2,DC:3}; // 25 ideal
+function migrate(p){const raw=p.posFull||p.pos;p.posList=Array.isArray(p.posList)&&p.posList.length?p.posList.filter(x=>x!=='MCD'):parsePositions(raw);if(!p.posList.length)p.posList=['MC'];p.pos=p.posList[0]||'MC';if(p.posLock&&p.posLock==='MCD')p.posLock='MC';if(p.ca==null&&p.calidad!=null)p.ca=Math.round(+p.calidad*2);if(p.pa==null&&p.potencial!=null)p.pa=Math.round(+p.potencial*2);if(p.ca==null)p.ca=100;if(p.pa==null)p.pa=120;if(p.nacionalidad==null)p.nacionalidad=p.nac||p.nacion||'Islandia';if(p.salario==null)p.salario=+(p.sal||p.salario_sem!=null?p.salario_sem*52:30000)||30000;return p;}
 const DEFAULT_TEAMS=[
 {name:'Lettir',div:'Besta deild karla · Nivel 1',tipo:'CENTRAL',color:'#22c55e'},
 {name:'ÍF Höttur',div:'2. deild karla · Nivel 3',tipo:'FILIAL',color:'#38bdf8'},
@@ -225,12 +235,12 @@ function goTab(id,btn){document.querySelectorAll('.tab').forEach(t=>t.classList.
 function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
 const FN=['Jón','Sigurður','Guðmundur','Kristján','Einar','Ólafur','Davíð','Aron','Birkir','Daníel','Viktor','Ragnar','Sævar','Hákon','Ísak','Mikael','Patrik','Andri','Logi','Ari'];
 const LN=['Sigurðsson','Jónsson','Einarsson','Guðmundsson','Kristjánsson','Ólafsson','Davíðsson','Arnarson','Pálsson','Ragnarsson','Hákonarson','Viktorsson','Bjarnason','Þórsson','Magnússon','Stefánsson'];
-const POSPOOL=['POR','POR','LD','LD','DFC','DFC','DFC','DFC','LI','LI','MCD','MCD','MC','MC','MC','MCO','MCO','EI','EI','ED','ED','DC','DC','DC'];
+const POSPOOL=['POR','POR','LD','LD','DFC','DFC','DFC','DFC','LI','LI','MC','MC','MC','MC','MC','MCO','MCO','EI','EI','ED','ED','DC','DC','DC'];
 function genDemo(silent){players=[];const tn=DEFAULT_TEAMS.map(t=>t.name);
 for(let i=0;i<110;i++){const pos=POSPOOL[i%POSPOOL.length];let ca,pa;
 const r=Math.random();if(r<0.09){ca=rnd(156,176);pa=rnd(164,188);}else if(r<0.35){ca=rnd(136,156);pa=rnd(150,176);}else if(r<0.7){ca=rnd(116,136);pa=rnd(130,164);}else{ca=rnd(90,116);pa=rnd(110,150);}
 const edad=pa>=170?rnd(16,21):rnd(17,33);
-players.push({id:uid()+i,nombre:FN[rnd(0,FN.length-1)]+' '+LN[rnd(0,LN.length-1)],edad,pos,ca,pa,precio:q99(ca)*q99(ca)*360+pa*1800+rnd(0,200000),salario:q99(ca)*4400+rnd(0,30000),contrato:rnd(2027,2030),clausula:q99(ca)*180000,equipo:tn[i%5],nacionalidad:Math.random()<0.8?'Islandia':'Noruega',minutos:rnd(0,2500),goles:POS_LINE[pos]==='DEL'?rnd(0,18):rnd(0,5),asist:rnd(0,10)});}
+players.push({id:uid()+i,nombre:FN[rnd(0,FN.length-1)]+' '+LN[rnd(0,LN.length-1)],edad,pos,posFull:pos,posList:[pos],ca,pa,precio:q99(ca)*q99(ca)*360+pa*1800+rnd(0,200000),salario:q99(ca)*4400+rnd(0,30000),contrato:rnd(2027,2030),clausula:q99(ca)*180000,equipo:tn[i%5],nacionalidad:Math.random()<0.8?'Islandia':'Noruega',minutos:rnd(0,2500),goles:POS_LINE[pos]==='DEL'?rnd(0,18):rnd(0,5),asist:rnd(0,10)});}
 save();if(!silent)renderAll();}
 // ---- RENDER ----
 function teamOpts(){const s1=document.getElementById('a_equipo'),s2=document.getElementById('fTeam');if(s1)s1.innerHTML=teams.map(t=>'<option>'+t.name+'</option>').join('');if(s2){const v=s2.value;s2.innerHTML='<option value="">Todos los equipos</option>'+teams.map(t=>'<option>'+t.name+'</option>').join('');if(v)s2.value=v;}}
@@ -244,11 +254,11 @@ el.innerHTML='<div class="kpi"><b>'+players.length+'</b><small>Jugadores totales
 +'<div class="kpi"><b>'+fmt(players.reduce((x,p)=>x+(+p.precio||0),0))+' €</b><small>Valor plantilla</small></div>';}
 function renderMatrix(){const poss=Object.keys(NEED);let h='<tr><th>POS / Equipo</th>'+teams.map(t=>'<th>'+t.name+'</th>').join('')+'<th>TOTAL</th></tr>';
 poss.forEach(pos=>{h+='<tr><td><b>'+pos+'</b> <span class="pill">'+POS_LINE[pos]+'</span></td>';let tot=0;
-teams.forEach(t=>{const l=players.filter(p=>p.equipo===t.name&&p.pos===pos);tot+=l.length;const m=l.length?(l.reduce((x,p)=>x+getCA(p),0)/l.length).toFixed(0):'-';
+teams.forEach(t=>{const l=players.filter(p=>p.equipo===t.name&&effPos(p).includes(pos));tot+=l.length;const m=l.length?(l.reduce((x,p)=>x+getCA(p),0)/l.length).toFixed(0):'-';
 const cls=l.length<Math.max(1,NEED[pos]-2)?'low':(l.length>=NEED[pos]-1?'good':'');h+='<td class="'+cls+'">'+l.length+' <small style="color:var(--mut)">('+m+')</small></td>';});h+='<td><b>'+tot+'</b></td></tr>';});
 h+='<tr><td><b>TOTAL / media CA</b></td>'+teams.map(t=>{const l=players.filter(p=>p.equipo===t.name);const m=l.length?(l.reduce((x,p)=>x+getCA(p),0)/l.length).toFixed(1):'-';return '<td><b>'+l.length+'</b> <small>('+m+')</small></td>';}).join('')+'<td><b>'+players.length+'</b></td></tr>';
 document.getElementById('matrix').innerHTML=h;
-let al='';teams.forEach(t=>{Object.keys(NEED).forEach(pos=>{const n=players.filter(p=>p.equipo===t.name&&p.pos===pos).length;if(n===0)al+='<div class="alert">⚠️ <b>'+t.name+'</b> sin ningún <b>'+pos+'</b> — cede uno ahí.</div>';});});
+let al='';teams.forEach(t=>{Object.keys(NEED).forEach(pos=>{const n=players.filter(p=>p.equipo===t.name&&effPos(p).includes(pos)).length;if(n===0)al+='<div class="alert">⚠️ <b>'+t.name+'</b> sin ningún <b>'+pos+'</b> — cede uno ahí.</div>';});});
 const avgs=teams.map(t=>{const l=players.filter(p=>p.equipo===t.name);return l.length?l.reduce((x,p)=>x+getCA(p),0)/l.length:0;});
 const mx=Math.max(...avgs,0),mn=Math.min(...avgs,200);
 if(avgs.length&&mx-mn>8)al+='<div class="alert">⚖️ Desequilibrio: diferencia de media '+ (mx-mn).toFixed(1) +' pts CA entre el más fuerte ('+mx.toFixed(1)+') y el más flojo ('+mn.toFixed(1)+'). Usa 🔀 Reparto equitativo.</div>';
@@ -258,27 +268,44 @@ function renderTops(){const by=[...players].sort((a,b)=>getPA(b)-getPA(a)).slice
 const row=p=>'<div style="font-size:12.5px;padding:4px 0;border-bottom:1px solid #223344"><b>'+p.nombre+'</b> <span class="pill">'+p.pos+'</span> <span class="star">'+getCA(p)+'/'+getPA(p)+'</span><br><small style="color:var(--mut)">'+p.edad+' años · '+(p.nacionalidad||'')+' · '+p.equipo+' · '+fmt(p.precio)+'€</small></div>';
 document.getElementById('topPot').innerHTML=by.map(row).join('');document.getElementById('topCal').innerHTML=by2.map(row).join('');document.getElementById('topVal').innerHTML=by3.map(row).join('');}
 function renderPlayers(){const q=(document.getElementById('fSearch').value||'').toLowerCase(),ft=document.getElementById('fTeam').value,fp=document.getElementById('fPos').value,fl=document.getElementById('fLinea').value,so=document.getElementById('fSort').value;
-let l=players.filter(p=>(!q||p.nombre.toLowerCase().includes(q))&&(!ft||p.equipo===ft)&&(!fp||p.pos===fp)&&(!fl||POS_LINE[p.pos]===fl));
+let l=players.filter(p=>(!q||p.nombre.toLowerCase().includes(q))&&(!ft||p.equipo===ft)&&(!fp||effPos(p).includes(fp))&&(!fl||effPos(p).some(x=>(POS_LINE[x]||'MED')===fl)));
 l.sort((a,b)=>so==='nombre'?a.nombre.localeCompare(b.nombre):so==='edad'?a.edad-b.edad:so==='precio'?b.precio-a.precio:so==='potencial'?getPA(b)-getPA(a):getCA(b)-getCA(a));
-document.getElementById('pBody').innerHTML=l.slice(0,400).map(p=>{const ca=getCA(p),pa=getPA(p),mg=pa-ca;
-return '<tr><td><b style="cursor:pointer" onclick="editPlayer(\''+p.id+'\')">'+p.nombre+'</b> <small><button class="btn2" style="padding:2px 6px;margin:0" onclick="editPlayer(\''+p.id+'\')">✏️</button><button class="btn2" style="padding:2px 6px;margin:0" onclick="dupPlayer(\''+p.id+'\')">📋</button><button class="danger" style="padding:2px 6px" onclick="delPlayer(\''+p.id+'\')">❌</button></small></td><td><small>'+(p.nacionalidad||'')+'</small></td><td><span class="badge b-'+POS_LINE[p.pos].toLowerCase()+'">'+p.pos+'</span><br><small style="color:var(--mut)">'+(p.posFull||'')+'</small></td><td>'+(suggest[p.id]&&suggest[p.id]!==p.equipo?'<s style="color:var(--mut)">'+p.equipo+'</s><br><b style="color:var(--acc)">→ '+suggest[p.id]+'</b>':p.equipo)+'</td><td>'+p.edad+'</td><td><b>'+ca+'</b></td><td>'+mg+'</td><td><span class="star">'+pa+'</span></td><td>'+fmt(p.precio)+'€</td><td>'+(p.contrato||'')+'</td></tr>';}).join('');}
+document.getElementById('pBody').innerHTML=l.slice(0,400).map(p=>{const ca=getCA(p),pa=getPA(p),mg=pa-ca;const ep=effPos(p);const extra=ep.filter(x=>x!==p.pos);
+return '<tr><td><b style="cursor:pointer" onclick="editPlayer(\''+p.id+'\')">'+p.nombre+'</b> '+(p.posLock?'<span class="pill" title="Posición fijada manual">🔒</span>':'')+'<small><button class="btn2" style="padding:2px 6px;margin:0" onclick="editPlayer(\''+p.id+'\')">✏️</button><button class="btn2" style="padding:2px 6px;margin:0" onclick="dupPlayer(\''+p.id+'\')">📋</button><button class="danger" style="padding:2px 6px" onclick="delPlayer(\''+p.id+'\')">❌</button></small></td><td><small>'+(p.nacionalidad||'')+'</small></td><td><span class="badge b-'+((POS_LINE[p.pos]||'MED').toLowerCase())+'">'+p.pos+'</span>'+(extra.length?'<br><small style="color:#7dd3fc">+'+extra.join(' +')+'</small>':'')+'<br><small style="color:var(--mut)">'+(p.posFull||'')+'</small></td><td>'+(suggest[p.id]&&suggest[p.id]!==p.equipo?'<s style="color:var(--mut)">'+p.equipo+'</s><br><b style="color:var(--acc)">→ '+suggest[p.id]+'</b>':p.equipo)+'</td><td>'+p.edad+'</td><td><b>'+ca+'</b></td><td>'+mg+'</td><td><span class="star">'+pa+'</span></td><td>'+fmt(p.precio)+'€</td><td>'+(p.contrato||'')+'</td></tr>';}).join('');}
+function bestXI(team){const l=players.filter(p=>p.equipo===team);const used=new Set();const pick=pos=>{const c=l.filter(p=>effPos(p).includes(pos)&&!used.has(p.id)).sort((a,b)=>score(b)-score(a))[0];if(c)used.add(c.id);return c;};
+const xi={};TACTIC.forEach(s=>{xi[s.slot]=pick(s.pos);});return xi;}
+function xiAvg(xi){const v=Object.values(xi).filter(Boolean);return v.length?(v.reduce((x,p)=>x+getCA(p),0)/v.length).toFixed(1):'-';}
+function shirt(p,rol){if(!p)return '<div style="background:#0b141d;border:1px dashed #7f1d1d;border-radius:10px;padding:8px;text-align:center;font-size:11px;color:#fca5a5">vacío<br><small>'+rol+'</small></div>';
+return '<div style="background:#0e1a27;border:1px solid var(--line);border-radius:10px;padding:8px;text-align:center"><b style="font-size:12px">'+p.nombre+'</b><br><small style="color:var(--mut)">'+rol+' · CA '+getCA(p)+'</small></div>';}
 function renderTeams(){const c=document.getElementById('teamCards');
 c.innerHTML=teams.map((t,i)=>{const l=players.filter(p=>p.equipo===t.name);const m=l.length?(l.reduce((x,p)=>x+getCA(p),0)/l.length).toFixed(1):'-';
 return '<div class="team" style="border-top-color:'+t.color+'"><h4>'+t.name+'</h4><small>'+t.div+'</small><br><span class="badge '+(t.tipo==='CENTRAL'?'b-central':'b-filial')+'">'+t.tipo+'</span><div style="margin:8px 0"><b style="font-size:22px">'+l.length+'</b> <small>jug · media CA '+m+'</small></div><div class="filters" style="margin:0"><button class="btn2" onclick="editTeam('+i+')">✏️</button><button class="danger" onclick="delTeam('+i+')">🗑</button></div></div>';}).join('');
 let h='';teams.forEach(t=>{const l=players.filter(p=>p.equipo===t.name).sort((a,b)=>score(b)-score(a));
-const xi=l.slice(0,11).map(p=>p.nombre+' ('+p.pos+' '+getCA(p)+')').join(', ')||'—';
-h+='<details '+(t.tipo==='CENTRAL'?'open':'')+'><summary>'+t.name+' — '+l.length+' jug · XI: '+xi.slice(0,120)+'...</summary><div class="tblwrap"><table><tr><th>Jugador</th><th>Pos</th><th>Edad</th><th>CA/PA</th><th>Precio</th><th>G/A</th></tr>'+l.map(p=>'<tr><td>'+p.nombre+'</td><td>'+p.pos+'</td><td>'+p.edad+'</td><td>'+getCA(p)+'/'+getPA(p)+'</td><td>'+fmt(p.precio)+'€</td><td>'+(p.goles||0)+'/'+(p.asist||0)+'</td></tr>').join('')+'</table></div></details>';});
+const xi=bestXI(t.name);const faltan=TACTIC.filter(s=>!xi[s.slot]).map(s=>s.slot);
+const xiLine=(xi.DC?xi.DC.nombre+' ('+getCA(xi.DC)+')':'vacío DC')+' · '+(xi.MCO?xi.MCO.nombre:'vacío MCO');
+h+='<details '+(t.tipo==='CENTRAL'?'open':'')+'><summary>'+t.name+' — '+l.length+' jug · media XI '+xiAvg(xi)+' · '+xiLine+'...</summary>';
+h+='<h3>⚽ XI New Sun Days (DLA + DLI/DLI + MP + MC/MC + LAT/DCT/DCT/LAT + PCI)</h3>';
+h+='<div style="background:#052e16;border:1px solid #22c55e55;border-radius:12px;padding:12px;margin-bottom:10px">'
++'<div style="max-width:560px;margin:auto;display:grid;gap:8px">'
++'<div>'+shirt(xi.DC,'DLA-At · DC')+'</div>'
++'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">'+shirt(xi.EI,'DLI-Ap · EI')+shirt(xi.MCO,'MP-At · MCO')+shirt(xi.ED,'DLI-Ap · ED')+'</div>'
++'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+shirt(xi.MC1,'MC-Ap')+shirt(xi.MC2,'MC-Ap')+'</div>'
++'<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px">'+shirt(xi.LI,'LAT-At · LI')+shirt(xi.DFC1,'DCT-De')+shirt(xi.DFC2,'DCT-De')+shirt(xi.LD,'LAT-At · LD')+'</div>'
++'<div style="max-width:180px;margin:auto">'+shirt(xi.POR,'PCI-De · POR')+'</div>'
++'</div>'+(faltan.length?'<div class="alert">⚠️ Faltan para el XI: <b>'+faltan.join(', ')+'</b> — cede de esa posición.</div>':'<div class="ok">✅ XI completo.</div>')+'</div>';
+h+='<div class="tblwrap"><table><tr><th>Jugador</th><th>Pos</th><th>Edad</th><th>CA/PA</th><th>Precio</th><th>Contrato</th></tr>'+l.map(p=>'<tr><td>'+p.nombre+'</td><td>'+p.pos+'</td><td>'+p.edad+'</td><td>'+getCA(p)+'/'+getPA(p)+'</td><td>'+fmt(p.precio)+'€</td><td>'+(p.contrato||'')+'</td></tr>').join('')+'</table></div></details>';});
 document.getElementById('teamSquads').innerHTML=h||'Sin jugadores';}
 // ---- CRUD ----
 function addPlayer(){const g=id=>document.getElementById(id).value;
 const nombre=g('a_nombre').trim();if(!nombre){alert('Pon el nombre');return;}
-players.push(migrate({id:uid(),nombre,edad:+g('a_edad'),pos:g('a_pos'),nacionalidad:g('a_nac')||'ISL',ca:+g('a_ca'),pa:+g('a_pa'),precio:+g('a_precio'),salario:+g('a_sal'),contrato:+g('a_con'),clausula:+g('a_clau'),equipo:g('a_equipo'),minutos:+g('a_min'),goles:+g('a_gol'),asist:+g('a_asi')}));
+players.push(migrate({id:uid(),nombre,edad:+g('a_edad'),pos:g('a_pos'),posFull:g('a_pos'),posList:[g('a_pos')],nacionalidad:g('a_nac')||'Islandia',ca:+g('a_ca'),pa:+g('a_pa'),precio:+g('a_precio'),salario:+g('a_sal'),contrato:+g('a_con'),clausula:+g('a_clau'),equipo:g('a_equipo'),minutos:+g('a_min'),goles:+g('a_gol'),asist:+g('a_asi')}));
 save();renderAll();document.getElementById('a_nombre').value='';alert('Guardado ✅');}
 function editPlayer(id){const p=players.find(x=>x.id===id);if(!p)return;
 const box=document.getElementById('editBox');
 box.innerHTML='<div class="card" style="border-color:var(--gold)"><h3>✏️ Editando: '+p.nombre+'</h3><div class="formgrid">'
 +'<label>Nombre<input id="e_nombre" value="'+p.nombre+'"></label><label>Edad<input id="e_edad" type="number" value="'+p.edad+'"></label>'
-+'<label>Pos<select id="e_pos">'+['POR','LD','DFC','LI','MCD','MC','MCO','EI','ED','DC'].map(o=>'<option '+(o===p.pos?'selected':'')+'>'+o+'</option>').join('')+'</select></label>'
++'<label>Posición base<input id="e_pos" value="'+(p.posFull||p.pos)+'" title="Texto Genius original"></label>'
++'<label>🔒 Fijar puesto<select id="e_lock"><option value="">Auto (todas: '+effPos(p).join(', ')+')</option>'+['POR','LD','DFC','LI','MC','MCO','EI','ED','DC'].map(o=>'<option value="'+o+'" '+(p.posLock===o?'selected':'')+'>Solo '+o+'</option>').join('')+'</select></label>'
 +'<label>Equipo<select id="e_equipo">'+teams.map(t=>'<option '+(t.name===p.equipo?'selected':'')+'>'+t.name+'</option>').join('')+'</select></label>'
 +'<label>Nac<input id="e_nac" value="'+(p.nacionalidad||'ISL')+'"></label><label>CA (0-200)<input id="e_ca" type="number" value="'+getCA(p)+'"></label>'
 +'<label>PA (0-200)<input id="e_pa" type="number" value="'+getPA(p)+'"></label>'
@@ -287,8 +314,8 @@ box.innerHTML='<div class="card" style="border-color:var(--gold)"><h3>✏️ Edi
 +'<label>Min/G/A<input id="e_min" value="'+(p.minutos||0)+'"></label></div><div class="filters"><button class="btn" onclick="saveEdit(\''+id+'\')">💾 Guardar</button><button class="btn2" onclick="document.getElementById(\'editBox\').innerHTML=\'\'">Cerrar</button></div></div>';
 goTab('add',document.querySelector('[data-t="add"]'));}
 function saveEdit(id){const p=players.find(x=>x.id===id);const g=x=>document.getElementById(x).value;
-Object.assign(p,{nombre:g('e_nombre'),edad:+g('e_edad'),pos:normPos(g('e_pos')),equipo:g('e_equipo'),nacionalidad:g('e_nac')||'ISL',ca:Math.max(1,Math.min(200,+g('e_ca')||100)),pa:Math.max(1,Math.min(200,+g('e_pa')||120)),precio:+g('e_precio'),salario:+g('e_sal'),contrato:+g('e_con'),clausula:+g('e_clau'),minutos:+g('e_min')});
-migrate(p);save();renderAll();document.getElementById('editBox').innerHTML='';}
+const lk=g('e_lock');Object.assign(p,{nombre:g('e_nombre'),edad:+g('e_edad'),posFull:g('e_pos'),posLock:lk||'',equipo:g('e_equipo'),nacionalidad:g('e_nac')||'Islandia',ca:Math.max(1,Math.min(200,+g('e_ca')||100)),pa:Math.max(1,Math.min(200,+g('e_pa')||120)),precio:+g('e_precio'),salario:+g('e_sal'),contrato:+g('e_con'),clausula:+g('e_clau'),minutos:+g('e_min')});
+migrate(p);if(p.posLock)p.pos=p.posLock;save();renderAll();document.getElementById('editBox').innerHTML='';}
 function dupPlayer(id){const p=players.find(x=>x.id===id);const c={...p,id:uid(),nombre:p.nombre+' (2)'};players.push(c);save();renderAll();}
 function delPlayer(id){if(!confirm('¿Vender/borrar jugador?'))return;players=players.filter(x=>x.id!==id);save();renderAll();}
 function addTeam(){const n=prompt('Nombre del nuevo equipo central:');if(!n)return;teams.push({name:n,div:'Por definir',tipo:'CENTRAL',color:'#22c55e'});save();renderAll();}
@@ -303,29 +330,31 @@ suggest={};
 if(mode==='piramide'){ // Lettir top picks por posición, resto snake entre filiales
 const lettir=order[0],fils=order.slice(1);
 let counts={};order.forEach(o=>counts[o]=0);
-Object.keys(NEED).forEach(pos=>{let pool=sorted.filter(p=>p.pos===pos);let li=0;
+const done=new Set();
+Object.keys(NEED).forEach(pos=>{let pool=sorted.filter(p=>!done.has(p.id)&&effPos(p).includes(pos));let li=0;
 pool.forEach((p,idx)=>{let dest;
 if(idx<NEED[pos]&&counts[lettir]<size){dest=lettir;}
 else{dest=fils[li%fils.length];li++;}
-suggest[p.id]=dest;});});
+suggest[p.id]=dest;done.add(p.id);});});
 // reequilibrar tamaños: mover peores al equipo con menos
 balanceSizes(size);
-}else{ // snake puro por posición
-Object.keys(NEED).forEach(pos=>{let pool=sorted.filter(p=>p.pos===pos);
+}else{ // snake puro por posición (cada jugador se asigna una vez, por su primera posición necesitada)
+const done=new Set();
+Object.keys(NEED).forEach(pos=>{let pool=sorted.filter(p=>!done.has(p.id)&&effPos(p).includes(pos));
 let dir=1,idx=0;
-pool.forEach(p=>{suggest[p.id]=order[idx];idx+=dir;if(idx>=order.length){idx=order.length-1;dir=-1;}else if(idx<0){idx=0;dir=1;}});});
+pool.forEach(p=>{suggest[p.id]=order[idx];done.add(p.id);idx+=dir;if(idx>=order.length){idx=order.length-1;dir=-1;}else if(idx<0){idx=0;dir=1;}});});
 // protección jóvenes: si un sub19 top acabó en Lettir sin minutos, mandarlo al filial más flojo en su posición
-if(prot){Object.keys(NEED).forEach(pos=>{let young=sorted.filter(p=>p.pos===pos&&p.edad<=19&&getPA(p)>=150);
+if(prot){Object.keys(NEED).forEach(pos=>{let young=sorted.filter(p=>effPos(p).includes(pos)&&p.edad<=19&&getPA(p)>=150);
 young.forEach(y=>{if(suggest[y.id]===order[0]){let dest=order.slice(1).sort((a,b)=>avgCal(a,pos)-avgCal(b,pos))[0];if(dest)suggest[y.id]=dest;}});});}}
-function avgCal(team,pos){const l=players.filter(p=>suggest[p.id]===team&&p.pos===pos);return l.length?l.reduce((x,p)=>x+getCA(p),0)/l.length:0;}
+function avgCal(team,pos){const l=players.filter(p=>suggest[p.id]===team&&effPos(p).includes(pos));return l.length?l.reduce((x,p)=>x+getCA(p),0)/l.length:0;}
 function balanceSizes(size){/* ya limitado por NEED, resto por score snake global */
 const assigned=new Set(Object.keys(suggest));const rest=sorted.filter(p=>!assigned.has(p.id));
 let counts={};order.forEach(o=>counts[o]=Object.values(suggest).filter(s=>s===o).length);
 let i=0;rest.forEach(p=>{let cands=order.filter(o=>counts[o]<size+3);if(!cands.length)cands=order;const d=cands[i%cands.length];suggest[p.id]=d;counts[d]++;i++;});}
 let h='<div class="ok">✅ Reparto calculado ('+(mode==='equitativo'?'equitativo total':'pirámide')+'). Tabla = <b>sugerencia de cesión</b>. Pulsa “Aplicar” para moverlos de verdad.</div>';
 h+='<div class="tblwrap"><table><tr><th>#</th><th>Jugador</th><th>Pos</th><th>Edad</th><th>Cal/Pot</th><th>Score</th><th>Equipo actual</th><th>➡ Ceder a</th><th>Motivo</th></tr>';
-sorted.forEach((p,i)=>{const dest=suggest[p.id];const move=dest!==p.equipo?'🔀':'=';const ca=getCA(p),pa=getPA(p);const mot=p.edad<=19&&pa>=156?'💎 Joven TOP → donde sea titular':(ca>=156?'⭐ Crack → reparto equitativo':(ca<=110?'🛠 Desarrollo → filial baja':'⚖️ Equilibrio por '+p.pos));
-h+='<tr><td>'+(i+1)+'</td><td><b>'+p.nombre+'</b></td><td>'+p.pos+'</td><td>'+p.edad+'</td><td>'+ca+'/'+pa+'</td><td>'+score(p).toFixed(1)+'</td><td>'+p.equipo+'</td><td><b style="color:var(--acc)">'+dest+'</b> '+move+'</td><td><small>'+mot+'</small></td></tr>';});
+sorted.forEach((p,i)=>{const dest=suggest[p.id];const move=dest!==p.equipo?'🔀':'=';const ca=getCA(p),pa=getPA(p);const mot=p.edad<=19&&pa>=156?'💎 Joven TOP → donde sea titular':(ca>=156?'⭐ Crack → reparto equitativo':(ca<=110?'🛠 Desarrollo → filial baja':'⚖️ Equilibrio por '+effPos(p).join('/')));
+h+='<tr><td>'+(i+1)+'</td><td><b>'+p.nombre+'</b></td><td>'+effPos(p).join('/')+(p.posLock?' 🔒':'')+'</td><td>'+p.edad+'</td><td>'+ca+'/'+pa+'</td><td>'+score(p).toFixed(1)+'</td><td>'+p.equipo+'</td><td><b style="color:var(--acc)">'+dest+'</b> '+move+'</td><td><small>'+mot+'</small></td></tr>';});
 h+='</table></div>';
 // resumen por equipo
 h+='<h3>📦 Plantillas resultantes (sugeridas)</h3><div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))">';
@@ -343,7 +372,7 @@ save();renderAll();alert('Cesiones aplicadas ✅');}
 // ---- IMPORT/EXPORT Genie 0-200 ----
 function exportJSON(){const b=new Blob([JSON.stringify({teams,players},null,2)],{type:'application/json'});dl(b,'lettir-fm.json');}
 function exportCSV(){const head='nombre,nacion,posicion,club,edad,hab_actual,dif,hab_potencial,valor,final_contrato,salario,clausula,id_fm';
-const rows=players.map(p=>{const ca=getCA(p),pa=getPA(p);return ['"'+(p.nombre||'')+'"','"'+(p.nacionalidad||'')+'"',(p.posFull||p.pos),'"'+(p.equipo||'')+'"',p.edad,ca,(pa-ca),pa,p.precio,p.contrato||'',p.salario||0,p.clausula||0,(p.id_fm||'')].join(',');});
+const rows=players.map(p=>{const ca=getCA(p),pa=getPA(p);return ['"'+(p.nombre||'')+'"','"'+(p.nacionalidad||'')+'"','"'+(p.posFull||p.pos)+'"','"'+(p.equipo||'')+'"',p.edad,ca,(pa-ca),pa,p.precio,p.contrato||'',p.salario||0,p.clausula||0,(p.id_fm||'')].join(',');});
 dl(new Blob(["\uFEFF"+[head,...rows].join('\n')],{type:'text/csv;charset=utf-8'}),'lettir-fm.csv');}
 function dl(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();}
 function handleImportText(txt,fname){if(fname&&fname.endsWith('.json')){const d=JSON.parse(txt);if(d.players)players=d.players.map(migrate);else if(Array.isArray(d))players=d.map(migrate);if(d.teams)teams=d.teams;}else{parseCSV(txt);}save();renderAll();alert('Importado ✅ '+players.length+' jugadores en total');}
