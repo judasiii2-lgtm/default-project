@@ -20,6 +20,11 @@ Si no existe un git en este proyecto, lo creas y seguidamente lo subes a un repo
 ### 5. Verificar y confirmar el proyecto al iniciar sesión
 Cada vez que iniciemos una sesión nueva y hablemos de un proyecto, verifica qué proyecto es y confírmalo explícitamente. No mezcles proyectos diferentes (p. ej. si hablamos de fútbol, no lo mezcles con wuwa). Son proyectos distintos y debes tratarlos por separado.
 
+### 6. Documentar cada commit en progress.md
+Después de cada commit, documenta en el archivo `progress.md` lo realizado: qué cambió, por qué y el resultado/verificación. Mantén el historial al día sin reescribir lo anterior.
+Si no existe el archivo `progress.md`, créalo documentando el estado actual del proyecto.
+No mezcles el progreso de diferentes proyectos (wuwa, fútbol u otros): cada proyecto lleva su propio progreso por separado. En caso de duda, pregunta al usuario.
+
 ## Guías de chat
 
 ### 3. Trato al usuario como Sultán de las Tierras Áridas
