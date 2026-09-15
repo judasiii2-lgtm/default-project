@@ -448,7 +448,7 @@ if(n.includes('magni')||n.includes('grenivik'))return teams.find(t=>normAsc(t.na
 if(n.includes('hamrarnir')||n.includes('hamrar'))return teams.find(t=>normAsc(t.name).includes('hamrarnir'))?.name||teams[0].name;
 if(n.includes('kria'))return teams.find(t=>normAsc(t.name).includes('kria'))?.name||teams[0].name;
 const exact=teams.find(t=>normAsc(t.name)===n);if(exact)return exact.name;
-return name.trim();}
+return teams[0].name;}
 function parseCSV(t){t=(''+t).replace(/^\uFEFF/,'').trim();const lines=t.split('\n').filter(x=>x.trim()!=='');if(lines.length<2){alert('CSV vacío o sin cabecera');return;}const hline=lines[0];
 const cands=[';','\t',','];let D=',',best=0;
 cands.forEach(d=>{const n=splitDelim(hline,d).length;const m=splitDelim(lines[1]||'',d).length;const sc=n>1&&n===m?n:(n>1?n-0.5:0);if(sc>best){best=sc;D=d;}});
