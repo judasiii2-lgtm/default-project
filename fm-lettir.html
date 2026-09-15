@@ -80,7 +80,7 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 </div>
 <div class="card">
 <h3>💰 Mercado: qué vender, qué ceder, qué fichar</h3>
-<p class="sub">Sobrantes por encima de 2 por puesto → vender (van fuera). Huecos → fichar. Las cesiones entre filiales las manda el 🔀 Reparto.</p>
+<p class="sub">Cada jugador cuenta una vez, en su puesto base. Sobrantes sobre el ideal (2 por puesto, 4 en DFC/MC) → vender o ceder. Huecos → fichar o tapar con multiposición. Las cesiones entre filiales las manda el 🔀 Reparto.</p>
 <div id="mercado"></div>
 </div>
 <div class="card">
@@ -279,17 +279,39 @@ let h='';let gS=0,gB=0;
 teams.forEach(t=>{
 const mine=players.filter(p=>p.equipo===t.name);
 const avg=mine.length?mine.reduce((x,p)=>x+getCA(p),0)/mine.length:120;
-const sell=[],buy=[];const used=new Set();
+// Cupos como el 22 ideal: cada jugador ocupa UN cupo (el mejor puesto libre que cubra). Lo que no entra en el 22 sobra; lo que falta para 22 hay que ficharlo.
+const left=new Set(mine.map(p=>p.id));
+const slot={};
 Object.keys(NEED).forEach(pos=>{
-const l=mine.filter(p=>!used.has(p.id)&&effPos(p).includes(pos)).sort((a,b)=>score(a)-score(b));
-if(l.length>NEED[pos]){l.slice(0,l.length-NEED[pos]).forEach(p=>{used.add(p.id);sell.push({p,pos});});}
-else if(l.length<NEED[pos]){buy.push({pos,need:NEED[pos]-l.length});}
+const c=mine.filter(p=>left.has(p.id)&&effPos(p).includes(pos)).sort((a,b)=>score(b)-score(a)).slice(0,NEED[pos]);
+slot[pos]=c;c.forEach(p=>left.delete(p.id));});
+const sell=mine.filter(p=>left.has(p.id)).sort((a,b)=>score(a)-score(b));
+const buy=[];
+Object.keys(NEED).forEach(pos=>{
+const miss=NEED[pos]-(slot[pos]||[]).length;
+if(miss>0){
+const tapa=mine.filter(q=>(slot[pos]||[]).indexOf(q)<0&&effPos(q).includes(pos)).sort((a,b)=>score(b)-score(a))[0];
+buy.push({pos,need:miss,tapa:tapa?tapa.nombre+' ('+posL(tapa.posLock||tapa.pos)+', '+getCA(tapa)+'/'+getPA(tapa)+')':''});}
 });
-gS+=sell.length;gB+=buy.reduce((x,b)=>x+b.need,0);
-h+='<details '+(t.tipo==='CENTRAL'?'open':'')+' style="margin-bottom:10px"><summary style="font-size:15px"><b>'+t.name+'</b> — 🛒 vender '+sell.length+' · 🎯 fichar '+buy.reduce((x,b)=>x+b.need,0)+'</summary>';
+const buyNeed=buy.reduce((x,b)=>x+b.need,0);
+gS+=sell.length;gB+=buyNeed;
+const after=mine.length-sell.length+buyNeed;
+const txt=sell.map(p=>{
+const ca=getCA(p),pa=getPA(p),mg=pa-ca,ep=effPos(p);
+const base=p.posLock||p.pos;
+const quedan=((slot[base]||[]).map(q=>q.nombre+' ('+getCA(q)+'/'+getPA(q)+')').join(', ')||'nadie');
+let mot='';
+if(p.edad<=19&&pa>=150)mot='💎 Joven TOP con margen +'+mg+': antes de vender, CÉDELO a una filial donde sea titular.';
+else if(p.edad>=32)mot='📉 Veterano de '+p.edad+' años sin margen (+'+mg+'): vende y libera salario/hueco.';
+else if(mg>=40)mot='🌱 Tiene margen (+'+mg+') pero no entra en el 22: cede o vende (con recompra si puedes).';
+else mot='🛠 No le da para el 22 y sin margen (+'+mg+'): no va a jugar.';
+return '<b>'+p.nombre+'</b> ('+ep.map(posL).join('/')+' '+ca+'/'+pa+', '+p.edad+'a, '+fmt(p.precio)+'€, score '+score(p).toFixed(0)+')'
++'<br><small>Por qué: no entra en el 22 ideal — en su puesto ('+posL(base)+') se quedan: '+quedan+'. '+mot+'</small>';});
+h+='<details '+(t.tipo==='CENTRAL'?'open':'')+' style="margin-bottom:10px"><summary style="font-size:15px"><b>'+t.name+'</b> ('+mine.length+' jug) — 🛒 vender '+sell.length+' · 🎯 fichar '+buyNeed+'</summary>';
+h+='<div style="font-size:13px;color:var(--mut)">Plantilla: '+mine.length+' − '+sell.length+' ventas + '+buyNeed+' fichajes = <b>'+after+'</b> (ideal 22)</div>';
 if(!sell.length&&!buy.length){h+='<div class="ok" style="font-size:15px">✅ Plantilla clavada al ideal, nada que tocar.</div>';}
-if(sell.length)h+='<div class="alert" style="font-size:15px;padding:12px">🛒 <b>VENDER (sobran, los peores primero):</b><br>'+sell.map(s=>'<b>'+s.p.nombre+'</b> ('+posL(s.pos)+' '+getCA(s.p)+'/'+getPA(s.p)+', '+s.p.edad+'a, '+fmt(s.p.precio)+'€)').join('<br>')+'</div>';
-if(buy.length)h+='<div class="ok" style="font-size:15px;padding:12px">🎯 <b>FICHAR:</b><br>'+buy.map(b=>'<b>'+b.need+'× '+posL(b.pos)+'</b> de CA~'+Math.round(avg)+'+').join('<br>')+'</div>';
+if(sell.length)h+='<div class="alert" style="font-size:15px;padding:12px">🛒 <b>VENDER (no entran en el 22, peor score primero):</b><br><br>'+txt.join('<br><br>')+'</div>';
+if(buy.length)h+='<div class="ok" style="font-size:15px;padding:12px">🎯 <b>FICHAR:</b><br>'+buy.map(b=>'<b>'+b.need+'× '+posL(b.pos)+'</b> de CA~'+Math.round(avg)+'+'+(b.tapa?'<br><small>Lo tapa de momento '+b.tapa+' — ficha para doblar el puesto.</small>':'')).join('<br>')+'</div>';
 h+='</details>';});
 box.innerHTML='<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-bottom:12px">'
 +'<div class="kpi"><b style="font-size:30px">'+gS+'</b><small style="font-size:14px">ventas aconsejadas</small></div>'
