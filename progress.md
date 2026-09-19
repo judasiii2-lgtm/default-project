@@ -23,7 +23,7 @@
 ### 4. Reparto equitativo total de los 110 (aplicado al CSV)
 - Lógica de la web (snake por posición + protección Sub-19 PA 75+ + tapa-huecos).
 - Resultado: Lettir 20 · Höttur 23 · Magni 21 · Hamrarnir 21 · Kría 25. Los 5 cubren las 9 posiciones, 0 huecos.
-- Aviso honesto: medias CA 127.6 / 121.1 / 120.6 / 118.7 / 116.6 (dif. 11 pts, la web avisa si >8). Lettir se queda el mejor de cada posición por ser primero en el snake.
+- Aviso honesto: medias CA Lettir 127.6 · Höttur 118.7 · Magni 120.6 · Hamrarnir 121.1 · Kría 116.6 (dif. 11 pts, la web avisa si >8). Lettir se queda el mejor de cada posición por ser primero en el snake.
 
 ### 5. Commit `cc56fd4` — repesca + reparto + mapTeam (pusheado)
 - Incluye cambio CSV (110 filas reasignadas) + fix `fm-lettir.html`. Árbol limpio.
@@ -36,3 +36,18 @@
 - Bug: contaba a cada jugador en TODAS sus posiciones a la vez → cupos inflados, 62 ventas, cracks (Velázquez, Silva) marcados como sobrantes y cuentas incoherentes (20−12+3).
 - Fix: cupos como el 22 ideal — cada jugador ocupa UN cupo; sobra quien no entra en el 22, falta lo que quede para 22. Cada venta explica por qué (quiénes se quedan, motivo 💎/📉/🌱/🛠) y cada fichaje dice quién lo tapa de momento.
 - Verificado offline: Lettir 20−4+6=22, Höttur 23−8+7=22, Magni 21−5+6=22, Hamrarnir 21−6+7=22, Kría 25−8+5=22. Total 31 ventas = 31 fichajes. Sin cracks vendidos.
+
+### 8. Commit `77a5295` — docs progress + Norma 6 (pusheado)
+- Creado este `progress.md` con el estado del Lettir + Norma 6 en `AGENTS.md` (documentar cada commit aquí, sin mezclar proyectos).
+
+### 9. Commit `fbdc5bf` — fix Mercado con cupo único (pusheado)
+- `fm-lettir.html`: cada jugador ocupa UN cupo del 22 ideal (ya no cuenta en todas sus posiciones); ventas con motivo y fichajes con tapa temporal.
+- Incluye avance de este `progress.md` (punto 7). Árbol limpio.
+
+## Sesión 2026-09-19 — revisión de recuperación
+- Confirmado proyecto Lettir (fútbol), no WuWa. Rama `proyectos-de-mierda` al día con `origin`, árbol limpio.
+- Verificado `plantilla-genius.csv`: 110 filas (Lettir 20 · Höttur 23 · Magni 21 · Hamrarnir 21 · Kría 25), 0 filas KR fantasma; Gunawan, Ferry en Lettir (CA 131/PA 159).
+- Verificado `fm-lettir.html`: `mapTeam` con fallback a `teams[0]` (sin equipos fantasma), `NEED` 22 ideal, Mercado con cupo único (`left`/`slot`), reparto snake + `applySuggestion`, claves `lettir_players`/`lettir_teams` separadas de WuWa (`sonance76`).
+- Verificado `index.html` WuWa SONANCE intacto y separado (solo menciona `fm-lettir.html` como enlace).
+- Corregido punto 4: medias CA con club explícito (Höttur 118.7 / Hamrarnir 121.1, estaban cruzadas) + documentados commits `77a5295` y `fbdc5bf` (Norma 6).
+- Medias re-medidas: Lettir 127.6 · Höttur 118.7 · Magni 120.6 · Hamrarnir 121.1 · Kría 116.6 (dif. 11 pts). Todo OK, pendiente commit de esta revisión si el usuario lo pide.
