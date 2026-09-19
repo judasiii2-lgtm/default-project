@@ -108,3 +108,7 @@
 - El Sultán aclara: no quería FLEX automático, sino recomendaciones escritas como las ventas ("cambia a Pepito de LD a LI"). Revertido FLEX (una sola posición) y reparto por grupos (vuelve snake por posición).
 - Nuevo en 💰 Mercado por equipo: caja 🔀 **CAMBIOS DE PUESTO** — si falta B y sobra su pareja A (LD↔LI, MPI↔MPD, mismos atributos), propone pasar sobrantes (mejor score primero) con botón Aplicar 🔒 (`setRole`), que fija el candado y recalcula todo. Sale en el resumen del equipo.
 - Verificado con sus datos: Magni Mazović LD→LI (113/179), Hamrarnir Hernández LD→LI (119/174) y Prieto ED→EI (131/184), Lettir Haraldsson LD→LI (63/64). `node --check` + smoke OK (pirámide 21/26/24/21/18, Lettir 164.1).
+
+## Sesión 2026-09-19 (11) — mercado también en 🛡️ Equipos
+- Pedido del Sultán: ventas/fichajes/cambios visibles por equipo. `renderMercado` guarda por equipo su HTML (`mercadoByTeam`) y conteos (`mercadoCount`); 🛡️ Equipos muestra en la tarjeta 🛒/🎯/🔀 y dentro del desplegable la sección 💰 Mercado completa (misma que Resumen, con botones Aplicar 🔒).
+- Verificado: 5/5 equipos con HTML (ej. Lettir 4 vender · 6 fichar · 1 cambiar). `node --check` + smoke OK.

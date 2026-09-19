@@ -235,7 +235,7 @@ const DEFAULT_TEAMS=[
 {name:'Magni Grenivík',div:'3. deild karla · Nivel 4',tipo:'FILIAL',color:'#fbbf24'},
 {name:'Hamrarnir · Grupo A',div:'5. deild karla A · Nivel 6',tipo:'FILIAL',color:'#a78bfa'},
 {name:'Kría · Grupo B',div:'5. deild karla B · Nivel 6',tipo:'FILIAL',color:'#f472b6'}];
-let players=[],teams=[],suggest={};
+let players=[],teams=[],suggest={},mercadoByTeam={},mercadoCount={};
 try{players=(JSON.parse(localStorage.getItem('lettir_players')||'[]')).map(migrate);teams=JSON.parse(localStorage.getItem('lettir_teams')||'null')||JSON.parse(JSON.stringify(DEFAULT_TEAMS));}catch(e){teams=JSON.parse(JSON.stringify(DEFAULT_TEAMS));}
 if(!players.length){genDemo(true);}
 function save(){localStorage.setItem('lettir_players',JSON.stringify(players));localStorage.setItem('lettir_teams',JSON.stringify(teams));}
@@ -278,7 +278,7 @@ if(avgs.length&&mx-mn>8)al+='<div class="alert">⚖️ Desequilibrio: diferencia
 else al+='<div class="ok">✅ Equilibrio OK: diferencia de medias '+(mx-mn).toFixed(1)+' pts CA. Plantillas nivel TOP.</div>';
 document.getElementById('alertas').innerHTML=al;}
 function renderMercado(){const box=document.getElementById('mercado');if(!box)return;
-let h='';let gS=0,gB=0;
+let h='';let gS=0,gB=0;mercadoByTeam={};mercadoCount={};
 teams.forEach(t=>{
 const mine=players.filter(p=>p.equipo===t.name);
 const avg=mine.length?mine.reduce((x,p)=>x+getCA(p),0)/mine.length:120;
@@ -316,11 +316,12 @@ else mot='🛠 No le da para el 22 y sin margen (+'+mg+'): no va a jugar.';
 return '<b>'+p.nombre+'</b> ('+ep.map(posL).join('/')+' '+ca+'/'+pa+', '+p.edad+'a, '+fmt(p.precio)+'€, score '+score(p).toFixed(0)+')'
 +'<br><small>Por qué: no entra en el 22 ideal — en su puesto ('+posL(base)+') se quedan: '+quedan+'. '+mot+'</small>';});
 h+='<details '+(t.tipo==='CENTRAL'?'open':'')+' style="margin-bottom:10px"><summary style="font-size:15px"><b>'+t.name+'</b> ('+mine.length+' jug) — 🛒 vender '+sell.length+' · 🎯 fichar '+buyNeed+(recs.length?' · 🔀 cambiar '+recs.length:'')+'</summary>';
-h+='<div style="font-size:13px;color:var(--mut)">Plantilla: '+mine.length+' − '+sell.length+' ventas + '+buyNeed+' fichajes = <b>'+after+'</b> (ideal 22)</div>';
-if(!sell.length&&!buy.length){h+='<div class="ok" style="font-size:15px">✅ Plantilla clavada al ideal, nada que tocar.</div>';}
-if(sell.length)h+='<div class="alert" style="font-size:15px;padding:12px">🛒 <b>VENDER (no entran en el 22, peor score primero):</b><br><br>'+txt.join('<br><br>')+'</div>';
-if(buy.length)h+='<div class="ok" style="font-size:15px;padding:12px">🎯 <b>FICHAR:</b><br>'+buy.map(b=>'<b>'+b.need+'× '+posL(b.pos)+'</b> de CA~'+Math.round(avg)+'+'+(b.tapa?'<br><small>Lo tapa de momento '+b.tapa+' — ficha para doblar el puesto.</small>':'')).join('<br>')+'</div>';
-if(recs.length)h+='<div class="skill" style="font-size:14px;padding:12px;border:1px solid var(--acc2)">🔀 <b>CAMBIOS DE PUESTO (mismos atributos, sin fichar):</b><br><br>'+recs.map(r=>'<b>'+r.p.nombre+'</b> ('+posL(r.from)+' '+getCA(r.p)+'/'+getPA(r.p)+', '+r.p.edad+'a) → pásalo a <b>'+posL(r.to)+'</b>: le da para el puesto y tapa el hueco. <button class="btn2" style="padding:3px 10px" onclick="setRole(\''+r.p.id+'\',\''+r.to+'\')">Aplicar 🔒</button>').join('<br><br>')+'</div>';
+let mh='<div style="font-size:13px;color:var(--mut)">Plantilla: '+mine.length+' − '+sell.length+' ventas + '+buyNeed+' fichajes = <b>'+after+'</b> (ideal 22)</div>';
+if(!sell.length&&!buy.length){mh+='<div class="ok" style="font-size:15px">✅ Plantilla clavada al ideal, nada que tocar.</div>';}
+if(sell.length)mh+='<div class="alert" style="font-size:15px;padding:12px">🛒 <b>VENDER (no entran en el 22, peor score primero):</b><br><br>'+txt.join('<br><br>')+'</div>';
+if(buy.length)mh+='<div class="ok" style="font-size:15px;padding:12px">🎯 <b>FICHAR:</b><br>'+buy.map(b=>'<b>'+b.need+'× '+posL(b.pos)+'</b> de CA~'+Math.round(avg)+'+'+(b.tapa?'<br><small>Lo tapa de momento '+b.tapa+' — ficha para doblar el puesto.</small>':'')).join('<br>')+'</div>';
+if(recs.length)mh+='<div class="skill" style="font-size:14px;padding:12px;border:1px solid var(--acc2)">🔀 <b>CAMBIOS DE PUESTO (mismos atributos, sin fichar):</b><br><br>'+recs.map(r=>'<b>'+r.p.nombre+'</b> ('+posL(r.from)+' '+getCA(r.p)+'/'+getPA(r.p)+', '+r.p.edad+'a) → pásalo a <b>'+posL(r.to)+'</b>: le da para el puesto y tapa el hueco. <button class="btn2" style="padding:3px 10px" onclick="setRole(\''+r.p.id+'\',\''+r.to+'\')">Aplicar 🔒</button>').join('<br><br>')+'</div>';
+h+=mh;mercadoByTeam[t.name]=mh;mercadoCount[t.name]={s:sell.length,b:buyNeed,r:recs.length};
 h+='</details>';});
 box.innerHTML='<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-bottom:12px">'
 +'<div class="kpi"><b style="font-size:30px">'+gS+'</b><small style="font-size:14px">ventas aconsejadas</small></div>'
@@ -342,8 +343,8 @@ const others=effPos(p).filter(x=>x!==slotPos).map(posL);
 return '<div style="font-size:12px"><b>'+(i+1)+'. '+p.nombre+'</b> <small style="color:var(--mut)">CA '+getCA(p)+'/'+getPA(p)+'</small>'+(others.length?'<br><small style="color:#7dd3fc">también '+others.join(' +')+'</small>':'')+'</div>';};
 return '<div style="background:#0e1a27;border:1px solid var(--line);border-radius:10px;padding:8px;text-align:center"><b>'+posL(slotPos)+'</b> <small style="color:var(--mut)">· '+rol+'</small><div style="margin-top:4px;display:grid;gap:4px">'+row(arr[0],0)+row(arr[1],1)+'</div></div>';}
 function renderTeams(){const c=document.getElementById('teamCards');
-c.innerHTML=teams.map((t,i)=>{const l=players.filter(p=>p.equipo===t.name);const m=l.length?(l.reduce((x,p)=>x+getCA(p),0)/l.length).toFixed(1):'-';
-return '<div class="team" style="border-top-color:'+t.color+'"><h4>'+t.name+'</h4><small>'+t.div+'</small><br><span class="badge '+(t.tipo==='CENTRAL'?'b-central':'b-filial')+'">'+t.tipo+'</span><div style="margin:8px 0"><b style="font-size:22px">'+l.length+'</b> <small>jug · media CA '+m+'</small></div><div class="filters" style="margin:0"><button class="btn2" onclick="editTeam('+i+')">✏️</button><button class="danger" onclick="delTeam('+i+')">🗑</button></div></div>';}).join('');
+c.innerHTML=teams.map((t,i)=>{const l=players.filter(p=>p.equipo===t.name);const m=l.length?(l.reduce((x,p)=>x+getCA(p),0)/l.length).toFixed(1):'-';const mc=mercadoCount[t.name]||{s:0,b:0,r:0};
+return '<div class="team" style="border-top-color:'+t.color+'"><h4>'+t.name+'</h4><small>'+t.div+'</small><br><span class="badge '+(t.tipo==='CENTRAL'?'b-central':'b-filial')+'">'+t.tipo+'</span><div style="margin:8px 0"><b style="font-size:22px">'+l.length+'</b> <small>jug · media CA '+m+'</small><br><small>🛒 '+mc.s+' vender · 🎯 '+mc.b+' fichar'+(mc.r?' · 🔀 '+mc.r+' cambiar':'')+'</small></div><div class="filters" style="margin:0"><button class="btn2" onclick="editTeam('+i+')">✏️</button><button class="danger" onclick="delTeam('+i+')">🗑</button></div></div>';}).join('');
 let h='';teams.forEach(t=>{const ORD={POR:0,LD:1,DFC:2,LI:3,MC:4,MCO:5,EI:6,ED:7,DC:8};
 const l=players.filter(p=>p.equipo===t.name).sort((a,b)=>((ORD[a.pos]??9)-(ORD[b.pos]??9))||score(b)-score(a));
 const s22=best22(t.name);const n22=Object.values(s22).reduce((x,a)=>x+a.filter(Boolean).length,0);
@@ -359,6 +360,7 @@ h+='<div style="background:#052e16;border:1px solid #22c55e55;border-radius:12px
 +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px"><div>'+pair22(s22.LI,'LAT-At · LI','LI')+'</div><div>'+pair22(s22.DFC1,'DCT-De','DFC')+'</div><div>'+pair22(s22.DFC2,'DCT-De','DFC')+'</div><div>'+pair22(s22.LD,'LAT-At · LD','LD')+'</div></div>'
 +'<div style="max-width:380px;margin:auto">'+pair22(s22.POR,'PCI-De · POR','POR')+'</div>'
 +'</div>'+(faltan.length?'<div class="alert">⚠️ Puestos sin doblar: <b>'+faltan.join(', ')+'</b> — el que sobre de 2 por puesto va fuera (venta/cesión).</div>':'<div class="ok">✅ 22 completos ('+n22+'/22): 2 por puesto, el resto fuera.</div>')+'</div>';
+h+='<h3>💰 Mercado: vender, fichar y cambios de puesto</h3>'+(mercadoByTeam[t.name]||'<small>Sin datos</small>');
 h+='<div class="tblwrap"><table><tr><th>Jugador</th><th>Pos</th><th>Edad</th><th>CA/PA</th><th>Precio</th><th>Contrato</th></tr>'+l.map(p=>'<tr><td>'+p.nombre+'</td><td>'+posL(effPos(p)[0]||'MC')+'</td><td>'+p.edad+'</td><td>'+getCA(p)+'/'+getPA(p)+'</td><td>'+fmt(p.precio)+'€</td><td>'+(p.contrato||'')+'</td></tr>').join('')+'</table></div></details>';});
 document.getElementById('teamSquads').innerHTML=h||'Sin jugadores';}
 // ---- CRUD ----
