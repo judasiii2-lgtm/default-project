@@ -80,6 +80,11 @@
 - Estado actual medido: Magni 120.6 · Kría 116.6 · Hamrarnir 121.1 · Höttur 118.7 · Lettir 127.6. Con candados, solo 2 huecos aparentes (Höttur y Lettir sin LI — el tapa-huecos los cubre al repartir).
 - Pregunta del Sultán: ¿puede la app hacer la pirámide que necesita y entender divisiones que cambian con los ascensos? Sí:
   - Nuevo `teamNivel` + `piramideOrder` (`fm-lettir.html:380-382`): la pirámide ordena por Nivel leído de 🛡️ Equipos (editable), CENTRAL desempata. Al ascender un filial, actualiza su división y la pirámide le da mejores jugadores sola.
-  - Modo pirámide: el equipo de Nivel más bajo se queda los NEED mejores por puesto (22), resto en cascada por Nivel; el resultado muestra el orden usado.
+  - Modo pirámide: el equipo de Nivel 1 (división más alta) se queda los NEED mejores por puesto (22), resto en cascada por Nivel; el resultado muestra el orden usado.
 - Simulación pirámide con sus datos: Lettir 22 jug media CA 162.7 (monstruo europeo) · Höttur 26 con 110.9 · Magni 24 con 108.4 · Hamrarnir 20 con 111.6 · Kría 18 con 109.8. Confirma el plan: Lettir no se vuelve flojo, Höttur queda como 2º europeo en ciernes.
 - `plantilla-genius.csv` del repo sustituido por el CSV del Sultán (110 filas, misma distribución, posiciones corregidas). Ojo: los 35 candados viven en su navegador + su JSON, NO en el CSV; no reimportar sin respaldo o se pierden.
+
+## Sesión 2026-09-19 (6) — gazapo Nivel + respaldo + paso de temporadas
+- Cazado por el Sultán (xD): ponía "Nivel más bajo" cuando es **Nivel 1, división más alta**. Corregido en comentarios, textos y `progress` (sesión 5).
+- Respaldo: antes los 35 candados solo vivían en su navegador + Descargas. Ahora `lettir-fm.json` (110 jug con 🔒 + 5 equipos) también en el repo y versionado. El CSV sigue sin guardar candados.
+- Paso del tiempo (edad/CA/PA cambian): nuevo botón 🔄 **Actualizar valores** en ➕ Añadir/Importar (`fm-lettir.html:updateValuesText`): pega el CSV nuevo del Genius y actualiza edad/CA/PA/valor/contrato **por nombre**, conservando puestos 🔒 y equipos. Los nombres del CSV que no existen avisan como posibles fichajes (esos con Importar normal). Flujo por temporada: Genius → CSV → 🔄 Actualizar → 🔀 Reparto pirámide → aplicar → ⬇ JSON de respaldo.

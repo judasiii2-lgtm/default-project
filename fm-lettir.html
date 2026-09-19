@@ -134,7 +134,7 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 <section id="tab-reparto" class="tab">
 <div class="card">
 <h2>🔀 Auto-reparto equitativo + cesiones</h2>
-<p class="sub"><b>Cómo funciona:</b> ordeno a todos por <b>score = 60% calidad + 40% potencial</b> (con bonus a jóvenes con potencial alto) y reparto <b>por posición con sistema snake</b>: el mejor POR al equipo 1, el 2º al 2, ... el 6º vuelve al 5, etc. Así si hay 10 cracks se reparten 2 por equipo. Ningún equipo se queda cojo.<br>En modo <b>pirámide</b> el orden lo manda el <b>Nivel</b> de 🛡️ Equipos (editable): el equipo de Nivel más bajo se queda los NEED mejores de cada puesto (22) y el resto cae en cascada por Nivel. Al ascender un filial, actualiza su división y la pirámide le dará mejores jugadores sola — nunca morralla fija.</p>
+<p class="sub"><b>Cómo funciona:</b> ordeno a todos por <b>score = 60% calidad + 40% potencial</b> (con bonus a jóvenes con potencial alto) y reparto <b>por posición con sistema snake</b>: el mejor POR al equipo 1, el 2º al 2, ... el 6º vuelve al 5, etc. Así si hay 10 cracks se reparten 2 por equipo. Ningún equipo se queda cojo.<br>En modo <b>pirámide</b> el orden lo manda el <b>Nivel</b> de 🛡️ Equipos (editable): el equipo de Nivel 1 (división más alta) se queda los NEED mejores de cada puesto (22) y el resto cae en cascada por Nivel. Al ascender un filial, actualiza su división y la pirámide le dará mejores jugadores sola — nunca morralla fija.</p>
 <div class="filters">
 <select id="rMode">
 <option value="equitativo">⚖️ Equitativo total (los 5 TOP — recomendado para Islandia Top 1)</option>
@@ -176,9 +176,9 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 </div>
 <div class="card">
 <h2>📥 Importar / 📤 Exportar</h2>
-<p class="sub">⚠️ El Genius <b>NO exporta habilidades a archivo</b> (bloqueo de licencia: salen vacías). Hazlo así: en Genius selecciona la tabla (Ctrl+A) → copiar (Ctrl+C) → pegar en Excel → guardar CSV o pegar aquí. Cabecera válida: nombre,nacion,posicion,club,edad,hab_actual,dif,hab_potencial,valor,final_contrato. Números europeos y fechas se convierten solos.</p>
+<p class="sub">⚠️ El Genius <b>NO exporta habilidades a archivo</b> (bloqueo de licencia: salen vacías). Hazlo así: en Genius selecciona la tabla (Ctrl+A) → copiar (Ctrl+C) → pegar en Excel → guardar CSV o pegar aquí. Cabecera válida: nombre,nacion,posicion,club,edad,hab_actual,dif,hab_potencial,valor,final_contrato. Números europeos y fechas se convierten solos.<br>🔄 <b>Actualizar valores</b>: pega el CSV nuevo y actualiza edad/CA/PA/valor/contrato <b>por nombre</b>, conservando puestos 🔒 y equipos (para el paso de temporadas). <b>Importar</b> añade filas como jugadores nuevos.</p>
 <textarea id="csvBox" rows="4" placeholder="nombre,edad,pos,calidad,potencial,precio,..."></textarea>
-<div class="filters"><button class="btn2" onclick="importCSVText()">Importar CSV pegado</button><button class="btn2" onclick="exportCSV()">Descargar CSV</button><button class="btn2" onclick="exportJSON()">Descargar JSON</button></div>
+<div class="filters"><button class="btn" onclick="updateValuesText()">🔄 Actualizar valores (conserva 🔒 y equipos)</button><button class="btn2" onclick="importCSVText()">Importar CSV pegado</button><button class="btn2" onclick="exportCSV()">Descargar CSV</button><button class="btn2" onclick="exportJSON()">Descargar JSON</button></div>
 <div id="editBox"></div>
 </div>
 </section>
@@ -378,7 +378,7 @@ function dupPlayer(id){const p=players.find(x=>x.id===id);const c={...p,id:uid()
 function delPlayer(id){if(!confirm('¿Vender/borrar jugador?'))return;players=players.filter(x=>x.id!==id);save();renderAll();}
 function addTeam(){const n=prompt('Nombre del nuevo equipo central:');if(!n)return;teams.push({name:n,div:'Por definir',tipo:'CENTRAL',color:'#22c55e'});save();renderAll();}
 function teamNivel(t){const m=(''+(t.div||'')).match(/Nivel\s*(\d+)/i);return m?+m[1]:99;}
-// Orden pirámide: Nivel más bajo (1ª división) primero; a igual Nivel, CENTRAL antes. Se lee de 🛡️ Equipos, así al ascender un filial la pirámide se adapta sola sin tocar código.
+// Orden pirámide: Nivel 1 (división más alta) primero; a igual Nivel, CENTRAL antes. Se lee de 🛡️ Equipos, así al ascender un filial la pirámide se adapta sola sin tocar código.
 function piramideOrder(){return teams.map(t=>t.name).sort((a,b)=>{const ta=teams.find(t=>t.name===a),tb=teams.find(t=>t.name===b);const na=teamNivel(ta),nb=teamNivel(tb);if(na!==nb)return na-nb;return ((ta.tipo==='CENTRAL'?0:1)-(tb.tipo==='CENTRAL'?0:1));});}
 function editTeam(i){const t=teams[i];const n=prompt('Nombre:',t.name);if(n) t.name=n;const d=prompt('División/nivel:',t.div);if(d) t.div=d;const tp=prompt('Tipo (CENTRAL/FILIAL):',t.tipo);if(tp) t.tipo=tp.toUpperCase();save();renderAll();}
 function delTeam(i){if(teams.length<=2){alert('Deja al menos 2 equipos');return;}if(!confirm('¿Borrar '+teams[i].name+'? Sus jugadores pasan a Lettir.'))return;const old=teams[i].name;players.forEach(p=>{if(p.equipo===old)p.equipo=teams[0].name;});teams.splice(i,1);save();renderAll();}
@@ -388,7 +388,7 @@ function autoReparto(apply){const mode=document.getElementById('rMode').value,si
 const sorted=[...players].sort((a,b)=>score(b)-score(a));
 let order=teams.map(t=>t.name);
 suggest={};
-if(mode==='piramide'){ // Top picks por puesto para el equipo de Nivel más bajo, resto snake entre filiales por Nivel
+if(mode==='piramide'){ // Top picks por puesto para el equipo de Nivel 1 (división más alta), resto snake entre filiales por Nivel
 order=piramideOrder();
 const lettir=order[0],fils=order.slice(1);
 let counts={};order.forEach(o=>counts[o]=0);
@@ -426,7 +426,7 @@ suggest[cand.id]=needy;
 fixes.push('🔧 <b>'+needy+'</b> sin <b>'+posL(pos)+'</b> → recibe a <b>'+cand.nombre+'</b> ('+posL(pos)+' '+getCA(cand)+') desde <b>'+donor+'</b>, que tenía '+nDon+' y le sobraba uno.');}
 });
 let h='<div class="ok">✅ Reparto calculado ('+(mode==='equitativo'?'equitativo total':'pirámide')+'). Tabla = <b>sugerencia de cesión</b>. Pulsa “Aplicar” para moverlos de verdad.</div>';
-if(mode==='piramide')h+='<div class="skill">🔺 Orden pirámide por Nivel actual: <b>'+order.join(' → ')+'</b> (leído de 🛡️ Equipos; al ascender, actualiza la división y se adapta solo).</div>';
+if(mode==='piramide')h+='<div class="skill">🔺 Orden pirámide (de mejor a peor división): <b>'+order.join(' → ')+'</b> (leído de 🛡️ Equipos; al ascender, actualiza la división y se adapta solo).</div>';
 h+=fixes.length?'<h3>🔧 Huecos tapados con sobrantes</h3>'+fixes.map(f=>'<div class="skill">'+f+'</div>').join(''):'<div class="ok">✅ Sin huecos: cada equipo tiene todas las posiciones.</div>';
 h+='<div class="tblwrap"><table><tr><th>#</th><th>Jugador</th><th>Pos</th><th>Edad</th><th>Cal/Pot</th><th>Score</th><th>Equipo actual</th><th>➡ Ceder a</th><th>Motivo</th></tr>';
 sorted.forEach((p,i)=>{const dest=suggest[p.id];const move=dest!==p.equipo?'🔀':'=';const ca=getCA(p),pa=getPA(p);const mot=p.edad<=19&&pa>=156?'💎 Joven TOP → donde sea titular':(ca>=156?'⭐ Crack → reparto equitativo':(ca<=110?'🛠 Desarrollo → filial baja':'⚖️ Equilibrio por '+effPos(p).map(posL).join('/')));
@@ -463,6 +463,35 @@ if(txt.includes('�')){try{txt=new TextDecoder('windows-1252').decode(buf);}cat
 handleImportText(txt,f.name);}catch(err){alert('Error: '+err.message);}};
 rb.readAsArrayBuffer(f);}
 function importCSVText(){const n=players.length;parseCSV(document.getElementById('csvBox').value);save();renderAll();alert(impMsg('Importados '+(players.length-n)+' jugadores ✅'));}
+function normName(s){return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').trim().replace(/\s+/g,' ');}
+// Paso de temporada: actualiza edad/CA/PA/valor/contrato por nombre, SIN tocar puestos 🔒 ni equipos.
+function updateValuesText(){const t=document.getElementById('csvBox').value;if(!t.trim()){alert('Pega el CSV del Genius primero');return;}
+const txt=(''+t).replace(/^﻿/,'').trim();const lines=txt.split('\n').filter(x=>x.trim()!=='');if(lines.length<2){alert('CSV vacío');return;}
+const hline=lines[0];const cands=[';','	',','];let D=',',best=0;
+cands.forEach(d=>{const n=splitDelim(hline,d).length;const m=splitDelim(lines[1]||'',d).length;const sc=n>1&&n===m?n:(n>1?n-0.5:0);if(sc>best){best=sc;D=d;}});
+const H=splitDelim(hline,D).map(normHead);
+let iCa=H.findIndex(h=>h.includes('hab')&&h.includes('actual')||h==='ca'||h.includes('current'));
+let iPa=H.findIndex(h=>h.includes('hab')&&h.includes('pot')||h==='pa'||h.includes('poten'));
+let iDif=H.findIndex(h=>h==='dif'||h.includes('dif')||h.includes('margen')||h.includes('marg'));
+if(iCa<0)iCa=5;if(iDif<0)iDif=6;if(iPa<0)iPa=7;
+const byName={};players.forEach(p=>{byName[normName(p.nombre)]=p;});
+let upd=0;const missing=[];
+lines.slice(1).forEach(ln=>{if(!ln.trim())return;const c=splitDelim(ln,D);const o={};H.forEach((hh,i)=>{o[hh]=(c[i]||'').replace(/^"|"$/g,'').trim();});
+const nom=(val(o,'nombre','name','jugador')||c[0]||'').replace(/^"|"$/g,'').trim();if(!nom)return;
+let caRaw=val(o,'hab_actual','actual','ca','current','calidad');if(!caRaw&&iCa>=0)caRaw=c[iCa]||'';
+const ca=cleanNum(caRaw);
+const paRaw=val(o,'hab_potencial','potencial','pa','potential','pot')||(iPa>=0?c[iPa]:'');
+let pa=cleanNum(paRaw);
+const dif=cleanNum(val(o,'dif','diff','margen','marg'))||(iDif>=0?cleanNum(c[iDif]):0);
+if(!pa&&dif&&ca)pa=ca+dif;
+const ed=Math.round(cleanNum(val(o,'edad','age')||c[4]||''));
+const valorRaw=val(o,'valor','precio','value','price')||c[8]||'';
+const finRaw=val(o,'final_contrato','contrato','contract','final')||c[9]||'';
+const ex=byName[normName(nom)];
+if(ex){if(ca)ex.ca=Math.max(1,Math.min(200,Math.round(ca)));if(pa)ex.pa=Math.max(1,Math.min(200,Math.round(pa)));if(ed)ex.edad=ed;const pv=Math.round(cleanNum(valorRaw));if(pv)ex.precio=pv;if((''+finRaw).trim())ex.contrato=contractYear(finRaw);upd++;}
+else missing.push(nom);});
+save();renderAll();
+alert('🔄 Actualizados '+upd+' jugadores (edad/CA/PA/valor/contrato; puestos 🔒 y equipos intactos).'+(missing.length?'\n⚠️ '+missing.length+' del CSV no estaban en la app (¿fichajes? usa “Importar CSV pegado”): '+missing.slice(0,10).join(', ')+(missing.length>10?'…':''):'')));}
 function splitDelim(ln,d){const out=[];let cur='',q=false;for(let i=0;i<ln.length;i++){const ch=ln[i];if(ch==='"'){q=!q;cur+=ch;}else if(!q&&ch===d){out.push(cur);cur='';}else cur+=ch;}out.push(cur);return out;}
 function normHead(h){return (h||'').replace(/^\uFEFF/,'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/"/g,'').replace(/\./g,'').trim().replace(/\s+/g,'_');}
 function val(o){for(let i=1;i<arguments.length;i++){const k=arguments[i];if(o[k]!=null&&o[k]!=='')return o[k];}const ks=Object.keys(o);for(let i=1;i<arguments.length;i++){const k=arguments[i];for(const kk of ks){if(kk&&k&&(kk.includes(k)||k.includes(kk))&&o[kk]!=='')return o[kk];}}return '';}
