@@ -63,3 +63,11 @@
 - Mejor puesto del juego: la app mostraba todas las posiciones sin decir la mejor. Fix (sin commit aún): nuevo `bestPos(p)` = candado > campo `best` > primero del Genius (`fm-lettir.html:222`); `migrate` lo rellena por defecto; tabla con ⭐ mejor puesto; editor ✏️ con desplegable ⭐; import/export con columna opcional `mejor_puesto`; si viene vacía se usa el primero del Genius y se ajusta a mano.
 - Pendiente: que el usuario confirme si el Genius lista el mejor primero.
 - Hecho en esta sesión (paso 2, aprobado): Mercado/Reparto/best22 priorizan el ⭐ — en cada puesto, los que lo tienen como mejor entran primero (desempate por `score`); si sobran huecos se rellenan con polivalentes. XI/banquillo marca ⭐ al que juega en su mejor puesto (`fm-lettir.html` Mercado `slot`, `best22`, `autoReparto` snake, `pair22`).
+
+## Sesión 2026-09-19 (3) — una sola posición por jugador (pedido del Sultán)
+- Idea del usuario: fuera ⭐/multiposición; cada jugador tiene UNA sola posición, la mejor según el juego (el Genius no la da).
+- Cambio en `fm-lettir.html`: `effPos` devuelve `[posLock||pos]` (antes todas las del Genius); `posFull`/`posList` quedan como referencia. Editor ✏️ con 🔒 "Puesto en el juego" para fijar la única posición; textos de Matriz/Mercado actualizados.
+- Revertido todo lo del ⭐ (`bestPos`, `mejor_puesto`, prioridad en cupos): la asignación vuelve a ser por `score`.
+- Simulación réplica PowerShell con 1ª posición del Genius (a corregir con 🔒): matriz con solo 2 huecos (Kría y Lettir sin LI); Mercado Magni 21−5+6=22 · Kría 25−8+5=22 · Hamrarnir 21−3+4=22 · Höttur 23−7+6=22 · Lettir 20−4+6=22. Total 27 ventas = 27 fichajes.
+- Nota: en la réplica inicial olvidé `@()` al tomar `pos[0]` en PowerShell (devolvía la primera letra) → daba 18 huecos y 62 ventas; corregido, esos números eran falsos. La app JS nunca tuvo ese bug.
+- Uso: abrir `fm-lettir.html`, revisar cada jugador con el juego y fijar su puesto con 🔒; la matriz avisará de huecos reales hasta que esté completo.
