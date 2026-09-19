@@ -51,3 +51,15 @@
 - Verificado `index.html` WuWa SONANCE intacto y separado (solo menciona `fm-lettir.html` como enlace).
 - Corregido punto 4: medias CA con club explícito (Höttur 118.7 / Hamrarnir 121.1, estaban cruzadas) + documentados commits `77a5295` y `fbdc5bf` (Norma 6).
 - Medias re-medidas: Lettir 127.6 · Höttur 118.7 · Magni 120.6 · Hamrarnir 121.1 · Kría 116.6 (dif. 11 pts). Todo OK, pendiente commit de esta revisión si el usuario lo pide.
+
+### 10. Commit `f66e27a` — revisión recuperación + fix docs (pusheado)
+- Incluye corrección punto 4 (medias con club explícito) + puntos 8–9 (commits `77a5295`/`fbdc5bf`) + sesión 2026-09-19.
+
+## Sesión 2026-09-19 (2) — simulación + mejor puesto
+- Simulación Mercado 22 ideal con réplica PowerShell del `parsePositions`/`score`/`slot` de la app (ver `fm-lettir.html:190,222,282-288`): Magni 21−4+5=22 · Kría 25−6+3=22 · Hamrarnir 21−5+6=22 · Höttur 23−6+5=22 · Lettir 20−2+4=22. Total 23 ventas = 23 fichajes, todo cuadra a 22.
+- Discrepancia honesta vs punto 7 (31/31): la réplica da 23/23. Causa probable: la app usa `posLock`/`posList` del navegador + desempates por `score`, la réplica usa `posFull` del CSV con orden NEED. En ambos casos sin cracks vendidos (top-8 por score a salvo: Penc, Hugo, Joyce, De Bernardi, Ibe, Cooney, Martínez, Velázquez).
+- Matriz (cuenta multiposición): 0 huecos — los 5 cubren las 9 posiciones.
+- Ventas propuestas (peor score, fuera del 22): Lettir solo vende Grétarsson (ED 76/100) y Sæbjörnsson (ED 74/114). Ojo: Eggimann (MCO 104/190), Müller (MCO 108/186) y Aesch (DFC 90/173) salen como ventas por CA baja pero con PA TOP → la app ya los marca 🌱 (ceder antes que vender).
+- Mejor puesto del juego: la app mostraba todas las posiciones sin decir la mejor. Fix (sin commit aún): nuevo `bestPos(p)` = candado > campo `best` > primero del Genius (`fm-lettir.html:222`); `migrate` lo rellena por defecto; tabla con ⭐ mejor puesto; editor ✏️ con desplegable ⭐; import/export con columna opcional `mejor_puesto`; si viene vacía se usa el primero del Genius y se ajusta a mano.
+- Pendiente: que el usuario confirme si el Genius lista el mejor primero.
+- Hecho en esta sesión (paso 2, aprobado): Mercado/Reparto/best22 priorizan el ⭐ — en cada puesto, los que lo tienen como mejor entran primero (desempate por `score`); si sobran huecos se rellenan con polivalentes. XI/banquillo marca ⭐ al que juega en su mejor puesto (`fm-lettir.html` Mercado `slot`, `best22`, `autoReparto` snake, `pair22`).
