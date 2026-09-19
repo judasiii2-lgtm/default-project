@@ -1,111 +1,111 @@
-nombre,nacion,posicion,club,edad,hab_actual,dif,hab_potencial,valor,final_contrato
-"Soñer, Rodrigo","Islandia","POR","Magni Grenivík",19,116,63,179,15993770,"31.10.2082"
-"Murgia, Mario","Italia","POR","Kría · Grupo B",16,93,85,178,12570430,"31.10.2083"
-"Makengo, Brian","Islandia / República del Congo","POR","Hamrarnir · Grupo A",19,76,19,95,46510,"23.02.2081"
-"Kmiec, Kacper","Alemania / Polonia","POR","Kría · Grupo B",17,91,85,176,10355600,"31.10.2082"
-"Imiolek, Olaf","Polonia","POR","ÍF Höttur",23,143,38,181,11521380,"31.10.2081"
-"Fonseca, Jhon","Colombia / Islandia","POR","Hamrarnir · Grupo A",19,108,57,165,10343600,"31.10.2082"
-"Cooney, Michael","Irlanda del N. / Irlanda","POR","Lettir",29,180,0,180,33386180,"31.10.2081"
-"Stjepanović, Života","Serbia","DF D, MP C","Magni Grenivík",28,158,0,158,54768320,"31.10.2081"
-"Ribas, Alejandro","España","DF D","ÍF Höttur",17,105,62,167,10601690,"31.10.2082"
-"Nilsen, Ulrik","Noruega","DF DI, MP D","Hamrarnir · Grupo A",19,135,36,171,19232590,"31.10.2082"
-"Mazović, Almir","Alemania / Bosnia y Herzegovina","DF D","Magni Grenivík",17,113,66,179,12570430,"31.10.2082"
-"Gunawan, Ferry","Países Bajos / Indonesia","DF D, MCC, MP D","Lettir",22,131,28,159,10409620,"31.10.2081"
-"Porleifsson, Andri Björn","Islandia","DF DI","Kría · Grupo B",19,70,26,96,26400,
-"Haraldsson, Jóhann","Islandia","DF DI","Lettir",19,63,1,64,0,
-"Gestsson, Ágúst Freyr","Islandia","DF DI","Magni Grenivík",19,52,1,53,1380,
-"Sosa, Eduardo","Uruguay / España","DF DIC","Kría · Grupo B",19,123,36,159,11321960,"31.10.2082"
-"Raynaud, Fayçal","Francia","DF DIC","Hamrarnir · Grupo A",19,122,25,147,7558750,"31.10.2082"
-"Martínez, Alberto","Paraguay","DF DIC, MP C","ÍF Höttur",23,180,0,180,50966370,"31.10.2083"
-"Lee Seung-Ki","Corea del Sur / Islandia","DF DIC, MP D","Hamrarnir · Grupo A",23,150,12,162,12840530,"31.10.2083"
-"Homet, Ricard","España","DF DIC","Magni Grenivík",23,152,3,155,9607200,"31.10.2082"
-"Villalba, Jorge","España","DF DC","Kría · Grupo B",21,142,33,175,20231020,"31.10.2083"
-"Oliveira, José","Portugal","DF DC","ÍF Höttur",22,152,25,177,34514550,"31.10.2084"
-"Edivaldo","Brasil / Islandia","DF DC, MCC","ÍF Höttur",23,140,11,151,3404390,"31.10.2081"
-"Fagerli Halsøy, Hákon Arne","Noruega","DF IC, MP I","Magni Grenivík",21,177,2,179,50933400,"31.10.2083"
-"Bon, Guillaume","Francia","DF IC","ÍF Höttur",19,122,56,178,29749730,"31.10.2081"
-"Berk, Nico","Alemania","DF IC, MCC","Hamrarnir · Grupo A",23,172,3,175,64498390,"31.10.2082"
-"Benavente, Joseph","Perú / Islandia","DF IC","Magni Grenivík",20,115,48,163,11760130,"31.10.2082"
-"Yokoyama, Shota","Japón / Islandia","DF C","Magni Grenivík",18,92,71,163,3665660,"31.10.2082"
-"Sporkslede, Tochero","Países Bajos / Surinam","DF C, MCC","Lettir",21,130,15,145,4036390,"31.10.2081"
-"Skenderi, Arjan","Kosovo / Alemania","DF C, MCC","ÍF Höttur",16,103,65,168,17820170,"31.10.2083"
-"Rúnarsson, Emil Andri","Islandia","DF C, MCC","Lettir",19,83,31,114,111650,"31.10.2081"
-"Penc, Patrik","Chequia","DF C, MCC","Lettir",24,195,0,195,52505570,"31.10.2084"
-"Injai, Martinho","Portugal / Guinea-Bisáu","DF C, MCC","Kría · Grupo B",23,162,23,185,42486670,"31.10.2082"
-"Heimisson, Hjalti","Islandia","DF C, MCC","Lettir",19,70,14,84,20480,
-"Guerra, Antón","España","DF C, MCC","Hamrarnir · Grupo A",19,118,26,144,6544170,"31.10.2081"
-"Emili","España","DF C, MCC","Kría · Grupo B",21,150,35,185,27370270,"31.10.2082"
-"Beyer, Jürgen","Alemania","DF C, MCC","Kría · Grupo B",17,94,76,170,285770,"31.10.2082"
-"Ásbjörnsson, Jón Dagur","Islandia","DF C","ÍF Höttur",19,107,10,117,978370,"31.10.2082"
-"Aesch, Leander","Austria","DF C","Kría · Grupo B",17,90,83,173,8452890,"31.10.2082"
-"Sisti, Gianluca","Italia","DF/CAR D","Kría · Grupo B",21,96,43,139,235800,"31.10.2081"
-"Sanches, Sidney","Portugal / Cabo Verde","DF/CAR/MP D","Lettir",24,132,22,154,6372520,"31.10.2082"
-"Oliveira, Mauricio","Uruguay / España","DF/CAR D","Hamrarnir · Grupo A",22,122,8,130,1825030,"31.10.2081"
-"León, Enrique","España / País Vasco","DF/CAR D","Magni Grenivík",19,102,51,153,5487770,"31.10.2082"
-"Hernández, Juan Carlos","España","DF/CAR D","Hamrarnir · Grupo A",18,119,55,174,12642460,"31.10.2082"
-"Guzmán, César","Brasil","DF/CAR/MP D","Lettir",29,164,5,169,39620540,"31.10.2082"
-"Fontan, Germán","España","DF/MP D","Kría · Grupo B",19,134,25,159,13632470,"31.10.2082"
-"Fevre, William","Francia","CAR/MP I","Magni Grenivík",20,107,78,185,13875150,"31.10.2082"
-"Zivkovic, Fríðrik Ingi","Islandia","MCC, MP D","Kría · Grupo B",17,97,63,160,4527410,"31.10.2082"
-"Trela, Miłosz","Alemania / Polonia","MCC","Hamrarnir · Grupo A",17,107,78,185,12570430,"31.10.2082"
-"Sigmundsson, Jón","Islandia","MCC, MP DC","Lettir",25,70,7,77,0,
-"Scapin, Luca","España / Italia","MCC, MP C","ÍF Höttur",21,149,39,188,27370270,"31.10.2083"
-"Kim Jae-Woong","Corea del Sur / Islandia","MCC, MP D, DLC","ÍF Höttur",20,82,88,170,5751870,"31.10.2082"
-"Khidrian, Niso","Israel / Islandia","MCC","Magni Grenivík",22,149,3,152,8322310,"31.10.2083"
-"De Bernardi, Roberto","Italia","MCC","Lettir",28,179,9,188,54473780,"31.10.2081"
-"Carroll, Noah","Inglaterra / Islandia","MCC, MP C","Kría · Grupo B",25,135,8,143,13364300,"31.10.2083"
-"Bossard, Brice","Francia","MCC, MP IC","Magni Grenivík",20,92,85,177,10343600,"31.10.2082"
-"Marcelo","Brasil / Islandia","MEC C","Hamrarnir · Grupo A",19,96,61,157,3609920,"31.10.2082"
-"Saebjörnsson, Óskar Guðjón","Islandia","MP D","Lettir",19,74,40,114,124080,"31.10.2081"
-"Prieto, Javier","España / País Vasco","MP D","Hamrarnir · Grupo A",19,131,53,184,26456560,"31.10.2082"
-"Pfeiffer, Jacob","Alemania","MP D","ÍF Höttur",29,176,4,180,57769720,"31.10.2082"
-"Ockmonnek, Alex","Alemania","MP D","Magni Grenivík",25,157,17,174,23953270,"31.10.2081"
-"Mané, Aliu","Guinea-Bisáu / Senegal","MP D","ÍF Höttur",18,102,46,148,3789990,"31.10.2081"
-"Joyce, Jack","Inglaterra","MP D, DLC","Lettir",29,184,0,184,58339120,"31.10.2081"
-"Hugo","Brasil / Portugal","MP DI, DLC","Lettir",29,188,0,188,63528720,"31.10.2081"
-"Gutiérrez, Pedro","España","MP D, DLC","Kría · Grupo B",20,137,43,180,25657060,"31.10.2082"
-"Grétarsson, Kári","Islandia","MP D","Lettir",19,76,24,100,14120,
-"Domenech, Joan Ramón","España","MP D","Kría · Grupo B",21,140,19,159,12300330,"31.10.2083"
-"De Cristofaro, Andrea","Italia","MP D","Magni Grenivík",17,98,81,179,11339970,"31.10.2082"
-"Da Silva","Portugal / Brasil","MP D","Hamrarnir · Grupo A",21,122,45,167,11760130,"31.10.2082"
-"Bartrina, Jan","España","MP DI, DLC","Kría · Grupo B",23,147,30,177,31104060,"31.10.2083"
-"Vila, Toni","España","MP DI","Kría · Grupo B",21,133,36,169,2346270,"31.10.2081"
-"Marcos, Alberto","España","MP DI","Magni Grenivík",19,72,10,82,16210,"01.03.2081"
-"Ibe, Monday","Inglaterra / Nigeria / Países Bajos","MP DI","ÍF Höttur",26,182,1,183,67850330,"31.10.2081"
-"Akay, Hakan","Turquía / Alemania","MP DI","ÍF Höttur",17,85,92,177,7960700,"31.10.2082"
-"Moratalla, Isidre","España","MP DIC","Hamrarnir · Grupo A",21,131,32,163,10793760,"31.10.2081"
-"Ivaşcu, Alin","Rumanía","MP DIC","Hamrarnir · Grupo A",24,150,36,186,23346120,"31.10.2084"
-"Fischer, Marco","Austria","MP DIC","Hamrarnir · Grupo A",17,81,78,159,3138320,"31.10.2082"
-"Velázquez, Miguel","España","MP DC","Lettir",20,179,1,180,56533090,"31.10.2084"
-"Dorado, Alejandro","España","MP DC","Hamrarnir · Grupo A",19,139,37,176,23518540,"31.10.2081"
-"Árnason, Amar","Islandia","MP DC","ÍF Höttur",19,78,5,83,1710,
-"André, Alexandre","Francia","MP DC, DLC C","ÍF Höttur",18,120,49,169,26418480,"31.10.2082"
-"Ticic, Tarik","Islandia / Bosnia y Herzegovina","MP I","Kría · Grupo B",18,82,42,124,187310,"31.10.2081"
-"Oliveira, Fernando","Angola / Portugal","MP I","Magni Grenivík",22,155,34,189,35538820,"31.10.2081"
-"Helgason, Birkir Snær","Islandia","MP I","Kría · Grupo B",25,89,13,102,1560,
-"Guerrini, Filippo","Italia","MP I","ÍF Höttur",17,102,71,173,12138270,"31.10.2082"
-"Fran","España","MP I","ÍF Höttur",20,98,70,168,10949820,"31.10.2083"
-"Dièye, Aly","Senegal / España","MP I","Magni Grenivík",21,101,59,160,553060,"31.10.2081"
-"Cássio","Brasil","MP I","ÍF Höttur",19,46,1,47,0,
-"Bossman, Kwadwo","Países Bajos / Ghana","MP I","Lettir",19,123,20,143,8101270,"31.10.2083"
-"Sturluson, Þórir Rafn","Islandia","MP IC","Hamrarnir · Grupo A",22,87,3,90,244550,"31.10.2081"
-"Nejmi, Youssef","Marruecos / Alemania","MP C","Magni Grenivík",16,93,75,168,10601690,"31.10.2082"
-"Müller, Marco","Alemania","MP C","Kría · Grupo B",17,108,78,186,12570430,"31.10.2082"
-"Molina, Matías","Argentina / España","MP C","ÍF Höttur",20,118,25,143,155840,"31.10.2081"
-"Jónsson, Eyþór","Islandia","MP C","Lettir",18,95,32,127,325840,"31.10.2081"
-"Ignatovich, Alexey","Bielorrusia","MP C","Hamrarnir · Grupo A",23,130,6,136,6141250,"31.10.2082"
-"Eggimann, Luca","Alemania","MP C","ÍF Höttur",17,104,86,190,16359050,"31.10.2083"
-"Boscarino, Danilo","Italia","MP C","Hamrarnir · Grupo A",17,100,79,179,12642460,"31.10.2081"
-"Videla, Thomas","Argentina / Islandia","MP/DLC C","Kría · Grupo B",23,152,10,162,24751830,"31.10.2082"
-"Tóth, Abraham","Venezuela / Hungría / España","MP/DLC C","Hamrarnir · Grupo A",21,148,8,156,16761410,"31.10.2081"
-"Ríos, Alan","México / Islandia","MP/DLC C","Magni Grenivík",20,130,22,152,10409620,"31.10.2083"
-"Loechet, Niklas","Alemania","MP/DLC C","Kría · Grupo B",17,98,79,177,10847780,"31.10.2082"
-"Ledda, Davide","Italia","MP/DLC C","Kría · Grupo B",17,96,77,173,9029440,"31.10.2082"
-"Handžić, Armin","Bosnia y Herzegovina","MP/DLC C","Magni Grenivík",22,158,7,165,20722950,"31.10.2081"
-"Dahm, Gerhard","Bélgica","MP/DLC C","ÍF Höttur",22,152,26,178,24068880,"31.10.2084"
-"Claudio","España","MP/DLC C","Kría · Grupo B",21,145,33,178,28169770,"31.10.2082"
-"Bjarnason, Sölvi","Islandia","MP/DLC C","Lettir",17,82,15,97,82320,"31.10.2081"
-"Ambrosino, Filippo","Italia","MP/DLC C","Kría · Grupo B",17,111,71,182,14751820,"31.10.2082"
-"Al-Mutairi, Abdulaziz","Arabia Saudí / Islandia","MP/DLC C","Magni Grenivík",22,143,7,150,22328270,"31.10.2081"
-"Silva, Gian Marco","México / Islandia","DLC","Lettir",22,154,8,162,25607150,"31.10.2082"
-"Eliasson, Birkir Snær","Islandia","DLC","ÍF Höttur",17,84,67,151,2040760,"31.10.2083"
+﻿nombre,nacion,posicion,club,edad,hab_actual,dif,hab_potencial,valor,final_contrato,salario,clausula,id_fm
+"Soñer, Rodrigo","Islandia","POR","Magni Grenivík",19,116,63,179,15993770,2082,30000,0,
+"Murgia, Mario","Italia","POR","Kría · Grupo B",16,93,85,178,12570430,2083,30000,0,
+"Makengo, Brian","Islandia / República del Congo","POR","Hamrarnir · Grupo A",19,76,19,95,46510,2081,30000,0,
+"Kmiec, Kacper","Alemania / Polonia","POR","Kría · Grupo B",17,91,85,176,10355600,2082,30000,0,
+"Imiolek, Olaf","Polonia","POR","ÍF Höttur",23,143,38,181,11521380,2081,30000,0,
+"Fonseca, Jhon","Colombia / Islandia","POR","Hamrarnir · Grupo A",19,108,57,165,10343600,2082,30000,0,
+"Cooney, Michael","Irlanda del N. / Irlanda","POR","Lettir",29,180,0,180,33386180,2081,30000,0,
+"Stjepanović, Života","Serbia","DF D, MP C","Magni Grenivík",28,158,0,158,54768320,2081,30000,0,
+"Ribas, Alejandro","España","DF D","ÍF Höttur",17,105,62,167,10601690,2082,30000,0,
+"Nilsen, Ulrik","Noruega","DF DI, MP D","Hamrarnir · Grupo A",19,135,36,171,19232590,2082,30000,0,
+"Mazović, Almir","Alemania / Bosnia y Herzegovina","DF D","Magni Grenivík",17,113,66,179,12570430,2082,30000,0,
+"Gunawan, Ferry","Países Bajos / Indonesia","DF D, MCC, MP D","Lettir",22,131,28,159,10409620,2081,30000,0,
+"Porleifsson, Andri Björn","Islandia","DF DI","Kría · Grupo B",19,70,26,96,26400,2028,30000,0,
+"Haraldsson, Jóhann","Islandia","DF DI","Lettir",19,63,1,64,100000,2028,30000,0,
+"Gestsson, Ágúst Freyr","Islandia","DF DI","Magni Grenivík",19,52,1,53,1380,2028,30000,0,
+"Sosa, Eduardo","Uruguay / España","DF DIC","Kría · Grupo B",19,123,36,159,11321960,2082,30000,0,
+"Raynaud, Fayçal","Francia","DF DIC","Hamrarnir · Grupo A",19,122,25,147,7558750,2082,30000,0,
+"Martínez, Alberto","Paraguay","DF DIC/MPC","ÍF Höttur",23,180,0,180,50966370,2083,30000,0,
+"Lee Seung-Ki","Corea del Sur / Islandia","DF DIC, MP D","Hamrarnir · Grupo A",23,150,12,162,12840530,2083,30000,0,
+"Homet, Ricard","España","DF DiC","Magni Grenivík",23,152,3,155,9607200,2082,30000,0,
+"Villalba, Jorge","España","DF DC","Kría · Grupo B",21,142,33,175,20231020,2083,30000,0,
+"Oliveira, José","Portugal","DF DC","ÍF Höttur",22,152,25,177,34514550,2084,30000,0,
+"Edivaldo","Brasil / Islandia","DF DC, MCC","ÍF Höttur",23,140,11,151,3404390,2081,30000,0,
+"Fagerli Halsøy, Hákon Arne","Noruega","DF IC, MP I","Magni Grenivík",21,177,2,179,50933400,2083,30000,0,
+"Bon, Guillaume","Francia","DF IC","ÍF Höttur",19,122,56,178,29749730,2081,30000,0,
+"Berk, Nico","Alemania","DF IC, MCC","Hamrarnir · Grupo A",23,172,3,175,64498390,2082,30000,0,
+"Benavente, Joseph","Perú / Islandia","DF IC","Magni Grenivík",20,115,48,163,11760130,2082,30000,0,
+"Yokoyama, Shota","Japón / Islandia","DF C","Magni Grenivík",18,92,71,163,3665660,2082,30000,0,
+"Sporkslede, Tochero","Países Bajos / Surinam","DF C, MCC","Lettir",21,130,15,145,4036390,2081,30000,0,
+"Skenderi, Arjan","Kosovo / Alemania","DF C, MCC","ÍF Höttur",16,103,65,168,17820170,2083,30000,0,
+"Rúnarsson, Emil Andri","Islandia","DF C, MCC","Lettir",19,83,31,114,111650,2081,30000,0,
+"Penc, Patrik","Chequia","DF C, MCC","Lettir",24,195,0,195,52505570,2084,30000,0,
+"Injai, Martinho","Portugal / Guinea-Bisáu","DF C, MCC","Kría · Grupo B",23,162,23,185,42486670,2082,30000,0,
+"Heimisson, Hjalti","Islandia","DF C, MCC","Lettir",19,70,14,84,20480,2028,30000,0,
+"Guerra, Antón","España","DF C, MCC","Hamrarnir · Grupo A",19,118,26,144,6544170,2081,30000,0,
+"Emili","España","DF C, MCC","Kría · Grupo B",21,150,35,185,27370270,2082,30000,0,
+"Beyer, Jürgen","Alemania","DF C, MCC","Kría · Grupo B",17,94,76,170,285770,2082,30000,0,
+"Ásbjörnsson, Jón Dagur","Islandia","DF C","ÍF Höttur",19,107,10,117,978370,2082,30000,0,
+"Aesch, Leander","Austria","DF C","Kría · Grupo B",17,90,83,173,8452890,2082,30000,0,
+"Sisti, Gianluca","Italia","DF/CAR D","Kría · Grupo B",21,96,43,139,235800,2081,30000,0,
+"Sanches, Sidney","Portugal / Cabo Verde","DF/CAR/MP D","Lettir",24,132,22,154,6372520,2082,30000,0,
+"Oliveira, Mauricio","Uruguay / España","DF/CAR D","Hamrarnir · Grupo A",22,122,8,130,1825030,2081,30000,0,
+"León, Enrique","España / País Vasco","DF/CAR D","Magni Grenivík",19,102,51,153,5487770,2082,30000,0,
+"Hernández, Juan Carlos","España","DF/CAR D","Hamrarnir · Grupo A",18,119,55,174,12642460,2082,30000,0,
+"Guzmán, César","Brasil","DF/CAR/MP D","Lettir",29,164,5,169,39620540,2082,30000,0,
+"Fontan, Germán","España","DFI","Kría · Grupo B",19,134,25,159,13632470,2082,30000,0,
+"Fevre, William","Francia","CAR/MP I","Magni Grenivík",20,107,78,185,13875150,2082,30000,0,
+"Zivkovic, Fríðrik Ingi","Islandia","MCC, MP D","Kría · Grupo B",17,97,63,160,4527410,2082,30000,0,
+"Trela, Miłosz","Alemania / Polonia","MCC","Hamrarnir · Grupo A",17,107,78,185,12570430,2082,30000,0,
+"Sigmundsson, Jón","Islandia","MCC, MP DC","Lettir",25,70,7,77,100000,2028,30000,0,
+"Scapin, Luca","España / Italia","MCC, MP C","ÍF Höttur",21,149,39,188,27370270,2083,30000,0,
+"Kim Jae-Woong","Corea del Sur / Islandia","MCC, MP D, DLC","ÍF Höttur",20,82,88,170,5751870,2082,30000,0,
+"Khidrian, Niso","Israel / Islandia","MCC","Magni Grenivík",22,149,3,152,8322310,2083,30000,0,
+"De Bernardi, Roberto","Italia","MCC","Lettir",28,179,9,188,54473780,2081,30000,0,
+"Carroll, Noah","Inglaterra / Islandia","MCC, MP C","Kría · Grupo B",25,135,8,143,13364300,2083,30000,0,
+"Bossard, Brice","Francia","MCC, MP IC","Magni Grenivík",20,92,85,177,10343600,2082,30000,0,
+"Marcelo","Brasil / Islandia","MEC C","Hamrarnir · Grupo A",19,96,61,157,3609920,2082,30000,0,
+"Saebjörnsson, Óskar Guðjón","Islandia","MP D","Lettir",19,74,40,114,124080,2081,30000,0,
+"Prieto, Javier","España / País Vasco","MP D","Hamrarnir · Grupo A",19,131,53,184,26456560,2082,30000,0,
+"Pfeiffer, Jacob","Alemania","MP D","ÍF Höttur",29,176,4,180,57769720,2082,30000,0,
+"Ockmonnek, Alex","Alemania","MP D","Magni Grenivík",25,157,17,174,23953270,2081,30000,0,
+"Mané, Aliu","Guinea-Bisáu / Senegal","MP D","ÍF Höttur",18,102,46,148,3789990,2081,30000,0,
+"Joyce, Jack","Inglaterra","MP D, DLC","Lettir",29,184,0,184,58339120,2081,30000,0,
+"Hugo","Brasil / Portugal","MP DI, DLC","Lettir",29,188,0,188,63528720,2081,30000,0,
+"Gutiérrez, Pedro","España","MP D, DLC","Kría · Grupo B",20,137,43,180,25657060,2082,30000,0,
+"Grétarsson, Kári","Islandia","MP D","Lettir",19,76,24,100,14120,2028,30000,0,
+"Domenech, Joan Ramón","España","MP D","Kría · Grupo B",21,140,19,159,12300330,2083,30000,0,
+"De Cristofaro, Andrea","Italia","MP D","Magni Grenivík",17,98,81,179,11339970,2082,30000,0,
+"Da Silva","Portugal / Brasil","MP D","Hamrarnir · Grupo A",21,122,45,167,11760130,2082,30000,0,
+"Bartrina, Jan","España","MP DI, DLC","Kría · Grupo B",23,147,30,177,31104060,2083,30000,0,
+"Vila, Toni","España","MP DI","Kría · Grupo B",21,133,36,169,2346270,2081,30000,0,
+"Marcos, Alberto","España","MP DI","Magni Grenivík",19,72,10,82,16210,2081,30000,0,
+"Ibe, Monday","Inglaterra / Nigeria / Países Bajos","MP DI","ÍF Höttur",26,182,1,183,67850330,2081,30000,0,
+"Akay, Hakan","Turquía / Alemania","MP DI","ÍF Höttur",17,85,92,177,7960700,2082,30000,0,
+"Moratalla, Isidre","España","MP DIC","Hamrarnir · Grupo A",21,131,32,163,10793760,2081,30000,0,
+"Ivaşcu, Alin","Rumanía","MP DIC","Hamrarnir · Grupo A",24,150,36,186,23346120,2084,30000,0,
+"Fischer, Marco","Austria","MP DIC","Hamrarnir · Grupo A",17,81,78,159,3138320,2082,30000,0,
+"Velázquez, Miguel","España","MP DC","Lettir",20,179,1,180,56533090,2084,30000,0,
+"Dorado, Alejandro","España","MP DC","Hamrarnir · Grupo A",19,139,37,176,23518540,2081,30000,0,
+"Árnason, Arnar","Islandia","MC/MP DC","ÍF Höttur",19,78,5,83,1710,2028,30000,0,
+"André, Alexandre","Francia","MP DC, DLC C","ÍF Höttur",18,120,49,169,26418480,2082,30000,0,
+"Ticic, Tarik","Islandia / Bosnia y Herzegovina","MP I","Kría · Grupo B",18,82,42,124,187310,2081,30000,0,
+"Oliveira, Fernando","Angola / Portugal","MP I","Magni Grenivík",22,155,34,189,35538820,2081,30000,0,
+"Helgason, Birkir Snær","Islandia","MP I","Kría · Grupo B",25,89,13,102,1560,2028,30000,0,
+"Guerrini, Filippo","Italia","MP I","ÍF Höttur",17,102,71,173,12138270,2082,30000,0,
+"Fran","España","MP I","ÍF Höttur",20,98,70,168,10949820,2083,30000,0,
+"Dièye, Aly","Senegal / España","MP I","Magni Grenivík",21,101,59,160,553060,2081,30000,0,
+"Cássio","Brasil","MP I","ÍF Höttur",19,46,1,47,100000,2028,30000,0,
+"Bossman, Kwadwo","Países Bajos / Ghana","MP I","Lettir",19,123,20,143,8101270,2083,30000,0,
+"Sturluson, Þórir Rafn","Islandia","MP IC","Hamrarnir · Grupo A",22,87,3,90,244550,2081,30000,0,
+"Nejmi, Youssef","Marruecos / Alemania","MP C","Magni Grenivík",16,93,75,168,10601690,2082,30000,0,
+"Müller, Marco","Alemania","MP C","Kría · Grupo B",17,108,78,186,12570430,2082,30000,0,
+"Molina, Matías","Argentina / España","MP C","ÍF Höttur",20,118,25,143,155840,2081,30000,0,
+"Jónsson, Eyþór","Islandia","MP C","Lettir",18,95,32,127,325840,2081,30000,0,
+"Ignatovich, Alexey","Bielorrusia","MP C","Hamrarnir · Grupo A",23,130,6,136,6141250,2082,30000,0,
+"Eggimann, Luca","Alemania","MP C","ÍF Höttur",17,104,86,190,16359050,2083,30000,0,
+"Boscarino, Danilo","Italia","MP C","Hamrarnir · Grupo A",17,100,79,179,12642460,2081,30000,0,
+"Videla, Thomas","Argentina / Islandia","MP/DLC C","Kría · Grupo B",23,152,10,162,24751830,2082,30000,0,
+"Tóth, Abraham","Venezuela / Hungría / España","MP/DLC C","Hamrarnir · Grupo A",21,148,8,156,16761410,2081,30000,0,
+"Ríos, Alan","México / Islandia","MP/DLC C","Magni Grenivík",20,130,22,152,10409620,2083,30000,0,
+"Loechet, Niklas","Alemania","MP/DLC C","Kría · Grupo B",17,98,79,177,10847780,2082,30000,0,
+"Ledda, Davide","Italia","MP/DLC C","Kría · Grupo B",17,96,77,173,9029440,2082,30000,0,
+"Handžić, Armin","Bosnia y Herzegovina","MP/DLC C","Magni Grenivík",22,158,7,165,20722950,2081,30000,0,
+"Dahm, Gerhard","Bélgica","MP/DLC C","ÍF Höttur",22,152,26,178,24068880,2084,30000,0,
+"Claudio","España","MP/DLC C","Kría · Grupo B",21,145,33,178,28169770,2082,30000,0,
+"Bjarnason, Sölvi","Islandia","MP/DLC C","Lettir",17,82,15,97,82320,2081,30000,0,
+"Ambrosino, Filippo","Italia","MP/DLC C","Kría · Grupo B",17,111,71,182,14751820,2082,30000,0,
+"Al-Mutairi, Abdulaziz","Arabia Saudí / Islandia","MP/DLC C","Magni Grenivík",22,143,7,150,22328270,2081,30000,0,
+"Silva, Gian Marco","México / Islandia","DLC","Lettir",22,154,8,162,25607150,2082,30000,0,
+"Eliasson, Birkir Snær","Islandia","DLC","ÍF Höttur",17,84,67,151,2040760,2083,30000,0,

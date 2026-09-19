@@ -134,11 +134,11 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 <section id="tab-reparto" class="tab">
 <div class="card">
 <h2>🔀 Auto-reparto equitativo + cesiones</h2>
-<p class="sub"><b>Cómo funciona:</b> ordeno a todos por <b>score = 60% calidad + 40% potencial</b> (con bonus a jóvenes con potencial alto) y reparto <b>por posición con sistema snake</b>: el mejor POR al equipo 1, el 2º al 2, ... el 6º vuelve al 5, etc. Así si hay 10 cracks se reparten 2 por equipo. Ningún equipo se queda cojo.</p>
+<p class="sub"><b>Cómo funciona:</b> ordeno a todos por <b>score = 60% calidad + 40% potencial</b> (con bonus a jóvenes con potencial alto) y reparto <b>por posición con sistema snake</b>: el mejor POR al equipo 1, el 2º al 2, ... el 6º vuelve al 5, etc. Así si hay 10 cracks se reparten 2 por equipo. Ningún equipo se queda cojo.<br>En modo <b>pirámide</b> el orden lo manda el <b>Nivel</b> de 🛡️ Equipos (editable): el equipo de Nivel más bajo se queda los NEED mejores de cada puesto (22) y el resto cae en cascada por Nivel. Al ascender un filial, actualiza su división y la pirámide le dará mejores jugadores sola — nunca morralla fija.</p>
 <div class="filters">
 <select id="rMode">
 <option value="equitativo">⚖️ Equitativo total (los 5 TOP — recomendado para Islandia Top 1)</option>
-<option value="piramide">🔺 Pirámide (Lettir se queda lo mejor, filiales equilibradas entre ellas)</option>
+<option value="piramide">🔺 Pirámide por Nivel (el mejor de cada división se queda lo top, cascada hacia abajo)</option>
 </select>
 <select id="rSize"><option value="23">Plantilla 23 / equipo</option><option value="25" selected>Plantilla 25 / equipo</option><option value="20">Plantilla 20 / equipo</option></select>
 <label style="font-size:12px;color:var(--mut)"><input type="checkbox" id="rYoung" checked> Proteger jóvenes (Sub-19 con pot 75+ van a filial donde sean titulares)</label>
@@ -377,6 +377,9 @@ migrate(p);if(p.posLock)p.pos=p.posLock;save();renderAll();document.getElementBy
 function dupPlayer(id){const p=players.find(x=>x.id===id);const c={...p,id:uid(),nombre:p.nombre+' (2)'};players.push(c);save();renderAll();}
 function delPlayer(id){if(!confirm('¿Vender/borrar jugador?'))return;players=players.filter(x=>x.id!==id);save();renderAll();}
 function addTeam(){const n=prompt('Nombre del nuevo equipo central:');if(!n)return;teams.push({name:n,div:'Por definir',tipo:'CENTRAL',color:'#22c55e'});save();renderAll();}
+function teamNivel(t){const m=(''+(t.div||'')).match(/Nivel\s*(\d+)/i);return m?+m[1]:99;}
+// Orden pirámide: Nivel más bajo (1ª división) primero; a igual Nivel, CENTRAL antes. Se lee de 🛡️ Equipos, así al ascender un filial la pirámide se adapta sola sin tocar código.
+function piramideOrder(){return teams.map(t=>t.name).sort((a,b)=>{const ta=teams.find(t=>t.name===a),tb=teams.find(t=>t.name===b);const na=teamNivel(ta),nb=teamNivel(tb);if(na!==nb)return na-nb;return ((ta.tipo==='CENTRAL'?0:1)-(tb.tipo==='CENTRAL'?0:1));});}
 function editTeam(i){const t=teams[i];const n=prompt('Nombre:',t.name);if(n) t.name=n;const d=prompt('División/nivel:',t.div);if(d) t.div=d;const tp=prompt('Tipo (CENTRAL/FILIAL):',t.tipo);if(tp) t.tipo=tp.toUpperCase();save();renderAll();}
 function delTeam(i){if(teams.length<=2){alert('Deja al menos 2 equipos');return;}if(!confirm('¿Borrar '+teams[i].name+'? Sus jugadores pasan a Lettir.'))return;const old=teams[i].name;players.forEach(p=>{if(p.equipo===old)p.equipo=teams[0].name;});teams.splice(i,1);save();renderAll();}
 function resetTeams(){if(!confirm('¿Restablecer los 5 de Islandia?'))return;teams=JSON.parse(JSON.stringify(DEFAULT_TEAMS));save();renderAll();}
@@ -385,7 +388,8 @@ function autoReparto(apply){const mode=document.getElementById('rMode').value,si
 const sorted=[...players].sort((a,b)=>score(b)-score(a));
 let order=teams.map(t=>t.name);
 suggest={};
-if(mode==='piramide'){ // Lettir top picks por posición, resto snake entre filiales
+if(mode==='piramide'){ // Top picks por puesto para el equipo de Nivel más bajo, resto snake entre filiales por Nivel
+order=piramideOrder();
 const lettir=order[0],fils=order.slice(1);
 let counts={};order.forEach(o=>counts[o]=0);
 const done=new Set();
@@ -422,6 +426,7 @@ suggest[cand.id]=needy;
 fixes.push('🔧 <b>'+needy+'</b> sin <b>'+posL(pos)+'</b> → recibe a <b>'+cand.nombre+'</b> ('+posL(pos)+' '+getCA(cand)+') desde <b>'+donor+'</b>, que tenía '+nDon+' y le sobraba uno.');}
 });
 let h='<div class="ok">✅ Reparto calculado ('+(mode==='equitativo'?'equitativo total':'pirámide')+'). Tabla = <b>sugerencia de cesión</b>. Pulsa “Aplicar” para moverlos de verdad.</div>';
+if(mode==='piramide')h+='<div class="skill">🔺 Orden pirámide por Nivel actual: <b>'+order.join(' → ')+'</b> (leído de 🛡️ Equipos; al ascender, actualiza la división y se adapta solo).</div>';
 h+=fixes.length?'<h3>🔧 Huecos tapados con sobrantes</h3>'+fixes.map(f=>'<div class="skill">'+f+'</div>').join(''):'<div class="ok">✅ Sin huecos: cada equipo tiene todas las posiciones.</div>';
 h+='<div class="tblwrap"><table><tr><th>#</th><th>Jugador</th><th>Pos</th><th>Edad</th><th>Cal/Pot</th><th>Score</th><th>Equipo actual</th><th>➡ Ceder a</th><th>Motivo</th></tr>';
 sorted.forEach((p,i)=>{const dest=suggest[p.id];const move=dest!==p.equipo?'🔀':'=';const ca=getCA(p),pa=getPA(p);const mot=p.edad<=19&&pa>=156?'💎 Joven TOP → donde sea titular':(ca>=156?'⭐ Crack → reparto equitativo':(ca<=110?'🛠 Desarrollo → filial baja':'⚖️ Equilibrio por '+effPos(p).map(posL).join('/')));

@@ -74,3 +74,12 @@
 
 ## Sesión 2026-09-19 (4) — tabla por posiciones (pedido del Sultán)
 - La tabla 👥 Jugadores no estaba ordenada por posición. Cambio en `fm-lettir.html`: nuevo orden por defecto "Posición" (POR → LD → DFC → LI → MC → MPC → MPI → MPD → DC, y dentro de cada puesto por CA). El resto de órdenes (CA/PA/Edad/Precio/Nombre) siguen en el desplegable.
+
+## Sesión 2026-09-19 (5) — pirámide por Nivel + datos del Sultán
+- El Sultán pasó su estado real: `lettir-fm.json` (110 jug, 35 candados 🔒 puestos desde el juego) + CSV con textos de posición corregidos (ej. `DF DIC/MPC`, `DFI`, `MC/MP DC`).
+- Estado actual medido: Magni 120.6 · Kría 116.6 · Hamrarnir 121.1 · Höttur 118.7 · Lettir 127.6. Con candados, solo 2 huecos aparentes (Höttur y Lettir sin LI — el tapa-huecos los cubre al repartir).
+- Pregunta del Sultán: ¿puede la app hacer la pirámide que necesita y entender divisiones que cambian con los ascensos? Sí:
+  - Nuevo `teamNivel` + `piramideOrder` (`fm-lettir.html:380-382`): la pirámide ordena por Nivel leído de 🛡️ Equipos (editable), CENTRAL desempata. Al ascender un filial, actualiza su división y la pirámide le da mejores jugadores sola.
+  - Modo pirámide: el equipo de Nivel más bajo se queda los NEED mejores por puesto (22), resto en cascada por Nivel; el resultado muestra el orden usado.
+- Simulación pirámide con sus datos: Lettir 22 jug media CA 162.7 (monstruo europeo) · Höttur 26 con 110.9 · Magni 24 con 108.4 · Hamrarnir 20 con 111.6 · Kría 18 con 109.8. Confirma el plan: Lettir no se vuelve flojo, Höttur queda como 2º europeo en ciernes.
+- `plantilla-genius.csv` del repo sustituido por el CSV del Sultán (110 filas, misma distribución, posiciones corregidas). Ojo: los 35 candados viven en su navegador + su JSON, NO en el CSV; no reimportar sin respaldo o se pierden.
