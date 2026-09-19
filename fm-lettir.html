@@ -491,7 +491,7 @@ const ex=byName[normName(nom)];
 if(ex){if(ca)ex.ca=Math.max(1,Math.min(200,Math.round(ca)));if(pa)ex.pa=Math.max(1,Math.min(200,Math.round(pa)));if(ed)ex.edad=ed;const pv=Math.round(cleanNum(valorRaw));if(pv)ex.precio=pv;if((''+finRaw).trim())ex.contrato=contractYear(finRaw);upd++;}
 else missing.push(nom);});
 save();renderAll();
-alert('🔄 Actualizados '+upd+' jugadores (edad/CA/PA/valor/contrato; puestos 🔒 y equipos intactos).'+(missing.length?'\n⚠️ '+missing.length+' del CSV no estaban en la app (¿fichajes? usa “Importar CSV pegado”): '+missing.slice(0,10).join(', ')+(missing.length>10?'…':''):'')));}
+alert('🔄 Actualizados '+upd+' jugadores (edad/CA/PA/valor/contrato; puestos 🔒 y equipos intactos).'+(missing.length?'\n⚠️ '+missing.length+' del CSV no estaban en la app (¿fichajes? usa “Importar CSV pegado”): '+missing.slice(0,10).join(', ')+(missing.length>10?'…':''):''));}
 function splitDelim(ln,d){const out=[];let cur='',q=false;for(let i=0;i<ln.length;i++){const ch=ln[i];if(ch==='"'){q=!q;cur+=ch;}else if(!q&&ch===d){out.push(cur);cur='';}else cur+=ch;}out.push(cur);return out;}
 function normHead(h){return (h||'').replace(/^\uFEFF/,'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/"/g,'').replace(/\./g,'').trim().replace(/\s+/g,'_');}
 function val(o){for(let i=1;i<arguments.length;i++){const k=arguments[i];if(o[k]!=null&&o[k]!=='')return o[k];}const ks=Object.keys(o);for(let i=1;i<arguments.length;i++){const k=arguments[i];for(const kk of ks){if(kk&&k&&(kk.includes(k)||k.includes(kk))&&o[kk]!=='')return o[kk];}}return '';}

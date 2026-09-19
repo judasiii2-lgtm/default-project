@@ -88,3 +88,8 @@
 - Cazado por el Sultán (xD): ponía "Nivel más bajo" cuando es **Nivel 1, división más alta**. Corregido en comentarios, textos y `progress` (sesión 5).
 - Respaldo: antes los 35 candados solo vivían en su navegador + Descargas. Ahora `lettir-fm.json` (110 jug con 🔒 + 5 equipos) también en el repo y versionado. El CSV sigue sin guardar candados.
 - Paso del tiempo (edad/CA/PA cambian): nuevo botón 🔄 **Actualizar valores** en ➕ Añadir/Importar (`fm-lettir.html:updateValuesText`): pega el CSV nuevo del Genius y actualiza edad/CA/PA/valor/contrato **por nombre**, conservando puestos 🔒 y equipos. Los nombres del CSV que no existen avisan como posibles fichajes (esos con Importar normal). Flujo por temporada: Genius → CSV → 🔄 Actualizar → 🔀 Reparto pirámide → aplicar → ⬇ JSON de respaldo.
+
+## Sesión 2026-09-19 (7) — web muerta, paréntesis culpable
+- El Sultán avisa: la web no responde a clics. Causa: `node --check` (Node instalado por winget para verificar) encuentra `SyntaxError: Unexpected token ')'` en el `alert` final de `updateValuesText` — un `)` de más. Todo el `<script>` caía y ningún botón funcionaba.
+- Fix: quitado el paréntesis; `node --check` OK.
+- Smoke test con Node + datos reales del Sultán (`lettir-fm.json`, stubs de DOM): carga 110/5, pirámide sugiere los 110 (Lettir 21 · Höttur 26 · Magni 24 · Hamrarnir 21 · Kría 18), aplicar mueve bien (Lettir media 164.1), 🔄 Actualizar toca los 110 sin perder 🔒 ni equipos y sin añadir fantasmas. SMOKE OK.
