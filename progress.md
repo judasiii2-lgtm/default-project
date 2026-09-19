@@ -93,3 +93,8 @@
 - El Sultán avisa: la web no responde a clics. Causa: `node --check` (Node instalado por winget para verificar) encuentra `SyntaxError: Unexpected token ')'` en el `alert` final de `updateValuesText` — un `)` de más. Todo el `<script>` caía y ningún botón funcionaba.
 - Fix: quitado el paréntesis; `node --check` OK.
 - Smoke test con Node + datos reales del Sultán (`lettir-fm.json`, stubs de DOM): carga 110/5, pirámide sugiere los 110 (Lettir 21 · Höttur 26 · Magni 24 · Hamrarnir 21 · Kría 18), aplicar mueve bien (Lettir media 164.1), 🔄 Actualizar toca los 110 sin perder 🔒 ni equipos y sin añadir fantasmas. SMOKE OK.
+
+## Sesión 2026-09-19 (8) — el candado contaba pero la etiqueta mentía
+- El Sultán fija a Homet, Ricard como solo-LD y la fila sigue mostrando DFC. Causa real (verificada): los cálculos (matriz/mercado/reparto) SÍ usaban el 🔒 LD vía `effPos`; pero `migrate` recalculaba `p.pos` desde el texto Genius en cada carga, pisando el candado solo en la etiqueta, y el resto "+LD" comparaba contra ese `pos` rancio.
+- Fix en `fm-lettir.html`: `migrate` respeta el candado (`if(p.posLock)p.pos=p.posLock`); insignia de Jugadores, Tops y plantillas de Equipos muestran la posición efectiva; eliminado el resto confuso "+LD" (ya todo es una sola posición).
+- Verificado con `node --check` + smoke (110/5, pirámide 21/26/24/21/18, update 110 sin pérdidas) + caso Homet: lock LD → etiqueta LD.
