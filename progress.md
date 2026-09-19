@@ -71,3 +71,6 @@
 - Simulación réplica PowerShell con 1ª posición del Genius (a corregir con 🔒): matriz con solo 2 huecos (Kría y Lettir sin LI); Mercado Magni 21−5+6=22 · Kría 25−8+5=22 · Hamrarnir 21−3+4=22 · Höttur 23−7+6=22 · Lettir 20−4+6=22. Total 27 ventas = 27 fichajes.
 - Nota: en la réplica inicial olvidé `@()` al tomar `pos[0]` en PowerShell (devolvía la primera letra) → daba 18 huecos y 62 ventas; corregido, esos números eran falsos. La app JS nunca tuvo ese bug.
 - Uso: abrir `fm-lettir.html`, revisar cada jugador con el juego y fijar su puesto con 🔒; la matriz avisará de huecos reales hasta que esté completo.
+
+## Sesión 2026-09-19 (4) — tabla por posiciones (pedido del Sultán)
+- La tabla 👥 Jugadores no estaba ordenada por posición. Cambio en `fm-lettir.html`: nuevo orden por defecto "Posición" (POR → LD → DFC → LI → MC → MPC → MPI → MPD → DC, y dentro de cada puesto por CA). El resto de órdenes (CA/PA/Edad/Precio/Nombre) siguen en el desplegable.
