@@ -74,13 +74,13 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 </div>
 <div class="card">
 <h3>🧩 Matriz por posición (nº jugadores / media calidad)</h3>
-<p class="sub">Pasa el ratón sobre una casilla para ver <b>quién</b> cuenta ahí. Cada jugador cuenta en su puesto (candado 🔒 o Genius) + su perfil intercambiable: LD↔LI y MPI↔MPD valen para ambos lados (mismos atributos, marca ↔).</p>
+<p class="sub">Pasa el ratón sobre una casilla para ver <b>quién</b> cuenta ahí. Cada jugador cuenta en UN solo puesto: el mejor según el juego (fíjalo con 🔒 en ✏️; si no, el primero del Genius).</p>
 <div class="tblwrap"><table class="matrix" id="matrix"></table></div>
 <div id="alertas"></div>
 </div>
 <div class="card">
 <h3>💰 Mercado: qué vender, qué ceder, qué fichar</h3>
-<p class="sub">Cada jugador ocupa UN cupo: en su puesto (🔒 o Genius), y los laterales LD↔LI y extremos MPI↔MPD valen para ambos lados. Sobrantes sobre el ideal (2 por puesto, 4 en DFC/MC) → vender o ceder. Huecos → fichar. Las cesiones entre filiales las manda el 🔀 Reparto.</p>
+<p class="sub">Cada jugador ocupa UN cupo en su puesto (🔒 o Genius). Sobrantes sobre el ideal (2 por puesto, 4 en DFC/MC) → vender o ceder. Huecos → fichar o cambiar de puesto a un sobrante (LD↔LI, MPI↔MPD: mismos atributos, ver recomendaciones). Las cesiones entre filiales las manda el 🔀 Reparto.</p>
 <div id="mercado"></div>
 </div>
 <div class="card">
@@ -134,7 +134,7 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 <section id="tab-reparto" class="tab">
 <div class="card">
 <h2>🔀 Auto-reparto equitativo + cesiones</h2>
-<p class="sub"><b>Cómo funciona:</b> ordeno a todos por <b>score = 60% calidad + 40% potencial</b> (con bonus a jóvenes con potencial alto) y reparto <b>por posición con sistema snake</b> (laterales LD+LI y extremos EI+ED en grupo, al ser intercambiables): el mejor POR al equipo 1, el 2º al 2, ... el 6º vuelve al 5, etc. Así si hay 10 cracks se reparten 2 por equipo. Ningún equipo se queda cojo.<br>En modo <b>pirámide</b> el orden lo manda el <b>Nivel</b> de 🛡️ Equipos (editable): el equipo de Nivel 1 (división más alta) se queda los NEED mejores de cada puesto (22) y el resto cae en cascada por Nivel. Al ascender un filial, actualiza su división y la pirámide le dará mejores jugadores sola — nunca morralla fija.</p>
+<p class="sub"><b>Cómo funciona:</b> ordeno a todos por <b>score = 60% calidad + 40% potencial</b> (con bonus a jóvenes con potencial alto) y reparto <b>por posición con sistema snake</b>: el mejor POR al equipo 1, el 2º al 2, ... el 6º vuelve al 5, etc. Así si hay 10 cracks se reparten 2 por equipo. Ningún equipo se queda cojo.<br>En modo <b>pirámide</b> el orden lo manda el <b>Nivel</b> de 🛡️ Equipos (editable): el equipo de Nivel 1 (división más alta) se queda los NEED mejores de cada puesto (22) y el resto cae en cascada por Nivel. Al ascender un filial, actualiza su división y la pirámide le dará mejores jugadores sola — nunca morralla fija.</p>
 <div class="filters">
 <select id="rMode">
 <option value="equitativo">⚖️ Equitativo total (los 5 TOP — recomendado para Islandia Top 1)</option>
@@ -218,9 +218,9 @@ return out.length?out:['MC'];}
 function normPos(p){return parsePositions(p)[0]||'MC';}
 // una sola posición por jugador: la mejor según el juego (candado manual > base).
 // p.pos es esa posición; posFull/posList quedan como referencia del Genius.
-// Laterales (LD↔LI) y extremos (MPI↔MPD) son intercambiables (mismos atributos): cubren ambos perfiles.
-const FLEX={LD:['LD','LI'],LI:['LD','LI'],EI:['EI','ED'],ED:['EI','ED']};
-function effPos(p){const b=p.posLock||p.pos||'MC';return FLEX[b]||[b];}
+function effPos(p){if(p.posLock)return [p.posLock];return [p.pos||'MC'];}
+// Parejas intercambiables (mismos atributos): solo para RECOMENDAR cambios de puesto como texto, no automático.
+const ROLE_SWAP=[['LD','LI'],['EI','ED']];
 function cleanNum(v){if(v==null||v==='')return 0;let s=(''+v).trim().replace(/€/g,'').trim();
 if(/^\d{1,3}(\.\d{3})+($|,)/.test(s)){s=s.replace(/\./g,'');}
 s=s.replace(/\s/g,'').replace(/,/g,'.');const n=parseFloat(s);return isNaN(n)?0:n;}
@@ -299,6 +299,11 @@ buy.push({pos,need:miss,tapa:tapa?tapa.nombre+' ('+posL(tapa.posLock||tapa.pos)+
 const buyNeed=buy.reduce((x,b)=>x+b.need,0);
 gS+=sell.length;gB+=buyNeed;
 const after=mine.length-sell.length+buyNeed;
+// Cambios de puesto recomendados: si falta B y sobra su pareja A (mismos atributos), propone pasar sobrantes (mejor score primero) en vez de vender+fichar.
+const recs=[];
+ROLE_SWAP.forEach(pr=>{pr.forEach((B,i)=>{const A=pr[1-i];
+const needB=NEED[B]-(slot[B]||[]).length;if(needB<=0)return;
+mine.filter(p=>effPos(p).includes(A)&&(slot[A]||[]).indexOf(p)<0).sort((a,b)=>score(b)-score(a)).slice(0,needB).forEach(p=>recs.push({p,from:A,to:B}));});});
 const txt=sell.map(p=>{
 const ca=getCA(p),pa=getPA(p),mg=pa-ca,ep=effPos(p);
 const base=p.posLock||p.pos;
@@ -310,11 +315,12 @@ else if(mg>=40)mot='🌱 Tiene margen (+'+mg+') pero no entra en el 22: cede o v
 else mot='🛠 No le da para el 22 y sin margen (+'+mg+'): no va a jugar.';
 return '<b>'+p.nombre+'</b> ('+ep.map(posL).join('/')+' '+ca+'/'+pa+', '+p.edad+'a, '+fmt(p.precio)+'€, score '+score(p).toFixed(0)+')'
 +'<br><small>Por qué: no entra en el 22 ideal — en su puesto ('+posL(base)+') se quedan: '+quedan+'. '+mot+'</small>';});
-h+='<details '+(t.tipo==='CENTRAL'?'open':'')+' style="margin-bottom:10px"><summary style="font-size:15px"><b>'+t.name+'</b> ('+mine.length+' jug) — 🛒 vender '+sell.length+' · 🎯 fichar '+buyNeed+'</summary>';
+h+='<details '+(t.tipo==='CENTRAL'?'open':'')+' style="margin-bottom:10px"><summary style="font-size:15px"><b>'+t.name+'</b> ('+mine.length+' jug) — 🛒 vender '+sell.length+' · 🎯 fichar '+buyNeed+(recs.length?' · 🔀 cambiar '+recs.length:'')+'</summary>';
 h+='<div style="font-size:13px;color:var(--mut)">Plantilla: '+mine.length+' − '+sell.length+' ventas + '+buyNeed+' fichajes = <b>'+after+'</b> (ideal 22)</div>';
 if(!sell.length&&!buy.length){h+='<div class="ok" style="font-size:15px">✅ Plantilla clavada al ideal, nada que tocar.</div>';}
 if(sell.length)h+='<div class="alert" style="font-size:15px;padding:12px">🛒 <b>VENDER (no entran en el 22, peor score primero):</b><br><br>'+txt.join('<br><br>')+'</div>';
 if(buy.length)h+='<div class="ok" style="font-size:15px;padding:12px">🎯 <b>FICHAR:</b><br>'+buy.map(b=>'<b>'+b.need+'× '+posL(b.pos)+'</b> de CA~'+Math.round(avg)+'+'+(b.tapa?'<br><small>Lo tapa de momento '+b.tapa+' — ficha para doblar el puesto.</small>':'')).join('<br>')+'</div>';
+if(recs.length)h+='<div class="skill" style="font-size:14px;padding:12px;border:1px solid var(--acc2)">🔀 <b>CAMBIOS DE PUESTO (mismos atributos, sin fichar):</b><br><br>'+recs.map(r=>'<b>'+r.p.nombre+'</b> ('+posL(r.from)+' '+getCA(r.p)+'/'+getPA(r.p)+', '+r.p.edad+'a) → pásalo a <b>'+posL(r.to)+'</b>: le da para el puesto y tapa el hueco. <button class="btn2" style="padding:3px 10px" onclick="setRole(\''+r.p.id+'\',\''+r.to+'\')">Aplicar 🔒</button>').join('<br><br>')+'</div>';
 h+='</details>';});
 box.innerHTML='<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-bottom:12px">'
 +'<div class="kpi"><b style="font-size:30px">'+gS+'</b><small style="font-size:14px">ventas aconsejadas</small></div>'
@@ -325,8 +331,8 @@ document.getElementById('topPot').innerHTML=by.map(row).join('');document.getEle
 function renderPlayers(){const q=(document.getElementById('fSearch').value||'').toLowerCase(),ft=document.getElementById('fTeam').value,fp=document.getElementById('fPos').value,fl=document.getElementById('fLinea').value,so=document.getElementById('fSort').value;
 let l=players.filter(p=>(!q||p.nombre.toLowerCase().includes(q))&&(!ft||p.equipo===ft)&&(!fp||effPos(p).includes(fp))&&(!fl||effPos(p).some(x=>(POS_LINE[x]||'MED')===fl)));
 l.sort((a,b)=>{const ORD={POR:0,LD:1,DFC:2,LI:3,MC:4,MCO:5,EI:6,ED:7,DC:8};if(so==='posicion')return ((ORD[effPos(a)[0]]??9)-(ORD[effPos(b)[0]]??9))||getCA(b)-getCA(a);return so==='nombre'?a.nombre.localeCompare(b.nombre):so==='edad'?a.edad-b.edad:so==='precio'?b.precio-a.precio:so==='potencial'?getPA(b)-getPA(a):getCA(b)-getCA(a);});
-document.getElementById('pBody').innerHTML=l.slice(0,400).map(p=>{const ca=getCA(p),pa=getPA(p),mg=pa-ca;const ep0=effPos(p)[0]||'MC';const flex=(FLEX[ep0]||[]).filter(x=>x!==ep0);
-return '<tr><td><b style="cursor:pointer" onclick="editPlayer(\''+p.id+'\')">'+p.nombre+'</b> '+(p.posLock?'<span class="pill" title="Puesto fijado desde el juego">🔒</span>':'')+'<small><button class="btn2" style="padding:2px 6px;margin:0" onclick="editPlayer(\''+p.id+'\')">✏️</button><button class="btn2" style="padding:2px 6px;margin:0" onclick="dupPlayer(\''+p.id+'\')">📋</button><button class="danger" style="padding:2px 6px" onclick="delPlayer(\''+p.id+'\')">❌</button></small></td><td><small>'+(p.nacionalidad||'')+'</small></td><td><span class="badge b-'+((POS_LINE[ep0]||'MED').toLowerCase())+'">'+posL(ep0)+'</span>'+(flex.length?'<br><small style="color:#7dd3fc" title="Mismos atributos: vale para ambos perfiles">↔'+flex.map(posL).join(' ')+'</small>':'')+'<br><small style="color:var(--mut)">'+(p.posFull||'')+'</small></td><td>'+(suggest[p.id]&&suggest[p.id]!==p.equipo?'<s style="color:var(--mut)">'+p.equipo+'</s><br><b style="color:var(--acc)">→ '+suggest[p.id]+'</b>':p.equipo)+'</td><td>'+p.edad+'</td><td><b>'+ca+'</b></td><td>'+mg+'</td><td><span class="star">'+pa+'</span></td><td>'+fmt(p.precio)+'€</td><td>'+(p.contrato||'')+'</td></tr>';}).join('');}
+document.getElementById('pBody').innerHTML=l.slice(0,400).map(p=>{const ca=getCA(p),pa=getPA(p),mg=pa-ca;const ep0=effPos(p)[0]||'MC';
+return '<tr><td><b style="cursor:pointer" onclick="editPlayer(\''+p.id+'\')">'+p.nombre+'</b> '+(p.posLock?'<span class="pill" title="Puesto fijado desde el juego">🔒</span>':'')+'<small><button class="btn2" style="padding:2px 6px;margin:0" onclick="editPlayer(\''+p.id+'\')">✏️</button><button class="btn2" style="padding:2px 6px;margin:0" onclick="dupPlayer(\''+p.id+'\')">📋</button><button class="danger" style="padding:2px 6px" onclick="delPlayer(\''+p.id+'\')">❌</button></small></td><td><small>'+(p.nacionalidad||'')+'</small></td><td><span class="badge b-'+((POS_LINE[ep0]||'MED').toLowerCase())+'">'+posL(ep0)+'</span><br><small style="color:var(--mut)">'+(p.posFull||'')+'</small></td><td>'+(suggest[p.id]&&suggest[p.id]!==p.equipo?'<s style="color:var(--mut)">'+p.equipo+'</s><br><b style="color:var(--acc)">→ '+suggest[p.id]+'</b>':p.equipo)+'</td><td>'+p.edad+'</td><td><b>'+ca+'</b></td><td>'+mg+'</td><td><span class="star">'+pa+'</span></td><td>'+fmt(p.precio)+'€</td><td>'+(p.contrato||'')+'</td></tr>';}).join('');}
 function best22(team){const l=players.filter(p=>p.equipo===team);const used=new Set();
 const pick=(pos,n)=>{const c=l.filter(p=>effPos(p).includes(pos)&&!used.has(p.id)).sort((a,b)=>score(b)-score(a)).slice(0,n);c.forEach(p=>used.add(p.id));return c;};
 const s22={};TACTIC.forEach(s=>{s22[s.slot]=pick(s.pos,2);});return s22;}
@@ -377,6 +383,7 @@ function saveEdit(id){const p=players.find(x=>x.id===id);const g=x=>document.get
 const lk=g('e_lock');Object.assign(p,{nombre:g('e_nombre'),edad:+g('e_edad'),posFull:g('e_pos'),posLock:lk||'',equipo:g('e_equipo'),nacionalidad:g('e_nac')||'Islandia',ca:Math.max(1,Math.min(200,+g('e_ca')||100)),pa:Math.max(1,Math.min(200,+g('e_pa')||120)),precio:+g('e_precio'),salario:+g('e_sal'),contrato:+g('e_con'),clausula:+g('e_clau'),minutos:+g('e_min')});
 migrate(p);if(p.posLock)p.pos=p.posLock;save();renderAll();document.getElementById('editBox').innerHTML='';}
 function dupPlayer(id){const p=players.find(x=>x.id===id);const c={...p,id:uid(),nombre:p.nombre+' (2)'};players.push(c);save();renderAll();}
+function setRole(id,pos){const p=players.find(x=>x.id===id);if(!p)return;p.posLock=pos;p.pos=pos;save();renderAll();}
 function delPlayer(id){if(!confirm('¿Vender/borrar jugador?'))return;players=players.filter(x=>x.id!==id);save();renderAll();}
 function addTeam(){const n=prompt('Nombre del nuevo equipo central:');if(!n)return;teams.push({name:n,div:'Por definir',tipo:'CENTRAL',color:'#22c55e'});save();renderAll();}
 function teamNivel(t){const m=(''+(t.div||'')).match(/Nivel\s*(\d+)/i);return m?+m[1]:99;}
@@ -395,19 +402,16 @@ order=piramideOrder();
 const lettir=order[0],fils=order.slice(1);
 let counts={};order.forEach(o=>counts[o]=0);
 const done=new Set();
-const GROUPS=[['POR'],['LD','LI'],['DFC'],['MC'],['MCO'],['EI','ED'],['DC']];
-GROUPS.forEach(gr=>{const need=gr.reduce((x,pos)=>x+(NEED[pos]||0),0);
-let pool=sorted.filter(p=>!done.has(p.id)&&gr.some(pos=>effPos(p).includes(pos)));let li=0;
+Object.keys(NEED).forEach(pos=>{let pool=sorted.filter(p=>!done.has(p.id)&&effPos(p).includes(pos));let li=0;
 pool.forEach((p,idx)=>{let dest;
-if(idx<need&&counts[lettir]<size){dest=lettir;}
+if(idx<NEED[pos]&&counts[lettir]<size){dest=lettir;}
 else{dest=fils[li%fils.length];li++;}
 suggest[p.id]=dest;done.add(p.id);});});
 // reequilibrar tamaños: mover peores al equipo con menos
 balanceSizes(size);
-}else{ // snake puro por grupo (LD+LI y EI+ED juntos al ser intercambiables; cada jugador se asigna una vez)
+}else{ // snake puro por posición (cada jugador se asigna una vez, por su única posición)
 const done=new Set();
-const GROUPS=[['POR'],['LD','LI'],['DFC'],['MC'],['MCO'],['EI','ED'],['DC']];
-GROUPS.forEach(gr=>{let pool=sorted.filter(p=>!done.has(p.id)&&gr.some(pos=>effPos(p).includes(pos)));
+Object.keys(NEED).forEach(pos=>{let pool=sorted.filter(p=>!done.has(p.id)&&effPos(p).includes(pos));
 let dir=1,idx=0;
 pool.forEach(p=>{suggest[p.id]=order[idx];done.add(p.id);idx+=dir;if(idx>=order.length){idx=order.length-1;dir=-1;}else if(idx<0){idx=0;dir=1;}});});
 // protección jóvenes: si un sub19 top acabó en Lettir sin minutos, mandarlo al filial más flojo en su posición

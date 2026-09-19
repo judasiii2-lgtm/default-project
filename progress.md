@@ -103,3 +103,8 @@
 - Idea del Sultán: con el editor cambia roles porque LD↔LI y MPI↔MPD comparten atributos. Implementado: `FLEX` en `fm-lettir.html` — LD/LI y EI/ED cubren ambos perfiles en matriz/mercado/reparto/XI; insignia con marca ↔.
 - Bug cazado al verificar (importante): con FLEX, la pirámide vaciaba el grupo en la primera pasada (LD se llevaba a todos los LD+LI) y la segunda (LI) no tenía a quién dar → el top se quedaba con 18 cuerpos para 22 cupos (Martínez/Berk contaban doble). Fix: reparto por GRUPOS (`POR | LD+LI | DFC | MC | MCO | EI+ED | DC`) en pirámide y equitativo — el top coge los 4 laterales y 4 extremos de verdad.
 - Smoke tras fix: Lettir 22 cuerpos a 162.8 · Höttur 25 a 112.3 · Magni 23 a 112.1 · Hamrarnir 21 a 105.5 · Kría 19 a 110.1. Huecos 0. Mercado/best22 ya llevaban cupo único, sin cambios.
+
+## Sesión 2026-09-19 (10) — cambios de puesto como texto, no automático
+- El Sultán aclara: no quería FLEX automático, sino recomendaciones escritas como las ventas ("cambia a Pepito de LD a LI"). Revertido FLEX (una sola posición) y reparto por grupos (vuelve snake por posición).
+- Nuevo en 💰 Mercado por equipo: caja 🔀 **CAMBIOS DE PUESTO** — si falta B y sobra su pareja A (LD↔LI, MPI↔MPD, mismos atributos), propone pasar sobrantes (mejor score primero) con botón Aplicar 🔒 (`setRole`), que fija el candado y recalcula todo. Sale en el resumen del equipo.
+- Verificado con sus datos: Magni Mazović LD→LI (113/179), Hamrarnir Hernández LD→LI (119/174) y Prieto ED→EI (131/184), Lettir Haraldsson LD→LI (63/64). `node --check` + smoke OK (pirámide 21/26/24/21/18, Lettir 164.1).
