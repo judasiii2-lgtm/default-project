@@ -98,3 +98,8 @@
 - El Sultán fija a Homet, Ricard como solo-LD y la fila sigue mostrando DFC. Causa real (verificada): los cálculos (matriz/mercado/reparto) SÍ usaban el 🔒 LD vía `effPos`; pero `migrate` recalculaba `p.pos` desde el texto Genius en cada carga, pisando el candado solo en la etiqueta, y el resto "+LD" comparaba contra ese `pos` rancio.
 - Fix en `fm-lettir.html`: `migrate` respeta el candado (`if(p.posLock)p.pos=p.posLock`); insignia de Jugadores, Tops y plantillas de Equipos muestran la posición efectiva; eliminado el resto confuso "+LD" (ya todo es una sola posición).
 - Verificado con `node --check` + smoke (110/5, pirámide 21/26/24/21/18, update 110 sin pérdidas) + caso Homet: lock LD → etiqueta LD.
+
+## Sesión 2026-09-19 (9) — laterales/extremos intercambiables + bug de cupos dobles
+- Idea del Sultán: con el editor cambia roles porque LD↔LI y MPI↔MPD comparten atributos. Implementado: `FLEX` en `fm-lettir.html` — LD/LI y EI/ED cubren ambos perfiles en matriz/mercado/reparto/XI; insignia con marca ↔.
+- Bug cazado al verificar (importante): con FLEX, la pirámide vaciaba el grupo en la primera pasada (LD se llevaba a todos los LD+LI) y la segunda (LI) no tenía a quién dar → el top se quedaba con 18 cuerpos para 22 cupos (Martínez/Berk contaban doble). Fix: reparto por GRUPOS (`POR | LD+LI | DFC | MC | MCO | EI+ED | DC`) en pirámide y equitativo — el top coge los 4 laterales y 4 extremos de verdad.
+- Smoke tras fix: Lettir 22 cuerpos a 162.8 · Höttur 25 a 112.3 · Magni 23 a 112.1 · Hamrarnir 21 a 105.5 · Kría 19 a 110.1. Huecos 0. Mercado/best22 ya llevaban cupo único, sin cambios.
