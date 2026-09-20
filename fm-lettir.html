@@ -236,7 +236,7 @@ function q99(v){return Math.round(v/2);}
 function migrate(p){const raw=p.posFull||p.pos;p.posList=Array.isArray(p.posList)&&p.posList.length?p.posList.filter(x=>x!=='MCD'):parsePositions(raw);if(!p.posList.length)p.posList=['MC'];p.pos=p.posList[0]||'MC';if(p.posLock&&p.posLock==='MCD')p.posLock='MC';if(p.posLock)p.pos=p.posLock;if(p.ca==null&&p.calidad!=null)p.ca=Math.round(+p.calidad*2);if(p.pa==null&&p.potencial!=null)p.pa=Math.round(+p.potencial*2);if(p.ca==null)p.ca=100;if(p.pa==null)p.pa=120;if(p.nacionalidad==null)p.nacionalidad=p.nac||p.nacion||'Islandia';if(p.salario==null)p.salario=+(p.sal||p.salario_sem!=null?p.salario_sem*52:30000)||30000;return p;}
 const DEFAULT_TEAMS=[
 {name:'Léttir',div:'Besta deild karla · Nivel 1',tipo:'CENTRAL',color:'#22c55e',crest:'https://thumb.wikimedia.org/wikipedia/en/thumb/a/aa/IF_Lettir_Reykjavik_club_crest.tif/lossy-page1-120px-IF_Lettir_Reykjavik_club_crest.tif.jpg'},
-{name:'ÍF Höttur',div:'2. deild karla · Nivel 3',tipo:'FILIAL',color:'#38bdf8',crest:'https://r2.thesportsdb.com/images/media/team/badge/ydy7p91659062831.png'},
+{name:'ÍF Höttur',div:'2. deild karla · Nivel 3',tipo:'FILIAL',color:'#38bdf8',crest:'https://s.scoreapis.com/team/ds/35723.png'},
 {name:'Magni Grenivík',div:'3. deild karla · Nivel 4',tipo:'FILIAL',color:'#fbbf24',crest:'https://r2.thesportsdb.com/images/media/team/badge/2br87z1778648234.png'},
 {name:'Hamrarnir · Grupo A',div:'5. deild karla A · Nivel 6',tipo:'FILIAL',color:'#a78bfa',crest:''},
 {name:'Kría · Grupo B',div:'5. deild karla B · Nivel 6',tipo:'FILIAL',color:'#f472b6',crest:''}];

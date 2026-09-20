@@ -133,3 +133,8 @@
 - Nombre: el club existe de verdad — **Léttir Knattspyrnufélag** (Reykjavík, fund. 1979, ÍR-völlur; ojo, era filial del ÍR). En la app pasa a **Léttir** (el Genius le quitó la tilde). Migración automática al cargar: equipos y jugadores `Lettir`→`Léttir`, `mapTeam` sigue tragando con/sin tilde (verificado), importaciones intactas.
 - Escudos verificados: Léttir (Wikipedia) · Höttur y Magni (TheSportsDB, mismo escudo del club) en las tarjetas, con inicial de respaldo si falla la red. Hamrarnir y Kría sin escudo fiable encontrado → inicial con su color, editable con ✏️ (nuevo prompt URL de escudo en editar equipo).
 - Cabecera y título con LÉTTIR + nombre completo. Verificado: 0 restos sin tilde, 3 imgs en tarjetas, mercado-tab pinta, batería OK.
+
+## Sesión 2026-09-19 (16) — escudo amarillo del Höttur
+- El Sultán avisa: el que puse no era (era el de baloncesto del club). El equipo de fútbol compite como conjunto Höttur/Huginn y su escudo es amarillo y negro.
+- Puesto el amarillo real (CDN scoreapis del Höttur/Huginn, verificado descargándolo: escudo amarillo/negro). Ojo honesto: pone HUGINN (es el escudo del conjunto, no solo Höttur); el del multiclub ÍFH (verde/rojo de hottur.is) lo descarto por no ser amarillo. Si el FM le muestra otro, me pasa la imagen o URL y lo cambio con el ✏️.
+- `node --check` + batería OK.
