@@ -237,7 +237,6 @@ const DEFAULT_TEAMS=[
 {name:'Kría · Grupo B',div:'5. deild karla B · Nivel 6',tipo:'FILIAL',color:'#f472b6'}];
 let players=[],teams=[],suggest={},mercadoByTeam={},mercadoCount={};
 try{players=(JSON.parse(localStorage.getItem('lettir_players')||'[]')).map(migrate);teams=JSON.parse(localStorage.getItem('lettir_teams')||'null')||JSON.parse(JSON.stringify(DEFAULT_TEAMS));}catch(e){teams=JSON.parse(JSON.stringify(DEFAULT_TEAMS));}
-if(!players.length){genDemo(true);}
 function save(){localStorage.setItem('lettir_players',JSON.stringify(players));localStorage.setItem('lettir_teams',JSON.stringify(teams));}
 function uid(){return 'p'+Date.now().toString(36)+Math.floor(Math.random()*999);}
 function score(p){const ca=getCA(p),pa=getPA(p);let s=ca*0.6+pa*0.4;if(p.edad<=19&&pa>=150)s+=6;if(p.edad>=32)s-=4;return s;}
@@ -254,6 +253,8 @@ const r=Math.random();if(r<0.09){ca=rnd(156,176);pa=rnd(164,188);}else if(r<0.35
 const edad=pa>=170?rnd(16,21):rnd(17,33);
 players.push({id:uid()+i,nombre:FN[rnd(0,FN.length-1)]+' '+LN[rnd(0,LN.length-1)],edad,pos,posFull:pos,posList:[pos],ca,pa,precio:q99(ca)*q99(ca)*360+pa*1800+rnd(0,200000),salario:q99(ca)*4400+rnd(0,30000),contrato:rnd(2027,2030),clausula:q99(ca)*180000,equipo:tn[i%5],nacionalidad:Math.random()<0.8?'Islandia':'Noruega',minutos:rnd(0,2500),goles:POS_LINE[pos]==='DEL'?rnd(0,18):rnd(0,5),asist:rnd(0,10)});}
 save();if(!silent)renderAll();}
+// Semilla demo si el navegador llega vacío (aquí porque usa FN/LN/POSPOOL de arriba).
+if(!players.length){genDemo(true);}
 // ---- RENDER ----
 function teamOpts(){const s1=document.getElementById('a_equipo'),s2=document.getElementById('fTeam');if(s1)s1.innerHTML=teams.map(t=>'<option>'+t.name+'</option>').join('');if(s2){const v=s2.value;s2.innerHTML='<option value="">Todos los equipos</option>'+teams.map(t=>'<option>'+t.name+'</option>').join('');if(v)s2.value=v;}}
 function renderAll(){teamOpts();renderKPIs();renderMatrix();renderMercado();renderTops();renderPlayers();renderTeams();}

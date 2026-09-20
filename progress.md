@@ -112,3 +112,7 @@
 ## Sesión 2026-09-19 (11) — mercado también en 🛡️ Equipos
 - Pedido del Sultán: ventas/fichajes/cambios visibles por equipo. `renderMercado` guarda por equipo su HTML (`mercadoByTeam`) y conteos (`mercadoCount`); 🛡️ Equipos muestra en la tarjeta 🛒/🎯/🔀 y dentro del desplegable la sección 💰 Mercado completa (misma que Resumen, con botones Aplicar 🔒).
 - Verificado: 5/5 equipos con HTML (ej. Lettir 4 vender · 6 fichar · 1 cambiar). `node --check` + smoke OK.
+
+## Sesión 2026-09-19 (12) — revisión completa + bug de arranque en vacío
+- Pedido del Sultán: revisar que todo esté bien. Hecho con Node: `node --check` en `fm-lettir.html` e `index.html` (ambos OK) + batería de 34 pruebas con sus datos reales (carga 110/5, pintado de las 10 zonas, matriz 11 filas, mercado 5 equipos, equitativo+pirámide 110/110, aplicar, setRole, add/dup/del, edit/save, export CSV/JSON, import +1, update conserva equipo, goTab, ventas con motivo). Todo verde.
+- Bug real cazado: `if(!players.length){genDemo(true);}` estaba ANTES de declarar `FN/LN/POSPOOL` → en un navegador vacío la web moría al arrancar (`ReferenceError`, TDZ). El Sultán nunca lo vio porque tiene datos guardados. Fix: la semilla demo se llama tras definir `genDemo`. Verificado arranque en vacío: 110 demo OK.
