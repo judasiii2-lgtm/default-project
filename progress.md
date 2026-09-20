@@ -122,3 +122,8 @@
 - Implementado en 🔀 Reparto (ambos modos): tras huecos, calcula el 22 de cada destino por score; el cedido que no entre y tenga que desarrollar (≤21 con margen 20+ o PA 165+) vuelve al primer equipo con motivo 🏠 Cantera. Sin margen que desarrollar → se queda cedido y allí se vende (mercado lo marca 📉/🛠).
 - En 💰 Mercado, los jóvenes con margen del CENTRAL ya no salen como venta sino 🏠 Cantera (salvo que una filial los ponga de titular).
 - Medido con sus datos (pirámide): Lettir 36 (21 + 15 cantera) · Höttur 20 · Magni 20 · Hamrarnir 19 · Kría 15. Aviso honesto: las filiales quedan algo cortas y pedirán fichar barato (se ve en 🎯) — es el coste de no regalar desarrollo. `node --check` + batería OK.
+
+## Sesión 2026-09-19 (14) — regla 22: fuera ventas, todo al Lettir
+- El Sultán lo deja claro: 22 por equipo y nada más; quien no juegue, al Lettir (cantera). Ni ventas ni cesiones absurdas. Eliminado: caja VENDER, motivos 💎📉🌱🛠, lenguaje de vender/ceder (el ❌ manual ahora dice borrar).
+- 💰 Mercado ahora por equipo: 🏠 **AL LETTIR** (sobrantes del 22, cada uno con su porqué) + botón **Pasar al Lettir** (`moveSurplus`, primero avisa de aplicar 🔀 cambios) + 🎯 fichar huecos + 🔀 cambios. En Lettir, la cantera ya está en casa.
+- 🔀 Reparto: la cantera ya no filtra por potencial — TODO el que no entra en el 22 de su filial va al Lettir. Medido: Lettir 45 · Höttur 18 · Magni 17 · Hamrarnir 16 · Kría 14. `node --check` + batería OK.
