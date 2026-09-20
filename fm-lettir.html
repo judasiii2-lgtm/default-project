@@ -62,6 +62,7 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 <button data-t="jugadores" onclick="goTab('jugadores',this)">👥 Jugadores (<span id="nJ">0</span>)</button>
 <button data-t="equipos" onclick="goTab('equipos',this)">🛡️ Equipos</button>
 <button data-t="mercado" onclick="goTab('mercado',this)">💰 Mercado</button>
+<button data-t="ligas" onclick="goTab('ligas',this)">🏆 Ligas</button>
 <button data-t="reparto" onclick="goTab('reparto',this)">🔀 Reparto / Cesiones</button>
 <button data-t="add" onclick="goTab('add',this)">➕ Añadir / Importar</button>
 </nav>
@@ -133,6 +134,19 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 </div>
 </div>
 <div class="card"><h3>⚽ XI + banquillo por equipo (New Sun Days)</h3><div id="teamSquads"></div></div>
+</section>
+
+<!-- LIGAS -->
+<section id="tab-ligas" class="tab">
+<div class="card">
+<h2>🏆 Ligas: tablas finales y veredicto</h2>
+<p class="sub">Mete <b>todos los equipos de cada liga</b> y a final de temporada pega la <b>clasificación final en orden</b> (una línea por equipo; puedes añadir <span style="font-family:monospace">PJ G E P GF GC</span> al final). La web evalúa a los tuyos contra su <b>objetivo</b>, propone <b>ascensos/descensos</b> y al aplicar actualiza su división (la pirámide se adapta sola). Se guarda el historial por temporada.</p>
+<div class="filters"><label style="font-size:12px;color:var(--mut)">Temporada <input id="lg_year" type="number" value="2026" style="width:90px" onchange="season.year=+this.value||2026;save();"></label><button class="btn" onclick="closeSeason()">🏁 Cerrar temporada (veredicto)</button><button class="btn2" onclick="applyMoves()">✅ Aplicar ascensos/descensos</button></div>
+<div id="ligasOut"></div>
+<div id="movesOut"></div>
+<h3>📚 Historial</h3>
+<div id="histOut"></div>
+</div>
 </section>
 
 <!-- REPARTO -->
@@ -245,7 +259,7 @@ try{players=(JSON.parse(localStorage.getItem('lettir_players')||'[]')).map(migra
 // Migración nombre original + escudos: Lettir → Léttir (Léttir Knattspyrnufélag); rellena crest que falte.
 teams.forEach(t=>{if(t.name==='Lettir')t.name='Léttir';if(!t.crest){const d=DEFAULT_TEAMS.find(x=>x.name===t.name);if(d&&d.crest)t.crest=d.crest;}});
 players.forEach(p=>{if(p.equipo==='Lettir')p.equipo='Léttir';});
-function save(){localStorage.setItem('lettir_players',JSON.stringify(players));localStorage.setItem('lettir_teams',JSON.stringify(teams));}
+function save(){localStorage.setItem('lettir_players',JSON.stringify(players));localStorage.setItem('lettir_teams',JSON.stringify(teams));saveLeagues();}
 function uid(){return 'p'+Date.now().toString(36)+Math.floor(Math.random()*999);}
 function score(p){const ca=getCA(p),pa=getPA(p);let s=ca*0.6+pa*0.4;if(p.edad<=19&&pa>=150)s+=6;if(p.edad>=32)s-=4;return s;}
 function fmt(n){if(n>=1e6)return (n/1e6).toFixed(1)+'M';if(n>=1e3)return Math.round(n/1e3)+'K';return n;}
@@ -265,7 +279,7 @@ save();if(!silent)renderAll();}
 if(!players.length){genDemo(true);}
 // ---- RENDER ----
 function teamOpts(){const s1=document.getElementById('a_equipo'),s2=document.getElementById('fTeam');if(s1)s1.innerHTML=teams.map(t=>'<option>'+t.name+'</option>').join('');if(s2){const v=s2.value;s2.innerHTML='<option value="">Todos los equipos</option>'+teams.map(t=>'<option>'+t.name+'</option>').join('');if(v)s2.value=v;}}
-function renderAll(){teamOpts();renderKPIs();renderMatrix();renderMercado();renderTops();renderPlayers();renderTeams();}
+function renderAll(){teamOpts();renderKPIs();renderMatrix();renderMercado();renderTops();renderPlayers();renderTeams();renderLigas();}
 function renderKPIs(){document.getElementById('nJ').textContent=players.length;
 const avg=a=>a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1):'-';
 const el=document.getElementById('kpis');
@@ -398,7 +412,68 @@ function addTeam(){const n=prompt('Nombre del nuevo equipo central:');if(!n)retu
 function teamNivel(t){const m=(''+(t.div||'')).match(/Nivel\s*(\d+)/i);return m?+m[1]:99;}
 // Orden pirámide: Nivel 1 (división más alta) primero; a igual Nivel, CENTRAL antes. Se lee de 🛡️ Equipos, así al ascender un filial la pirámide se adapta sola sin tocar código.
 function piramideOrder(){return teams.map(t=>t.name).sort((a,b)=>{const ta=teams.find(t=>t.name===a),tb=teams.find(t=>t.name===b);const na=teamNivel(ta),nb=teamNivel(tb);if(na!==nb)return na-nb;return ((ta.tipo==='CENTRAL'?0:1)-(tb.tipo==='CENTRAL'?0:1));});}
-function editTeam(i){const t=teams[i];const n=prompt('Nombre:',t.name);if(n) t.name=n;const d=prompt('División/nivel:',t.div);if(d) t.div=d;const tp=prompt('Tipo (CENTRAL/FILIAL):',t.tipo);if(tp) t.tipo=tp.toUpperCase();const cr=prompt('URL del escudo (vacío = inicial):',t.crest||'');if(cr!=null) t.crest=cr.trim();save();renderAll();}
+// ---- LIGAS: todos los equipos de cada liga + cierre de temporada ----
+const NIVEL_DIV={1:'Besta deild karla',2:'1. deild karla',3:'2. deild karla',4:'3. deild karla',5:'4. deild karla',6:'5. deild karla'};
+const DEFAULT_LEAGUES=[
+{id:'N1',name:'Besta deild karla',nivel:1,size:12,up:2,down:2,teams:['Léttir']},
+{id:'N2',name:'1. deild karla',nivel:2,size:12,up:2,down:2,teams:[]},
+{id:'N3',name:'2. deild karla',nivel:3,size:12,up:2,down:2,teams:['ÍF Höttur']},
+{id:'N4',name:'3. deild karla',nivel:4,size:12,up:2,down:2,teams:['Magni Grenivík']},
+{id:'N5',name:'4. deild karla',nivel:5,size:12,up:2,down:2,teams:[]},
+{id:'N6A',name:'5. deild karla A',nivel:6,size:10,up:2,down:0,teams:['Hamrarnir · Grupo A']},
+{id:'N6B',name:'5. deild karla B',nivel:6,size:10,up:2,down:0,teams:['Kría · Grupo B']}];
+let leagues=[],season={year:2026,tables:{},stats:{}},history=[],moves=[];
+function saveLeagues(){localStorage.setItem('lettir_leagues',JSON.stringify({leagues,season,history}));}
+function loadLeagues(){try{const d=JSON.parse(localStorage.getItem('lettir_leagues')||'null');if(d&&d.leagues&&d.leagues.length){leagues=d.leagues;season=d.season||{year:2026,tables:{},stats:{}};history=d.history||[];return;}}catch(e){}leagues=JSON.parse(JSON.stringify(DEFAULT_LEAGUES));season={year:2026,tables:{},stats:{}};history=[];}
+function isOurs(nm){return teams.some(t=>t.name===nm);}
+function teamObj(nm){const mine=players.filter(p=>p.equipo===nm);return {n:mine.length,avg:mine.length?mine.reduce((x,p)=>x+getCA(p),0)/mine.length:0};}
+function lgGet(id){return leagues.find(l=>l.id===id);}
+function lgStash(){leagues.forEach(x=>{const t=document.getElementById('lg_t_'+x.id);if(t)season.tables[x.id]=t.value;});}
+function lgSaveTable(id){lgStash();moves=[];const mo=document.getElementById('movesOut');if(mo)mo.innerHTML='';saveLeagues();renderLigas();}
+function lgAddTeam(id){const n=prompt('Equipo para '+lgGet(id).name+':');if(!n||!n.trim())return;const L=lgGet(id);if(!L.teams.includes(n.trim()))L.teams.push(n.trim());saveLeagues();renderLigas();}
+function lgDelTeam(id,ix){const L=lgGet(id);if(!confirm('¿Quitar '+L.teams[ix]+' de la liga?'))return;L.teams.splice(ix,1);saveLeagues();renderLigas();}
+function lgSet(id,f,v){lgStash();const L=lgGet(id);L[f]=Math.max(0,+v||0);saveLeagues();renderLigas();}
+function parseTable(tx){return (''+tx).split('\n').map(s=>s.trim()).filter(Boolean).map(s=>{const st=s.match(/(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s*$/);let nm=s.replace(/^\d+\s*[.)\-:]\s*/,'');let PJ=null;if(st){PJ={pj:+st[1],g:+st[2],e:+st[3],p:+st[4],gf:+st[5],gc:+st[6]};nm=nm.replace(/\s+\d+(\s+\d+){5}\s*$/,'').trim();}return {name:nm,st:PJ};});}
+function verdictOf(tm,pos,L){const obj=tm.objetivo||(teamNivel(tm)===1?'Título':'Ascenso');const rows=(season.tables[L.id]||'').split('\n').filter(x=>x.trim()).length||L.size;let v='🔴',why='';
+if(obj==='Título'){if(pos===1){v='🟢';why='campeón';}else why='no campeón, pedía título';}
+else if(obj==='Ascenso'){if(pos<=L.up){v='🟢';why='asciende';}else if(pos<=L.up+2){v='🟡';why='cerca del ascenso';}else why='lejos del ascenso';}
+else if(obj==='Playoff'){if(pos<=L.up+3){v='🟢';why='en la pelea';}else if(pos<=L.up+5){v='🟡';why='lejos pero vivo';}else why='fuera de pelea';}
+else{if(L.down>0&&pos>rows-L.down){v='🔴';why='desciende';}else{v='🟢';why='se mantiene';}}
+return {v,why,obj};}
+function statsNote(st){if(!st||!st.pj)return '';const ppg=((st.g*3+st.e)/st.pj).toFixed(2),gf=(st.gf/st.pj).toFixed(2),gc=(st.gc/st.pj).toFixed(2);let n=' · '+ppg+' pts/p ('+gf+' GF, '+gc+' GC)';if(+gf<1.2)n+=' ⚠️ poco gol → mira DC/MPC (🎯)';if(+gc>1.5)n+=' ⚠️ encaja mucho → mira DFC/POR (🎯)';return n;}
+function renderLigas(){const y=document.getElementById('lg_year');if(y)y.value=season.year;
+let h='';leagues.forEach(L=>{
+h+='<details '+(L.teams.some(isOurs)?'open':'')+'><summary><b>'+L.name+'</b> · Nivel '+L.nivel+' ('+L.teams.length+' equipos)</summary>';
+h+='<div class="filters"><label style="font-size:11px;color:var(--mut)">Tamaño<input type="number" value="'+L.size+'" style="width:60px" onchange="lgSet(\''+L.id+'\',\'size\',this.value)"></label><label style="font-size:11px;color:var(--mut)">Ascienden<input type="number" value="'+L.up+'" style="width:50px" onchange="lgSet(\''+L.id+'\',\'up\',this.value)"></label><label style="font-size:11px;color:var(--mut)">Descienden<input type="number" value="'+L.down+'" style="width:50px" onchange="lgSet(\''+L.id+'\',\'down\',this.value)"></label><button class="btn2" onclick="lgAddTeam(\''+L.id+'\')">＋ Equipo</button><button class="btn2" onclick="lgSaveTable(\''+L.id+'\')">💾 Guardar tabla</button></div>';
+h+='<div style="font-size:13px">'+L.teams.map((t,i)=>'<span class="pill">'+t+(isOurs(t)?' ⭐':'')+' <small style="cursor:pointer" onclick="lgDelTeam(\''+L.id+'\','+i+')">✕</small></span>').join(' ')+'</div>';
+h+='<textarea id="lg_t_'+L.id+'" rows="4" placeholder="Clasificación final en orden, uno por línea (opcional: PJ G E P GF GC al final)">'+(season.tables[L.id]||'')+'</textarea></details>';});
+document.getElementById('ligasOut').innerHTML=h||'Sin ligas';renderHist();}
+function renderHist(){const el=document.getElementById('histOut');if(!el)return;
+el.innerHTML=history.length?history.slice().reverse().map(s=>'<div class="skill"><b>'+s.year+'</b> '+Object.keys(s.verdicts||{}).map(t=>t+': '+s.verdicts[t].pos+'º '+s.verdicts[t].liga).join(' · ')+'</div>').join(''):'<small style="color:var(--mut)">Sin temporadas cerradas.</small>';}
+function closeSeason(){lgStash();moves=[];let h='';
+leagues.forEach(L=>{
+const rows=parseTable(season.tables[L.id]||'');if(!rows.length)return;
+rows.forEach(r=>{if(r.name&&!L.teams.includes(r.name))L.teams.push(r.name);});
+h+='<h3>'+L.name+' '+season.year+' — tabla ('+rows.length+')</h3><div class="tblwrap"><table><tr><th>#</th><th>Equipo</th><th>PJ</th><th>G-E-P</th><th>GF-GC</th><th>Veredicto</th></tr>';
+rows.forEach((r,i)=>{const pos=i+1;let vd='';
+if(isOurs(r.name)){const tm=teams.find(t=>t.name===r.name);const v=verdictOf(tm,pos,L);const to=teamObj(r.name);
+vd=v.v+' '+v.obj+': '+v.why+' <small>(plantilla '+to.n+' jug, media '+to.avg.toFixed(1)+')</small>'+statsNote(r.st);
+if(pos<=L.up&&teamNivel(tm)>1)moves.push({team:r.name,dir:'asciende'});
+else if(L.down>0&&pos>rows.length-L.down&&teamNivel(tm)<6)moves.push({team:r.name,dir:'desciende'});}
+h+='<tr><td>'+pos+'</td><td>'+r.name+(isOurs(r.name)?' ⭐':'')+'</td><td>'+(r.st?r.st.pj:'-')+'</td><td>'+(r.st?(r.st.g+'-'+r.st.e+'-'+r.st.p):'-')+'</td><td>'+(r.st?(r.st.gf+'-'+r.st.gc):'-')+'</td><td>'+vd+'</td></tr>';});
+h+='</table></div>';});
+if(!h){alert('Pega al menos una clasificación final');return;}
+saveLeagues();renderLigas();
+document.getElementById('movesOut').innerHTML=(moves.length?'<h3>🔀 Movimientos propuestos</h3>'+moves.map((m,i)=>'<div class="skill"><b>'+(i+1)+'. '+m.team+'</b> '+m.dir+'</div>').join('')+'<div class="ok">Pulsa “✅ Aplicar ascensos/descensos”.</div>':'<div class="ok">✅ Sin ascensos ni descensos para los tuyos.</div>');}
+function divFor(nivel,tm){let g='Grupo A';const cur=((tm.div||'')+' '+(tm.name||''));const m=cur.match(/Grupo\s*([AB])/i);if(m)g='Grupo '+m[1].toUpperCase();let d=NIVEL_DIV[nivel]||('Nivel '+nivel);if(nivel===6)d+=' '+g;return d+' · Nivel '+nivel;}
+function applyMoves(){if(!moves.length){alert('Primero cierra la temporada');return;}
+if(!confirm('¿Aplicar '+moves.length+' movimientos y archivar la temporada '+season.year+'?'))return;
+const verd={};leagues.forEach(L=>{const rows=parseTable(season.tables[L.id]||'');rows.forEach((r,i)=>{if(isOurs(r.name))verd[r.name]={liga:L.name,pos:i+1};});});
+moves.forEach(m=>{const tm=teams.find(t=>t.name===m.team);if(!tm)return;const nv=m.dir==='asciende'?teamNivel(tm)-1:teamNivel(tm)+1;tm.div=divFor(Math.max(1,nv),tm);});
+history.push({year:season.year,verdicts:verd});season={year:season.year+1,tables:{},stats:{}};moves=[];
+save();saveLeagues();renderAll();
+alert('Temporada archivada ✅ Divisiones actualizadas (la pirámide se adapta sola).');}
+function editTeam(i){const t=teams[i];const n=prompt('Nombre:',t.name);if(n) t.name=n;const d=prompt('División/nivel:',t.div);if(d) t.div=d;const tp=prompt('Tipo (CENTRAL/FILIAL):',t.tipo);if(tp) t.tipo=tp.toUpperCase();const ob=prompt('Objetivo en liga (Título/Ascenso/Playoff/Mantener):',t.objetivo||(teamNivel(t)===1?'Título':'Ascenso'));if(ob) t.objetivo=ob;const cr=prompt('URL del escudo (vacío = inicial):',t.crest||'');if(cr!=null) t.crest=cr.trim();save();renderAll();}
 function delTeam(i){if(teams.length<=2){alert('Deja al menos 2 equipos');return;}if(!confirm('¿Borrar '+teams[i].name+'? Sus jugadores pasan a '+teams[0].name+'.'))return;const old=teams[i].name;players.forEach(p=>{if(p.equipo===old)p.equipo=teams[0].name;});teams.splice(i,1);save();renderAll();}
 function resetTeams(){if(!confirm('¿Restablecer los 5 de Islandia?'))return;teams=JSON.parse(JSON.stringify(DEFAULT_TEAMS));save();renderAll();}
 // ---- REPARTO EQUITATIVO ----
@@ -474,7 +549,7 @@ if(!confirm('¿Mover a todos a su equipo sugerido?'))return;
 players.forEach(p=>{if(suggest[p.id])p.equipo=suggest[p.id];});
 save();renderAll();alert('Cesiones aplicadas ✅');}
 // ---- IMPORT/EXPORT Genie 0-200 ----
-function exportJSON(){const b=new Blob([JSON.stringify({teams,players},null,2)],{type:'application/json'});dl(b,'lettir-fm.json');}
+function exportJSON(){const b=new Blob([JSON.stringify({teams,players,leagues,season,history},null,2)],{type:'application/json'});dl(b,'lettir-fm.json');}
 function exportCSV(){const head='nombre,nacion,posicion,club,edad,hab_actual,dif,hab_potencial,valor,final_contrato,salario,clausula,id_fm';
 const rows=players.map(p=>{const ca=getCA(p),pa=getPA(p);return ['"'+(p.nombre||'')+'"','"'+(p.nacionalidad||'')+'"','"'+(p.posFull||p.pos)+'"','"'+(p.equipo||'')+'"',p.edad,ca,(pa-ca),pa,p.precio,p.contrato||'',p.salario||0,p.clausula||0,(p.id_fm||'')].join(',');});
 dl(new Blob(["\uFEFF"+[head,...rows].join('\n')],{type:'text/csv;charset=utf-8'}),'lettir-fm.csv');}
@@ -483,7 +558,7 @@ function impMsg(base){const li=window._lastImp||{};let m=base+(li.cols?' · sep=
 if(li.n>0&&(li.def||0)>=Math.max(3,li.n*0.8))m+='. ⚠️ El archivo trae las habilidades VACÍAS: el Genius bloquea exportar CA/PA/Dif por licencia. NO uses Exportar→archivo: selecciona la tabla en Genius (Ctrl+A), copia (Ctrl+C), pega en Excel y de ahí importa.';
 else if(li.cols)m+=' · cols: '+li.cols.join('|')+' · sin CA/PA: '+(li.def||0);
 return m;}
-function handleImportText(txt,fname){if(fname&&fname.endsWith('.json')){const d=JSON.parse(txt);if(d.players)players=d.players.map(migrate);else if(Array.isArray(d))players=d.map(migrate);if(d.teams)teams=d.teams;}else{parseCSV(txt);}save();renderAll();alert(impMsg('Importado ✅ '+players.length+' jugadores en total'));}
+function handleImportText(txt,fname){if(fname&&fname.endsWith('.json')){const d=JSON.parse(txt);if(d.players)players=d.players.map(migrate);else if(Array.isArray(d))players=d.map(migrate);if(d.teams)teams=d.teams;if(d.leagues)leagues=d.leagues;if(d.season)season=d.season;if(d.history)history=d.history;saveLeagues();}else{parseCSV(txt);}save();renderAll();alert(impMsg('Importado ✅ '+players.length+' jugadores en total'));}
 function importFile(e){const f=e.target.files[0];if(!f)return;
 const rb=new FileReader();
 rb.onload=()=>{try{const buf=rb.result;let txt='';try{txt=new TextDecoder('utf-8',{fatal:true}).decode(buf);}catch(_){txt=new TextDecoder('windows-1252').decode(buf);}
@@ -564,6 +639,7 @@ const edadRaw=val(o,'edad','age')||c[4]||'';
 const valorRaw=val(o,'valor','precio','value','price')||c[8]||'';
 const finRaw=val(o,'final_contrato','contrato','contract','final')||c[9]||'';
 players.push(migrate({id:uid()+Math.random(),id_fm:val(o,'id_fm','uid'),nombre:nomRaw||'Sin nombre',edad:Math.round(cleanNum(edadRaw))||20,pos:normPos(rawPos),posFull:(rawPos||'').toUpperCase(),nacionalidad:nacRaw,ca:Math.max(1,Math.min(200,Math.round(ca)||120)),pa:Math.max(1,Math.min(200,Math.round(pa)||140)),precio:Math.round(cleanNum(valorRaw))||100000,salario:Math.round(sal)||30000,contrato:contractYear(finRaw),clausula:Math.round(cleanNum(val(o,'clausula','release')))||0,equipo:mapTeam(clubRaw)||teams[0].name,minutos:0,goles:0,asist:0}));});}
+loadLeagues();
 renderAll();
 </script>
 </body>

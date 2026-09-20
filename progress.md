@@ -145,3 +145,9 @@
 
 ## Sesión 2026-09-19 (18) — Equipos solo táctica
 - Pedido del Sultán (con captura): en 🛡️ Equipos solo la táctica con los nombres (XI + banquillo, 22). Fuera la sección de mercado y la tabla de jugadores de cada desplegable — para eso están 💰 Mercado y 👥 Jugadores. Título actualizado. `node --check` + batería OK.
+
+## Sesión 2026-09-19 (19) — pestaña 🏆 Ligas + cierre de temporada
+- Pedido del Sultán: meter todos los equipos de todas las ligas y a final de temporada poner los datos para que la web evalúe.
+- Nuevo: 7 ligas islandesas precargadas (N1–N5 + 5ª en grupos A/B, con los nuestros colocados y ⭐), editables (tamaño, ascensos, descensos, +/− equipos). Por liga se pega la clasificación final en orden (opcional `PJ G E P GF GC`); los nombres nuevos se incorporan solos.
+- Cierre: veredicto por objetivo (Título/Ascenso/Playoff/Mantener, editable en ✏️ equipo) con 🟢🟡🔴 + contexto de plantilla (nº y media) + notas de ataque/defensa si hay stats (enlazan al 🎯 fichar). Propone ascensos/descensos y al aplicar actualiza división/Nivel (la pirámide se adapta sola) y archiva la temporada en el historial.
+- Persistencia en `lettir_leagues` + incluido en ⬇/⬆ JSON. Verificado: Höttur 1º en N3 → asciende a `1. deild karla · Nivel 2`, archiva 2026→2027. `node --check` + batería OK.
