@@ -238,8 +238,8 @@ const DEFAULT_TEAMS=[
 {name:'Léttir',div:'Besta deild karla · Nivel 1',tipo:'CENTRAL',color:'#22c55e',crest:'https://thumb.wikimedia.org/wikipedia/en/thumb/a/aa/IF_Lettir_Reykjavik_club_crest.tif/lossy-page1-120px-IF_Lettir_Reykjavik_club_crest.tif.jpg'},
 {name:'ÍF Höttur',div:'2. deild karla · Nivel 3',tipo:'FILIAL',color:'#38bdf8',crest:'https://s.scoreapis.com/team/ds/35723.png'},
 {name:'Magni Grenivík',div:'3. deild karla · Nivel 4',tipo:'FILIAL',color:'#fbbf24',crest:'https://r2.thesportsdb.com/images/media/team/badge/2br87z1778648234.png'},
-{name:'Hamrarnir · Grupo A',div:'5. deild karla A · Nivel 6',tipo:'FILIAL',color:'#a78bfa',crest:''},
-{name:'Kría · Grupo B',div:'5. deild karla B · Nivel 6',tipo:'FILIAL',color:'#f472b6',crest:''}];
+{name:'Hamrarnir · Grupo A',div:'5. deild karla A · Nivel 6',tipo:'FILIAL',color:'#a78bfa',crest:'https://s.scoreapis.com/team/ds/62317.png'},
+{name:'Kría · Grupo B',div:'5. deild karla B · Nivel 6',tipo:'FILIAL',color:'#f472b6',crest:'https://assets.offsidescores.com/teams/pics/8a7b508b-3687-4ffd-bd02-4f9ee3df0cf2638623431277695978.png'}];
 let players=[],teams=[],suggest={},mercadoByTeam={},mercadoCount={};
 try{players=(JSON.parse(localStorage.getItem('lettir_players')||'[]')).map(migrate);teams=JSON.parse(localStorage.getItem('lettir_teams')||'null')||JSON.parse(JSON.stringify(DEFAULT_TEAMS));}catch(e){teams=JSON.parse(JSON.stringify(DEFAULT_TEAMS));}
 // Migración nombre original + escudos: Lettir → Léttir (Léttir Knattspyrnufélag); rellena crest que falte.

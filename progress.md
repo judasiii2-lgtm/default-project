@@ -138,3 +138,7 @@
 - El Sultán avisa: el que puse no era (era el de baloncesto del club). El equipo de fútbol compite como conjunto Höttur/Huginn y su escudo es amarillo y negro.
 - Puesto el amarillo real (CDN scoreapis del Höttur/Huginn, verificado descargándolo: escudo amarillo/negro). Ojo honesto: pone HUGINN (es el escudo del conjunto, no solo Höttur); el del multiclub ÍFH (verde/rojo de hottur.is) lo descarto por no ser amarillo. Si el FM le muestra otro, me pasa la imagen o URL y lo cambio con el ✏️.
 - `node --check` + batería OK.
+
+## Sesión 2026-09-19 (17) — escudos Hamrarnir y Kría
+- Pedido del Sultán: poner los dos que faltaban. Hamrarnir verificado descargándolo (círculo amarillo con martillos cruzados, "HAMRARNIR 2005", CDN scoreapis id 62317). Kría = **Knattspyrnufélagið Kría** (kría = golondrina de mar ártica): círculo amarillo con el pájaro negro + KRIA (CDN offsidescores, verificado).
+- Los 5 equipos ya lucen escudo (migración rellena los vacíos del navegador). `node --check` + smoke (5 imgs) OK.
