@@ -127,3 +127,9 @@
 - El Sultán lo deja claro: 22 por equipo y nada más; quien no juegue, al Lettir (cantera). Ni ventas ni cesiones absurdas. Eliminado: caja VENDER, motivos 💎📉🌱🛠, lenguaje de vender/ceder (el ❌ manual ahora dice borrar).
 - 💰 Mercado ahora por equipo: 🏠 **AL LETTIR** (sobrantes del 22, cada uno con su porqué) + botón **Pasar al Lettir** (`moveSurplus`, primero avisa de aplicar 🔀 cambios) + 🎯 fichar huecos + 🔀 cambios. En Lettir, la cantera ya está en casa.
 - 🔀 Reparto: la cantera ya no filtra por potencial — TODO el que no entra en el 22 de su filial va al Lettir. Medido: Lettir 45 · Höttur 18 · Magni 17 · Hamrarnir 16 · Kría 14. `node --check` + batería OK.
+
+## Sesión 2026-09-19 (15) — pestaña Mercado + escudos + nombre original
+- Pedido triple del Sultán: (1) pestaña 💰 Mercado propia con qué zona mejorar por equipo (antes vivía dentro de Resumen; el contenido por equipo —al Léttir/fichar/cambios— ya lo dice todo); (2) escudos en 🛡️ Equipos; (3) nombre original del Lettir.
+- Nombre: el club existe de verdad — **Léttir Knattspyrnufélag** (Reykjavík, fund. 1979, ÍR-völlur; ojo, era filial del ÍR). En la app pasa a **Léttir** (el Genius le quitó la tilde). Migración automática al cargar: equipos y jugadores `Lettir`→`Léttir`, `mapTeam` sigue tragando con/sin tilde (verificado), importaciones intactas.
+- Escudos verificados: Léttir (Wikipedia) · Höttur y Magni (TheSportsDB, mismo escudo del club) en las tarjetas, con inicial de respaldo si falla la red. Hamrarnir y Kría sin escudo fiable encontrado → inicial con su color, editable con ✏️ (nuevo prompt URL de escudo en editar equipo).
+- Cabecera y título con LÉTTIR + nombre completo. Verificado: 0 restos sin tilde, 3 imgs en tarjetas, mercado-tab pinta, batería OK.

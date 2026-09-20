@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LETTIR GROUP · Football Manager Islandia</title>
+<title>LÉTTIR GROUP · Football Manager Islandia</title>
 <style>
 :root{--bg:#0a1118;--card:#131d27;--card2:#182636;--acc:#22c55e;--acc2:#38bdf8;--gold:#fbbf24;--red:#ef4444;--txt:#e8eef4;--mut:#8aa0b4;--line:#243445}
 *{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt)}
@@ -54,13 +54,14 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 </head>
 <body>
 <header>
-<h1>⚽ LETTIR <span>GROUP</span> · FM ISLANDIA</h1>
-<p>Lettir (Besta deild karla · Nivel 1 · Central) + 4 filiales · Reparto equitativo por posición para hacer a Islandia Top 1 🌍</p>
+<h1>⚽ LÉTTIR <span>GROUP</span> · FM ISLANDIA</h1>
+<p>Léttir Knattspyrnufélag (Besta deild karla · Nivel 1 · Central) + 4 filiales · Reparto por Nivel para hacer a Islandia Top 1 🌍</p>
 </header>
 <nav>
 <button class="active" data-t="resumen" onclick="goTab('resumen',this)">📊 Resumen / Balance</button>
 <button data-t="jugadores" onclick="goTab('jugadores',this)">👥 Jugadores (<span id="nJ">0</span>)</button>
 <button data-t="equipos" onclick="goTab('equipos',this)">🛡️ Equipos</button>
+<button data-t="mercado" onclick="goTab('mercado',this)">💰 Mercado</button>
 <button data-t="reparto" onclick="goTab('reparto',this)">🔀 Reparto / Cesiones</button>
 <button data-t="add" onclick="goTab('add',this)">➕ Añadir / Importar</button>
 </nav>
@@ -79,17 +80,21 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 <div id="alertas"></div>
 </div>
 <div class="card">
-<h3>💰 Mercado: quién va al Lettir, qué fichar y cambios de puesto</h3>
-<p class="sub">Regla del Sultán: <b>22 por equipo, nada más</b>. Quien no entra en el 22 no se vende ni se cede a marear: va al Lettir (cantera). Huecos → fichar o cambiar de puesto a un sobrante (LD↔LI, MPI↔MPD: mismos atributos). El 🔀 Reparto arma los 22; esto remata lo que sobre.</p>
-<div id="mercado"></div>
-</div>
-<div class="card">
 <h3>⭐ Top por potencial y calidad</h3>
 <div class="grid g3">
 <div><h3>💎 Mayor potencial</h3><div id="topPot"></div></div>
 <div><h3>🔥 Mayor calidad actual</h3><div id="topCal"></div></div>
 <div><h3>💰 Mayor valor</h3><div id="topVal"></div></div>
 </div>
+</div>
+</section>
+
+<!-- MERCADO -->
+<section id="tab-mercado" class="tab">
+<div class="card">
+<h2>💰 Mercado: qué zona mejorar por equipo</h2>
+<p class="sub">Regla del Sultán: <b>22 por equipo, nada más</b>. Quien no entra en el 22 no se vende ni se cede a marear: va al Léttir (cantera). Por equipo verás <b>qué zona mejorar</b> (🎯 fichar por puesto), quién sobra al Léttir (🏠) y qué cambios de puesto hacer (🔀 LD↔LI, MPI↔MPD: mismos atributos). El 🔀 Reparto arma los 22; esto remata lo que sobre.</p>
+<div id="mercado"></div>
 </div>
 </section>
 
@@ -230,13 +235,16 @@ function getPA(p){if(p.pa!=null&&!isNaN(+p.pa))return +p.pa;if(p.potencial!=null
 function q99(v){return Math.round(v/2);}
 function migrate(p){const raw=p.posFull||p.pos;p.posList=Array.isArray(p.posList)&&p.posList.length?p.posList.filter(x=>x!=='MCD'):parsePositions(raw);if(!p.posList.length)p.posList=['MC'];p.pos=p.posList[0]||'MC';if(p.posLock&&p.posLock==='MCD')p.posLock='MC';if(p.posLock)p.pos=p.posLock;if(p.ca==null&&p.calidad!=null)p.ca=Math.round(+p.calidad*2);if(p.pa==null&&p.potencial!=null)p.pa=Math.round(+p.potencial*2);if(p.ca==null)p.ca=100;if(p.pa==null)p.pa=120;if(p.nacionalidad==null)p.nacionalidad=p.nac||p.nacion||'Islandia';if(p.salario==null)p.salario=+(p.sal||p.salario_sem!=null?p.salario_sem*52:30000)||30000;return p;}
 const DEFAULT_TEAMS=[
-{name:'Lettir',div:'Besta deild karla · Nivel 1',tipo:'CENTRAL',color:'#22c55e'},
-{name:'ÍF Höttur',div:'2. deild karla · Nivel 3',tipo:'FILIAL',color:'#38bdf8'},
-{name:'Magni Grenivík',div:'3. deild karla · Nivel 4',tipo:'FILIAL',color:'#fbbf24'},
-{name:'Hamrarnir · Grupo A',div:'5. deild karla A · Nivel 6',tipo:'FILIAL',color:'#a78bfa'},
-{name:'Kría · Grupo B',div:'5. deild karla B · Nivel 6',tipo:'FILIAL',color:'#f472b6'}];
+{name:'Léttir',div:'Besta deild karla · Nivel 1',tipo:'CENTRAL',color:'#22c55e',crest:'https://thumb.wikimedia.org/wikipedia/en/thumb/a/aa/IF_Lettir_Reykjavik_club_crest.tif/lossy-page1-120px-IF_Lettir_Reykjavik_club_crest.tif.jpg'},
+{name:'ÍF Höttur',div:'2. deild karla · Nivel 3',tipo:'FILIAL',color:'#38bdf8',crest:'https://r2.thesportsdb.com/images/media/team/badge/ydy7p91659062831.png'},
+{name:'Magni Grenivík',div:'3. deild karla · Nivel 4',tipo:'FILIAL',color:'#fbbf24',crest:'https://r2.thesportsdb.com/images/media/team/badge/2br87z1778648234.png'},
+{name:'Hamrarnir · Grupo A',div:'5. deild karla A · Nivel 6',tipo:'FILIAL',color:'#a78bfa',crest:''},
+{name:'Kría · Grupo B',div:'5. deild karla B · Nivel 6',tipo:'FILIAL',color:'#f472b6',crest:''}];
 let players=[],teams=[],suggest={},mercadoByTeam={},mercadoCount={};
 try{players=(JSON.parse(localStorage.getItem('lettir_players')||'[]')).map(migrate);teams=JSON.parse(localStorage.getItem('lettir_teams')||'null')||JSON.parse(JSON.stringify(DEFAULT_TEAMS));}catch(e){teams=JSON.parse(JSON.stringify(DEFAULT_TEAMS));}
+// Migración nombre original + escudos: Lettir → Léttir (Léttir Knattspyrnufélag); rellena crest que falte.
+teams.forEach(t=>{if(t.name==='Lettir')t.name='Léttir';if(!t.crest){const d=DEFAULT_TEAMS.find(x=>x.name===t.name);if(d&&d.crest)t.crest=d.crest;}});
+players.forEach(p=>{if(p.equipo==='Lettir')p.equipo='Léttir';});
 function save(){localStorage.setItem('lettir_players',JSON.stringify(players));localStorage.setItem('lettir_teams',JSON.stringify(teams));}
 function uid(){return 'p'+Date.now().toString(36)+Math.floor(Math.random()*999);}
 function score(p){const ca=getCA(p),pa=getPA(p);let s=ca*0.6+pa*0.4;if(p.edad<=19&&pa>=150)s+=6;if(p.edad>=32)s-=4;return s;}
@@ -310,18 +318,18 @@ const ca=getCA(p),pa=getPA(p),ep=effPos(p);
 const base=p.posLock||p.pos;
 const quedan=((slot[base]||[]).map(q=>q.nombre+' ('+getCA(q)+'/'+getPA(q)+')').join(', ')||'nadie');
 return '<b>'+p.nombre+'</b> ('+ep.map(posL).join('/')+' '+ca+'/'+pa+', '+p.edad+'a, '+fmt(p.precio)+'€, score '+score(p).toFixed(0)+')'
-+'<br><small>Por qué: no entra en el 22 — en su puesto ('+posL(base)+') se quedan: '+quedan+'. Va al Lettir (cantera), no se vende.</small>';});
++'<br><small>Por qué: no entra en el 22 — en su puesto ('+posL(base)+') se quedan: '+quedan+'. Va al Léttir (cantera), no se vende.</small>';});
 const isTop=t.name===piramideOrder()[0];
 h+='<details '+(t.tipo==='CENTRAL'?'open':'')+' style="margin-bottom:10px"><summary style="font-size:15px"><b>'+t.name+'</b> ('+mine.length+' jug) — 🏠 al Lettir '+sell.length+' · 🎯 fichar '+buyNeed+(recs.length?' · 🔀 cambiar '+recs.length:'')+'</summary>';
 let mh='<div style="font-size:13px;color:var(--mut)">Plantilla: '+mine.length+' → 22 ideal + '+sell.length+' al Lettir + '+buyNeed+' fichajes</div>';
 if(!sell.length&&!buy.length){mh+='<div class="ok" style="font-size:15px">✅ 22 justos, nada que tocar.</div>';}
-if(sell.length)mh+='<div class="ok" style="font-size:15px;padding:12px">🏠 <b>AL LETTIR, cantera (sobran del 22):</b><br><br>'+txt.join('<br><br>')+(isTop?'<br><br><small>Ya están en casa: se quedan a desarrollarse o para futuros equipos.</small>':'<br><br><button class="btn" onclick="moveSurplus(\''+t.name.replace(/'/g,"\\'")+'\')">Pasar los '+sell.length+' al Lettir</button> <small>Primero aplica los 🔀 cambios si los hay: así tapan huecos antes de irse.</small>')+'</div>';
+if(sell.length)mh+='<div class="ok" style="font-size:15px;padding:12px">🏠 <b>AL LÉTTIR, cantera (sobran del 22):</b><br><br>'+txt.join('<br><br>')+(isTop?'<br><br><small>Ya están en casa: se quedan a desarrollarse o para futuros equipos.</small>':'<br><br><button class="btn" onclick="moveSurplus(\''+t.name.replace(/'/g,"\\'")+'\')">Pasar los '+sell.length+' al Lettir</button> <small>Primero aplica los 🔀 cambios si los hay: así tapan huecos antes de irse.</small>')+'</div>';
 if(buy.length)mh+='<div class="ok" style="font-size:15px;padding:12px">🎯 <b>FICHAR:</b><br>'+buy.map(b=>'<b>'+b.need+'× '+posL(b.pos)+'</b> de CA~'+Math.round(avg)+'+'+(b.tapa?'<br><small>Lo tapa de momento '+b.tapa+' — ficha para doblar el puesto.</small>':'')).join('<br>')+'</div>';
 if(recs.length)mh+='<div class="skill" style="font-size:14px;padding:12px;border:1px solid var(--acc2)">🔀 <b>CAMBIOS DE PUESTO (mismos atributos, sin fichar):</b><br><br>'+recs.map(r=>'<b>'+r.p.nombre+'</b> ('+posL(r.from)+' '+getCA(r.p)+'/'+getPA(r.p)+', '+r.p.edad+'a) → pásalo a <b>'+posL(r.to)+'</b>: le da para el puesto y tapa el hueco. <button class="btn2" style="padding:3px 10px" onclick="setRole(\''+r.p.id+'\',\''+r.to+'\')">Aplicar 🔒</button>').join('<br><br>')+'</div>';
 h+=mh;mercadoByTeam[t.name]=mh;mercadoCount[t.name]={s:sell.length,b:buyNeed,r:recs.length};
 h+='</details>';});
 box.innerHTML='<div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-bottom:12px">'
-+'<div class="kpi"><b style="font-size:30px">'+gS+'</b><small style="font-size:14px">al Lettir (cantera)</small></div>'
++'<div class="kpi"><b style="font-size:30px">'+gS+'</b><small style="font-size:14px">al Léttir (cantera)</small></div>'
 +'<div class="kpi"><b style="font-size:30px">'+gB+'</b><small style="font-size:14px">fichajes necesarios</small></div></div>'+h;}
 function renderTops(){const by=[...players].sort((a,b)=>getPA(b)-getPA(a)).slice(0,8),by2=[...players].sort((a,b)=>getCA(b)-getCA(a)).slice(0,8),by3=[...players].sort((a,b)=>b.precio-a.precio).slice(0,8);
 const row=p=>'<div style="font-size:12.5px;padding:4px 0;border-bottom:1px solid #223344"><b>'+p.nombre+'</b> <span class="pill">'+posL(effPos(p)[0]||'MC')+'</span> <span class="star">'+getCA(p)+'/'+getPA(p)+'</span><br><small style="color:var(--mut)">'+p.edad+' años · '+(p.nacionalidad||'')+' · '+p.equipo+' · '+fmt(p.precio)+'€</small></div>';
@@ -341,7 +349,7 @@ return '<div style="font-size:12px"><b>'+(i+1)+'. '+p.nombre+'</b> <small style=
 return '<div style="background:#0e1a27;border:1px solid var(--line);border-radius:10px;padding:8px;text-align:center"><b>'+posL(slotPos)+'</b> <small style="color:var(--mut)">· '+rol+'</small><div style="margin-top:4px;display:grid;gap:4px">'+row(arr[0],0)+row(arr[1],1)+'</div></div>';}
 function renderTeams(){const c=document.getElementById('teamCards');
 c.innerHTML=teams.map((t,i)=>{const l=players.filter(p=>p.equipo===t.name);const m=l.length?(l.reduce((x,p)=>x+getCA(p),0)/l.length).toFixed(1):'-';const mc=mercadoCount[t.name]||{s:0,b:0,r:0};
-return '<div class="team" style="border-top-color:'+t.color+'"><h4>'+t.name+'</h4><small>'+t.div+'</small><br><span class="badge '+(t.tipo==='CENTRAL'?'b-central':'b-filial')+'">'+t.tipo+'</span><div style="margin:8px 0"><b style="font-size:22px">'+l.length+'</b> <small>jug · media CA '+m+'</small><br><small>🏠 '+mc.s+' al Lettir · 🎯 '+mc.b+' fichar'+(mc.r?' · 🔀 '+mc.r+' cambiar':'')+'</small></div><div class="filters" style="margin:0"><button class="btn2" onclick="editTeam('+i+')">✏️</button><button class="danger" onclick="delTeam('+i+')">🗑</button></div></div>';}).join('');
+return '<div class="team" style="border-top-color:'+t.color+'"><div style="display:flex;gap:10px;align-items:center">'+(t.crest?'<img src="'+t.crest+'" alt="escudo" style="width:46px;height:46px;object-fit:contain;background:#fff;border-radius:10px;padding:2px" onerror="this.style.display=\'none\'">':'<div style="width:46px;height:46px;border-radius:10px;background:'+t.color+'33;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;flex:none">'+t.name.charAt(0)+'</div>')+'<div><h4>'+t.name+'</h4><small>'+t.div+'</small></div></div><br><span class="badge '+(t.tipo==='CENTRAL'?'b-central':'b-filial')+'">'+t.tipo+'</span><div style="margin:8px 0"><b style="font-size:22px">'+l.length+'</b> <small>jug · media CA '+m+'</small><br><small>🏠 '+mc.s+' al Lettir · 🎯 '+mc.b+' fichar'+(mc.r?' · 🔀 '+mc.r+' cambiar':'')+'</small></div><div class="filters" style="margin:0"><button class="btn2" onclick="editTeam('+i+')">✏️</button><button class="danger" onclick="delTeam('+i+')">🗑</button></div></div>';}).join('');
 let h='';teams.forEach(t=>{const ORD={POR:0,LD:1,DFC:2,LI:3,MC:4,MCO:5,EI:6,ED:7,DC:8};
 const l=players.filter(p=>p.equipo===t.name).sort((a,b)=>((ORD[a.pos]??9)-(ORD[b.pos]??9))||score(b)-score(a));
 const s22=best22(t.name);const n22=Object.values(s22).reduce((x,a)=>x+a.filter(Boolean).length,0);
@@ -356,8 +364,8 @@ h+='<div style="background:#052e16;border:1px solid #22c55e55;border-radius:12px
 +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div>'+pair22(s22.MC1,'MC-Ap','MC')+'</div><div>'+pair22(s22.MC2,'MC-Ap','MC')+'</div></div>'
 +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px"><div>'+pair22(s22.LI,'LAT-At · LI','LI')+'</div><div>'+pair22(s22.DFC1,'DCT-De','DFC')+'</div><div>'+pair22(s22.DFC2,'DCT-De','DFC')+'</div><div>'+pair22(s22.LD,'LAT-At · LD','LD')+'</div></div>'
 +'<div style="max-width:380px;margin:auto">'+pair22(s22.POR,'PCI-De · POR','POR')+'</div>'
-+'</div>'+(faltan.length?'<div class="alert">⚠️ Puestos sin doblar: <b>'+faltan.join(', ')+'</b> — el que sobre de 2 por puesto va al Lettir.</div>':'<div class="ok">✅ 22 completos ('+n22+'/22): 2 por puesto, el resto fuera.</div>')+'</div>';
-h+='<h3>💰 Al Lettir, fichar y cambios de puesto</h3>'+(mercadoByTeam[t.name]||'<small>Sin datos</small>');
++'</div>'+(faltan.length?'<div class="alert">⚠️ Puestos sin doblar: <b>'+faltan.join(', ')+'</b> — el que sobre de 2 por puesto va al Léttir.</div>':'<div class="ok">✅ 22 completos ('+n22+'/22): 2 por puesto, el resto fuera.</div>')+'</div>';
+h+='<h3>💰 Al Léttir, fichar y cambios de puesto</h3>'+(mercadoByTeam[t.name]||'<small>Sin datos</small>');
 h+='<div class="tblwrap"><table><tr><th>Jugador</th><th>Pos</th><th>Edad</th><th>CA/PA</th><th>Precio</th><th>Contrato</th></tr>'+l.map(p=>'<tr><td>'+p.nombre+'</td><td>'+posL(effPos(p)[0]||'MC')+'</td><td>'+p.edad+'</td><td>'+getCA(p)+'/'+getPA(p)+'</td><td>'+fmt(p.precio)+'€</td><td>'+(p.contrato||'')+'</td></tr>').join('')+'</table></div></details>';});
 document.getElementById('teamSquads').innerHTML=h||'Sin jugadores';}
 // ---- CRUD ----
@@ -391,8 +399,8 @@ function addTeam(){const n=prompt('Nombre del nuevo equipo central:');if(!n)retu
 function teamNivel(t){const m=(''+(t.div||'')).match(/Nivel\s*(\d+)/i);return m?+m[1]:99;}
 // Orden pirámide: Nivel 1 (división más alta) primero; a igual Nivel, CENTRAL antes. Se lee de 🛡️ Equipos, así al ascender un filial la pirámide se adapta sola sin tocar código.
 function piramideOrder(){return teams.map(t=>t.name).sort((a,b)=>{const ta=teams.find(t=>t.name===a),tb=teams.find(t=>t.name===b);const na=teamNivel(ta),nb=teamNivel(tb);if(na!==nb)return na-nb;return ((ta.tipo==='CENTRAL'?0:1)-(tb.tipo==='CENTRAL'?0:1));});}
-function editTeam(i){const t=teams[i];const n=prompt('Nombre:',t.name);if(n) t.name=n;const d=prompt('División/nivel:',t.div);if(d) t.div=d;const tp=prompt('Tipo (CENTRAL/FILIAL):',t.tipo);if(tp) t.tipo=tp.toUpperCase();save();renderAll();}
-function delTeam(i){if(teams.length<=2){alert('Deja al menos 2 equipos');return;}if(!confirm('¿Borrar '+teams[i].name+'? Sus jugadores pasan a Lettir.'))return;const old=teams[i].name;players.forEach(p=>{if(p.equipo===old)p.equipo=teams[0].name;});teams.splice(i,1);save();renderAll();}
+function editTeam(i){const t=teams[i];const n=prompt('Nombre:',t.name);if(n) t.name=n;const d=prompt('División/nivel:',t.div);if(d) t.div=d;const tp=prompt('Tipo (CENTRAL/FILIAL):',t.tipo);if(tp) t.tipo=tp.toUpperCase();const cr=prompt('URL del escudo (vacío = inicial):',t.crest||'');if(cr!=null) t.crest=cr.trim();save();renderAll();}
+function delTeam(i){if(teams.length<=2){alert('Deja al menos 2 equipos');return;}if(!confirm('¿Borrar '+teams[i].name+'? Sus jugadores pasan a '+teams[0].name+'.'))return;const old=teams[i].name;players.forEach(p=>{if(p.equipo===old)p.equipo=teams[0].name;});teams.splice(i,1);save();renderAll();}
 function resetTeams(){if(!confirm('¿Restablecer los 5 de Islandia?'))return;teams=JSON.parse(JSON.stringify(DEFAULT_TEAMS));save();renderAll();}
 // ---- REPARTO EQUITATIVO ----
 function autoReparto(apply){const mode=document.getElementById('rMode').value,size=+document.getElementById('rSize').value,prot=document.getElementById('rYoung').checked;
