@@ -132,7 +132,7 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 <button class="btn2" onclick="resetTeams()">↺ Restablecer los 5 de Islandia</button>
 </div>
 </div>
-<div class="card"><h3>📋 Plantilla por equipo + XI New Sun Days</h3><div id="teamSquads"></div></div>
+<div class="card"><h3>⚽ XI + banquillo por equipo (New Sun Days)</h3><div id="teamSquads"></div></div>
 </section>
 
 <!-- REPARTO -->
@@ -365,8 +365,7 @@ h+='<div style="background:#052e16;border:1px solid #22c55e55;border-radius:12px
 +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px"><div>'+pair22(s22.LI,'LAT-At · LI','LI')+'</div><div>'+pair22(s22.DFC1,'DCT-De','DFC')+'</div><div>'+pair22(s22.DFC2,'DCT-De','DFC')+'</div><div>'+pair22(s22.LD,'LAT-At · LD','LD')+'</div></div>'
 +'<div style="max-width:380px;margin:auto">'+pair22(s22.POR,'PCI-De · POR','POR')+'</div>'
 +'</div>'+(faltan.length?'<div class="alert">⚠️ Puestos sin doblar: <b>'+faltan.join(', ')+'</b> — el que sobre de 2 por puesto va al Léttir.</div>':'<div class="ok">✅ 22 completos ('+n22+'/22): 2 por puesto, el resto fuera.</div>')+'</div>';
-h+='<h3>💰 Al Léttir, fichar y cambios de puesto</h3>'+(mercadoByTeam[t.name]||'<small>Sin datos</small>');
-h+='<div class="tblwrap"><table><tr><th>Jugador</th><th>Pos</th><th>Edad</th><th>CA/PA</th><th>Precio</th><th>Contrato</th></tr>'+l.map(p=>'<tr><td>'+p.nombre+'</td><td>'+posL(effPos(p)[0]||'MC')+'</td><td>'+p.edad+'</td><td>'+getCA(p)+'/'+getPA(p)+'</td><td>'+fmt(p.precio)+'€</td><td>'+(p.contrato||'')+'</td></tr>').join('')+'</table></div></details>';});
+h+='</details>';});
 document.getElementById('teamSquads').innerHTML=h||'Sin jugadores';}
 // ---- CRUD ----
 function addPlayer(){const g=id=>document.getElementById(id).value;

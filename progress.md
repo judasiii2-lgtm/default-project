@@ -142,3 +142,6 @@
 ## Sesión 2026-09-19 (17) — escudos Hamrarnir y Kría
 - Pedido del Sultán: poner los dos que faltaban. Hamrarnir verificado descargándolo (círculo amarillo con martillos cruzados, "HAMRARNIR 2005", CDN scoreapis id 62317). Kría = **Knattspyrnufélagið Kría** (kría = golondrina de mar ártica): círculo amarillo con el pájaro negro + KRIA (CDN offsidescores, verificado).
 - Los 5 equipos ya lucen escudo (migración rellena los vacíos del navegador). `node --check` + smoke (5 imgs) OK.
+
+## Sesión 2026-09-19 (18) — Equipos solo táctica
+- Pedido del Sultán (con captura): en 🛡️ Equipos solo la táctica con los nombres (XI + banquillo, 22). Fuera la sección de mercado y la tabla de jugadores de cada desplegable — para eso están 💰 Mercado y 👥 Jugadores. Título actualizado. `node --check` + batería OK.
