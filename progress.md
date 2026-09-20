@@ -116,3 +116,9 @@
 ## Sesión 2026-09-19 (12) — revisión completa + bug de arranque en vacío
 - Pedido del Sultán: revisar que todo esté bien. Hecho con Node: `node --check` en `fm-lettir.html` e `index.html` (ambos OK) + batería de 34 pruebas con sus datos reales (carga 110/5, pintado de las 10 zonas, matriz 11 filas, mercado 5 equipos, equitativo+pirámide 110/110, aplicar, setRole, add/dup/del, edit/save, export CSV/JSON, import +1, update conserva equipo, goTab, ventas con motivo). Todo verde.
 - Bug real cazado: `if(!players.length){genDemo(true);}` estaba ANTES de declarar `FN/LN/POSPOOL` → en un navegador vacío la web moría al arrancar (`ReferenceError`, TDZ). El Sultán nunca lo vio porque tiene datos guardados. Fix: la semilla demo se llama tras definir `genDemo`. Verificado arranque en vacío: 110 demo OK.
+
+## Sesión 2026-09-19 (13) — cantera Lettir (pedido del Sultán)
+- Idea: si un cedido no entraría en el 22 de su destino (allí también sobraría), cederlo es absurdo — se queda en el Lettir a desarrollarse o para futuros equipos.
+- Implementado en 🔀 Reparto (ambos modos): tras huecos, calcula el 22 de cada destino por score; el cedido que no entre y tenga que desarrollar (≤21 con margen 20+ o PA 165+) vuelve al primer equipo con motivo 🏠 Cantera. Sin margen que desarrollar → se queda cedido y allí se vende (mercado lo marca 📉/🛠).
+- En 💰 Mercado, los jóvenes con margen del CENTRAL ya no salen como venta sino 🏠 Cantera (salvo que una filial los ponga de titular).
+- Medido con sus datos (pirámide): Lettir 36 (21 + 15 cantera) · Höttur 20 · Magni 20 · Hamrarnir 19 · Kría 15. Aviso honesto: las filiales quedan algo cortas y pedirán fichar barato (se ve en 🎯) — es el coste de no regalar desarrollo. `node --check` + batería OK.

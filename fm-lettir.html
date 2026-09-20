@@ -134,7 +134,7 @@ textarea{width:100%;background:#0b141d;color:#fff;border:1px solid #33475e;borde
 <section id="tab-reparto" class="tab">
 <div class="card">
 <h2>🔀 Auto-reparto equitativo + cesiones</h2>
-<p class="sub"><b>Cómo funciona:</b> ordeno a todos por <b>score = 60% calidad + 40% potencial</b> (con bonus a jóvenes con potencial alto) y reparto <b>por posición con sistema snake</b>: el mejor POR al equipo 1, el 2º al 2, ... el 6º vuelve al 5, etc. Así si hay 10 cracks se reparten 2 por equipo. Ningún equipo se queda cojo.<br>En modo <b>pirámide</b> el orden lo manda el <b>Nivel</b> de 🛡️ Equipos (editable): el equipo de Nivel 1 (división más alta) se queda los NEED mejores de cada puesto (22) y el resto cae en cascada por Nivel. Al ascender un filial, actualiza su división y la pirámide le dará mejores jugadores sola — nunca morralla fija.</p>
+<p class="sub"><b>Cómo funciona:</b> ordeno a todos por <b>score = 60% calidad + 40% potencial</b> (con bonus a jóvenes con potencial alto) y reparto <b>por posición con sistema snake</b>: el mejor POR al equipo 1, el 2º al 2, ... el 6º vuelve al 5, etc. Así si hay 10 cracks se reparten 2 por equipo. Ningún equipo se queda cojo.<br>En modo <b>pirámide</b> el orden lo manda el <b>Nivel</b> de 🛡️ Equipos (editable): el equipo de Nivel 1 (división más alta) se queda los NEED mejores de cada puesto (22) y el resto cae en cascada por Nivel. Al ascender un filial, actualiza su división y la pirámide le dará mejores jugadores sola — nunca morralla fija.<br>🏠 <b>Cantera:</b> si un cedido no entraría en el 22 de su destino, no se cede: se queda en el primer equipo a desarrollarse o para futuros equipos.</p>
 <div class="filters">
 <select id="rMode">
 <option value="equitativo">⚖️ Equitativo total (los 5 TOP — recomendado para Islandia Top 1)</option>
@@ -310,7 +310,8 @@ const ca=getCA(p),pa=getPA(p),mg=pa-ca,ep=effPos(p);
 const base=p.posLock||p.pos;
 const quedan=((slot[base]||[]).map(q=>q.nombre+' ('+getCA(q)+'/'+getPA(q)+')').join(', ')||'nadie');
 let mot='';
-if(p.edad<=19&&pa>=150)mot='💎 Joven TOP con margen +'+mg+': antes de vender, CÉDELO a una filial donde sea titular.';
+if(t.tipo==='CENTRAL'&&p.edad<=21&&(pa-ca)>=20)mot='🏠 Cantera: joven con margen (+'+mg+') que se queda en casa a desarrollarse — no se vende; si una filial lo pone de titular, se cede (compruébalo en 🔀 Reparto).';
+else if(p.edad<=19&&pa>=150)mot='💎 Joven TOP con margen +'+mg+': antes de vender, CÉDELO a una filial donde sea titular.';
 else if(p.edad>=32)mot='📉 Veterano de '+p.edad+' años sin margen (+'+mg+'): vende y libera salario/hueco.';
 else if(mg>=40)mot='🌱 Tiene margen (+'+mg+') pero no entra en el 22: cede o vende (con recompra si puedes).';
 else mot='🛠 No le da para el 22 y sin margen (+'+mg+'): no va a jugar.';
@@ -437,11 +438,22 @@ const cand=cnt(donor).sort((a,b)=>score(a)-score(b))[0];if(!cand)break;
 suggest[cand.id]=needy;
 fixes.push('🔧 <b>'+needy+'</b> sin <b>'+posL(pos)+'</b> → recibe a <b>'+cand.nombre+'</b> ('+posL(pos)+' '+getCA(cand)+') desde <b>'+donor+'</b>, que tenía '+nDon+' y le sobraba uno.');}
 });
+// Cantera: si un cedido no entraría en el 22 de su destino (allí también sobraría), cederlo es absurdo: se queda en el top a desarrollarse o para futuros equipos.
+const TOP=order[0];
+const byDest={};order.forEach(o=>byDest[o]=[]);
+sorted.forEach(p=>{byDest[suggest[p.id]].push(p);});
+const plays={};order.forEach(o=>{plays[o]=new Set();});
+order.forEach(o=>{Object.keys(NEED).forEach(pos=>{byDest[o].filter(p=>effPos(p).includes(pos)).slice(0,NEED[pos]).forEach(p=>plays[o].add(p.id));});});
+const canteraIds=new Set();
+sorted.forEach(p=>{const d=suggest[p.id];if(d===TOP||plays[d].has(p.id))return;const ca=getCA(p),pa=getPA(p);
+// Solo cantera si hay algo que desarrollar: joven con margen o potencial TOP. Si no, se queda cedido y allí se vende.
+if((p.edad<=21&&(pa-ca)>=20)||pa>=165){suggest[p.id]=TOP;canteraIds.add(p.id);}});
 let h='<div class="ok">✅ Reparto calculado ('+(mode==='equitativo'?'equitativo total':'pirámide')+'). Tabla = <b>sugerencia de cesión</b>. Pulsa “Aplicar” para moverlos de verdad.</div>';
 if(mode==='piramide')h+='<div class="skill">🔺 Orden pirámide (de mejor a peor división): <b>'+order.join(' → ')+'</b> (leído de 🛡️ Equipos; al ascender, actualiza la división y se adapta solo).</div>';
 h+=fixes.length?'<h3>🔧 Huecos tapados con sobrantes</h3>'+fixes.map(f=>'<div class="skill">'+f+'</div>').join(''):'<div class="ok">✅ Sin huecos: cada equipo tiene todas las posiciones.</div>';
+if(canteraIds.size)h+='<div class="skill">🏠 <b>Cantera '+TOP+': '+canteraIds.size+' jugadores</b> que iban cedidos pero no serían titulares en su destino (allí también sobrarían) — se quedan en casa a desarrollarse o para futuros equipos.</div>';
 h+='<div class="tblwrap"><table><tr><th>#</th><th>Jugador</th><th>Pos</th><th>Edad</th><th>Cal/Pot</th><th>Score</th><th>Equipo actual</th><th>➡ Ceder a</th><th>Motivo</th></tr>';
-sorted.forEach((p,i)=>{const dest=suggest[p.id];const move=dest!==p.equipo?'🔀':'=';const ca=getCA(p),pa=getPA(p);const mot=p.edad<=19&&pa>=156?'💎 Joven TOP → donde sea titular':(ca>=156?'⭐ Crack → reparto equitativo':(ca<=110?'🛠 Desarrollo → filial baja':'⚖️ Equilibrio por '+effPos(p).map(posL).join('/')));
+sorted.forEach((p,i)=>{const dest=suggest[p.id];const move=dest!==p.equipo?'🔀':'=';const ca=getCA(p),pa=getPA(p);const mot=canteraIds.has(p.id)?'🏠 Cantera '+TOP+': no sería titular en su filial — se desarrolla en casa o espera nuevos equipos':(p.edad<=19&&pa>=156?'💎 Joven TOP → donde sea titular':(ca>=156?'⭐ Crack → reparto equitativo':(ca<=110?'🛠 Desarrollo → filial baja':'⚖️ Equilibrio por '+effPos(p).map(posL).join('/'))));
 h+='<tr><td>'+(i+1)+'</td><td><b>'+p.nombre+'</b></td><td>'+effPos(p).map(posL).join('/')+(p.posLock?' 🔒':'')+'</td><td>'+p.edad+'</td><td>'+ca+'/'+pa+'</td><td>'+score(p).toFixed(1)+'</td><td>'+p.equipo+'</td><td><b style="color:var(--acc)">'+dest+'</b> '+move+'</td><td><small>'+mot+'</small></td></tr>';});
 h+='</table></div>';
 // resumen por equipo
