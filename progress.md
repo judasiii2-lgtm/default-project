@@ -151,3 +151,12 @@
 - Nuevo: 7 ligas islandesas precargadas (N1–N5 + 5ª en grupos A/B, con los nuestros colocados y ⭐), editables (tamaño, ascensos, descensos, +/− equipos). Por liga se pega la clasificación final en orden (opcional `PJ G E P GF GC`); los nombres nuevos se incorporan solos.
 - Cierre: veredicto por objetivo (Título/Ascenso/Playoff/Mantener, editable en ✏️ equipo) con 🟢🟡🔴 + contexto de plantilla (nº y media) + notas de ataque/defensa si hay stats (enlazan al 🎯 fichar). Propone ascensos/descensos y al aplicar actualiza división/Nivel (la pirámide se adapta sola) y archiva la temporada en el historial.
 - Persistencia en `lettir_leagues` + incluido en ⬇/⬆ JSON. Verificado: Höttur 1º en N3 → asciende a `1. deild karla · Nivel 2`, archiva 2026→2027. `node --check` + batería OK.
+
+---
+# WuWa SONANCE (proyecto separado, no mezclar con Lettir)
+
+## Sesión 2026-09-24 — restauración tras borrado
+- El Sultán reporta WuWa vacío: sin imgs, sin fichas/rotaciones, sin Mis Equipos. En git no existe versión full previa (`index.html` 233 líneas desde `e1289a7` en main y `proyectos-de-mierda`): no se puede recuperar, se reconstruye.
+- Restaurado en `index.html`: `portrait()` + `IMG_ID` (wuthering.gg `_ipx`, 5 URLs 200 OK verificadas; resto con fallback a inicial si el ID falla), `BUILDS` 9→20 con `rot`, `kitDesc()` en ficha, `MY_TEAMS_DEFAULT` (6 meta 3.6) + `myTeams` persistido en `sonance76` con editor (añadir/borrar), imgs en PJs/Builds/Tier/Ficha.
+- Fix `bestTeams`: filtro DPS `includes('DPS')` → `==='DPS principal'` (antes Iuno/Zhezhi duplicados en 2 equipos; ahora 18 slots únicos, 0 dups). Clave `sonance76` intacta y separada de `lettir_*`.
+- Verificado: `node --check` OK, smoke 58/47, builds 20, myTeams 6, bestTeams sin dups, `renderAll` OK.
