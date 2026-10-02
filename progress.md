@@ -165,3 +165,8 @@
 - Análisis: `IMG_ID` inventados (pinyin) → 404 fuera de 5; `portHTML()` sin usar; `MY_TEAMS` con 4 no-poseídos (Ciaccona/Roccia/Lupa/Brant); `teamScore` rompía con nombre fantasma; gacha sin pity real; `buildFor` genérico para 38/58; `kitDesc` sin enlace.
 - Fix con `wuthering.gg/characters` en vivo: retratos a `iconrolehead150` numérico (58/58, ej. Augusta 51_UI, Cartethyia 40_UI, Qingxiao 73_UI), `.port` con `position:relative`, `MY_TEAMS` 6/6 100% tuyos (Electro/Aero/Havoc/Spectro/Glacio/Fusion), `teamScore` con guard, pity `x/80` + soft-pity ≥70, `buildFor` por rol (Support Rejuvenating/Moonlit, Sub Moonlit/sup, DPS 43311), `kitDesc` con enlace al kit, versión v7.7.
 - Verificado: `node --check` OK, smoke 58/47/20, retratos 58/58 nuevo formato, equipos 0 faltantes, bestTeams 18 únicos, fantasma 0, `renderAll` OK.
+
+## Sesión 2026-10-02 (2) — ficha y builds como capturas
+- El Sultán muestra cómo estaba: modal Lucy con splash, Talentos, Cómo está (Tuyo vs Recomendado/Óptimo), Editar números (Prob/CDMG/ATK/HP/ER/bono/cura), Progreso (arma/ecos/talentos), ecos/arma/subs/prioridad/ascensión/dónde + Ver en mapa, Qué mejorar ahora, Sus equipos; y Builds con banner, % progreso, checks, detalles y UID 600063375.
+- Reconstruido: `UID`+`GUIDE` (7 PJs con objetivos reales + fallback por rol), `st2`/`buildPct`/`improveFor`, `openChar` rico, `saveStats` con 7 campos, `renderBuilds` rico (banner, %, Tengo arma/Ecos/Talentos, eco/arma/alt/set/prioridad/ascensión/dónde, Qué mejorar, Ficha completa), cabecera Builds vinculada a UID + alerta cuenta precargada + botón Tengo todas las armas, barra parche 3.6, `bFilter` por defecto Solo los míos.
+- Verificado: `node --check` OK, ficha Lucy con las 5 secciones, builds con banner/checks/mejorar, `renderAll` OK.
