@@ -160,3 +160,8 @@
 - Restaurado en `index.html`: `portrait()` + `IMG_ID` (wuthering.gg `_ipx`, 5 URLs 200 OK verificadas; resto con fallback a inicial si el ID falla), `BUILDS` 9→20 con `rot`, `kitDesc()` en ficha, `MY_TEAMS_DEFAULT` (6 meta 3.6) + `myTeams` persistido en `sonance76` con editor (añadir/borrar), imgs en PJs/Builds/Tier/Ficha.
 - Fix `bestTeams`: filtro DPS `includes('DPS')` → `==='DPS principal'` (antes Iuno/Zhezhi duplicados en 2 equipos; ahora 18 slots únicos, 0 dups). Clave `sonance76` intacta y separada de `lettir_*`.
 - Verificado: `node --check` OK, smoke 58/47, builds 20, myTeams 6, bestTeams sin dups, `renderAll` OK.
+
+## Sesión 2026-10-02 — reconstrucción v7.7 (análisis web)
+- Análisis: `IMG_ID` inventados (pinyin) → 404 fuera de 5; `portHTML()` sin usar; `MY_TEAMS` con 4 no-poseídos (Ciaccona/Roccia/Lupa/Brant); `teamScore` rompía con nombre fantasma; gacha sin pity real; `buildFor` genérico para 38/58; `kitDesc` sin enlace.
+- Fix con `wuthering.gg/characters` en vivo: retratos a `iconrolehead150` numérico (58/58, ej. Augusta 51_UI, Cartethyia 40_UI, Qingxiao 73_UI), `.port` con `position:relative`, `MY_TEAMS` 6/6 100% tuyos (Electro/Aero/Havoc/Spectro/Glacio/Fusion), `teamScore` con guard, pity `x/80` + soft-pity ≥70, `buildFor` por rol (Support Rejuvenating/Moonlit, Sub Moonlit/sup, DPS 43311), `kitDesc` con enlace al kit, versión v7.7.
+- Verificado: `node --check` OK, smoke 58/47/20, retratos 58/58 nuevo formato, equipos 0 faltantes, bestTeams 18 únicos, fantasma 0, `renderAll` OK.
