@@ -187,3 +187,8 @@
 - Queja justa del Sultán: los equipos eran solo nombres en chips pequeños. Nuevo `mateHTML(n)` en `index.html`: tarjeta con retrato grande clicable (abre la ficha), elemento · arma · rol · tier, estado (tuyo/no, con/sin stats) y % de build. Aplicado a Mis equipos, Sugeridos auto y al Resumen (antes capado a 12 nombres sin imagen: ahora todos tus PJs con retrato y semáforo, clicables).
 - Datos actuales siempre: la cabecera dice parche 3.7 + nº de equipos/PJs/perfectos y avisa de que se recalcula al marcar, editar stats o importar (ya se repintaba en `renderAll`/`setCk`/`saveStats`/importar; ahora además lo dice).
 - Verificado: `node --check` OK (exit 0), `mateHTML` en 3 casos (tuyo, nuevo Hsin, fantasma con aviso) con imagen e info, 0 chips de texto restantes en equipos.
+
+## Sesión 2026-10-10 (4) — ecos honestos (el % mira tus stats)
+- Queja justa del Sultán: `Ecos OK` era solo una marca manual ("los tengo") y un PJ con ecos pochos llegaba al 100%. Ahora el 33% de ecos lo decide `echoOK(n)`: si metiste 2+ stats (Prob/CDMG/ATK/ER) en la ficha, cuentan solo si cumplen los objetivos (≥60%); si están flojos, NO cuentan aunque estén marcados; si no metiste stats, se confía en tu marca.
+- Nuevo `echoNote(n)` en ficha y builds (`🔍 Ecos:`): ✅ bien (auto o marcado+cumple), ⚠️ flojos aunque marcados (dice qué falla: Prob/CDMG/ER/ATK), ☑️ marcados sin stats suficientes, ☐ pendiente. Etiqueta `Ecos OK`→`Set completo` (misma clave `e`, sin perder datos). `Qué mejorar` avisa si están flojos; `Solo pendientes` y perfectos usan el criterio honesto.
+- Verificado: `node --check` OK (exit 0), 6 casos (marcado sin stats, sin marcar, stats buenos sin marcar→auto 33, pochos marcados→0 con detalle, 1 stat→manual, support) todos correctos.
