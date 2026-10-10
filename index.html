@@ -56,25 +56,25 @@ input.num{width:90px;background:#0f172a;color:#fff;border:1px solid #334155;bord
 .st-bad{color:#f87171;font-weight:800}.st-opt{color:#34d399;font-weight:800}
 .tierow{display:flex;gap:10px;margin-bottom:10px}.tierlabel{min-width:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#000}
 .tiermembers{flex:1;display:flex;gap:8px;flex-wrap:wrap;background:rgba(15,23,42,.5);border-radius:12px;padding:10px}
-.tiermember{width:110px;text-align:center;cursor:pointer;font-size:12px}.tiermember small{display:block;font-weight:700;margin-top:3px}
+.tiermember{width:140px;text-align:center;cursor:pointer;font-size:12px}.tiermember small{display:block;font-weight:700;margin-top:3px}
 .tiermember.no{opacity:.42;filter:grayscale(.6)}
 .tiermember img{width:100%;border-radius:10px;background:#1e293b}
-.port{width:100%;height:120px;border-radius:10px;background:linear-gradient(135deg,#1e293b,#312e81);display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:900;color:#64748b;overflow:hidden;position:relative}
+.port{width:100%;height:180px;border-radius:10px;background:linear-gradient(135deg,#1e293b,#312e81);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
 .port img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
-.banner{width:100%;height:130px;border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(135deg,#1e293b,#312e81)}
+.banner{width:100%;height:180px;border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(135deg,#1e293b,#312e81)}
 .banner img{width:100%;height:100%;object-fit:cover;display:block}
 .pbar{height:6px;background:#0f172a;border-radius:6px;overflow:hidden;border:1px solid #334155;margin:6px 0}.pbar>div{height:100%;background:linear-gradient(90deg,#fbbf24,#34d399)}
 .statgrid{display:grid;gap:8px;margin:8px 0}
 .statline{display:flex;gap:8px;align-items:center;background:rgba(15,23,42,.55);border:1px solid #ffffff14;border-radius:10px;padding:8px;font-size:13px}
 .statline b{width:110px}.statline .rec{color:#fbbf24;font-weight:800}.statline .opt{color:#34d399;font-weight:800}
 .sheet h2{margin:0}.sheet .top{display:flex;gap:14px;align-items:flex-start}
-.sheet .splash{width:130px;height:170px;border-radius:12px;object-fit:cover;background:#1e293b;flex:none}
+.sheet .splash{width:180px;height:230px;border-radius:12px;object-fit:cover;background:#1e293b;flex:none}
 .improve{background:#2a1a05;border:1px solid #fbbf24;border-radius:10px;padding:10px;font-size:13px;margin:8px 0}
 </style>
 </head>
 <body data-tab="portada">
-<div style="background:linear-gradient(90deg,#0ea5e9,#a855f7);text-align:center;font-size:12px;padding:6px;color:#fff">Parche 3.6 "Lamplight in Mirage" · Qingxiao + Jingran · Xuanyuan Domain / Ren Realm · Mengzhou · 58 personajes · UID 600063375</div>
-<header><div class="brandname" onclick="goTab('portada')" style="cursor:pointer">SONANCE</div><div style="font-size:11px;letter-spacing:3px;color:#94a3b8">WUTHERING WAVES COMMAND · PARCHE 3.6 · RECONSTRUIDO v7.7</div></header>
+<div style="background:linear-gradient(90deg,#0ea5e9,#a855f7);text-align:center;font-size:12px;padding:6px;color:#fff">Parche 3.7 "Prism's Illusion" · Hsin + Suoming · Simulacrum Nexus · Mengzhou · 60 personajes · UID 600063375</div>
+<header><div class="brandname" onclick="goTab('portada')" style="cursor:pointer">SONANCE</div><div style="font-size:11px;letter-spacing:3px;color:#94a3b8">WUTHERING WAVES COMMAND · PARCHE 3.7 · v7.8</div></header>
 <nav id="mainnav">
 <button class="active" onclick="goTab('portada',this)">🏠 Portada</button>
 <button onclick="goTab('mapa',this)">🗺️ Mapa</button>
@@ -90,28 +90,28 @@ input.num{width:90px;background:#0f172a;color:#fff;border:1px solid #334155;bord
 <main>
 <section id="tab-portada" class="tab active">
 <div class="hero"><h1>SONANCE</h1><p>Tu cuenta, tus builds, tu mapa. Todo Wuthering Waves en un solo mando. <b style="color:#fbbf24">Reconstruido tras el borrado — vuelve a marcar tus 47.</b></p>
-<div><span class="chip">Europa</span><span class="chip">Parche 3.6</span><span class="chip" id="chipCount">58 PJs</span><span class="chip">v7.6-rebuild</span></div></div>
+<div><span class="chip">Europa</span><span class="chip">Parche 3.7</span><span class="chip" id="chipCount">60 PJs</span><span class="chip">v7.8</span></div></div>
 <div class="tiles">
-<div class="tile" onclick="goTab('mapa')"><span class="ic">🗺️</span><b>Mapa interactivo</b><small>Cofres y rutas 3.6</small></div>
-<div class="tile" onclick="goTab('pjs')"><span class="ic">👥</span><b>Personajes</b><small>58 kits con ficha</small></div>
+<div class="tile" onclick="goTab('mapa')"><span class="ic">🗺️</span><b>Mapa interactivo</b><small>Cofres y rutas 3.7</small></div>
+<div class="tile" onclick="goTab('pjs')"><span class="ic">👥</span><b>Personajes</b><small>60 kits con ficha</small></div>
 <div class="tile" onclick="goTab('builds')"><span class="ic">🛠️</span><b>Builds</b><small>Armas, ecos y mejoras</small></div>
 <div class="tile" onclick="goTab('equipos')"><span class="ic">⚔️</span><b>Mis equipos</b><small>Formación TOP</small></div>
-<div class="tile" onclick="goTab('tier')"><span class="ic">🏅</span><b>Tier List</b><small>Meta 3.6</small></div>
+<div class="tile" onclick="goTab('tier')"><span class="ic">🏅</span><b>Tier List</b><small>Meta 3.7</small></div>
 <div class="tile" onclick="goTab('cuenta')"><span class="ic">🔗</span><b>Cuenta</b><small>Backup y ajustes</small></div>
 <div class="tile" onclick="goTab('gacha')"><span class="ic">🎰</span><b>Gacha</b><small>Pity y suerte</small></div>
 <div class="tile" onclick="goTab('hoy')"><span class="ic">📅</span><b>Hoy</b><small>Resets y waveplates</small></div>
 <div class="tile" onclick="goTab('tools')"><span class="ic">🧰</span><b>Herramientas</b><small>Ecos y daño</small></div>
 </div>
 </section>
-<section id="tab-mapa" class="tab"><div class="card"><h2>🗺️ Mapa interactivo 3.6</h2>
+<section id="tab-mapa" class="tab"><div class="card"><h2>🗺️ Mapa interactivo 3.7</h2>
 <div class="filters"><button class="btn" onclick="setFrame('https://wuthering.gg/map')">wuthering.gg</button><button class="btn" onclick="setFrame('https://wuthering.th.gl/maps/Overworld')">th.gl Overworld</button><button class="btn2" onclick="window.open(document.getElementById('realframe').src,'_blank')">Abrir ↗</button></div>
 <iframe id="realframe" class="mapframe" src="https://wuthering.gg/map" loading="lazy"></iframe></div></section>
-<section id="tab-pjs" class="tab"><div class="card"><h2>👥 Personajes (58)</h2>
+<section id="tab-pjs" class="tab"><div class="card"><h2>👥 Personajes (60)</h2>
 <div class="filters"><input id="searchPj" placeholder="Buscar..." oninput="renderPjs()" style="flex:1;min-width:160px"><select id="pjEl" onchange="renderPjs()"><option value="">Todos elementos</option><option>Spectro</option><option>Fusion</option><option>Glacio</option><option>Aero</option><option>Electro</option><option>Havoc</option></select><select id="pjRol" onchange="renderPjs()"><option value="">Todos roles</option><option>DPS principal</option><option>Sub-DPS</option><option>Support</option></select><button class="btn2" onclick="toggleAll(true)">Marcar todos</button><button class="btn2" onclick="toggleAll(false)">Desmarcar</button><button class="btn2" onclick="loadMine()">Cargar mis 47</button></div>
 <p id="pjStats" style="font-size:13px;color:#6ee7b7"></p><div id="pjs" class="grid"></div></div></section>
-<section id="tab-builds" class="tab"><div class="card"><h2>🛠️ Mejores builds 3.6 — vinculado a tu UID <span id="uidTitle">600063375</span></h2>
+<section id="tab-builds" class="tab"><div class="card"><h2>🛠️ Mejores builds 3.7 — vinculado a tu UID <span id="uidTitle">600063375</span></h2>
 <div class="alert" id="uidAlert">✅ Cuenta precargada: UID 600063375 (Europa) + tus personajes marcados. El mapa de cofres se lleva en el mapa interactivo (externo). Kuro no ofrece API pública por UID: este inventario manual ES tu vinculación. Se guarda + se exporta con tu JSON.</div>
-<div class="filters"><input id="bSearch" placeholder="Buscar build..." oninput="renderBuilds()" style="flex:1;min-width:160px"><select id="bFilter" onchange="renderBuilds()"><option value="mine">Solo los míos</option><option value="all">Todos (58)</option><option value="todo">Solo pendientes</option></select><button class="btn2" onclick="allWeapons(true)">Tengo todas las armas</button></div>
+<div class="filters"><input id="bSearch" placeholder="Buscar build..." oninput="renderBuilds()" style="flex:1;min-width:160px"><select id="bFilter" onchange="renderBuilds()"><option value="mine">Solo los míos</option><option value="all">Todos (60)</option><option value="todo">Solo pendientes</option></select><button class="btn2" onclick="allWeapons(true)">Tengo todas las armas</button></div>
 <p id="buildStats" style="font-size:13px;color:#6ee7b7"></p><div id="builds" class="grid6"></div></div></section>
 <section id="tab-equipos" class="tab">
 <div class="card"><h2>🚨 Resumen: quién necesita mejorar</h2><div id="statSummary" class="grid"></div></div>
@@ -124,8 +124,8 @@ input.num{width:90px;background:#0f172a;color:#fff;border:1px solid #334155;bord
 <div class="filters" id="eSubs"></div><div id="echoOut"></div></div>
 <div class="card"><h2>⬆️ ¿A quién subo primero?</h2><div id="queueOut"></div></div>
 </section>
-<section id="tab-tier" class="tab"><div class="card"><h2>🏅 Tier List 3.6 por rol</h2>
-<div class="filters"><select id="tierFilter" onchange="renderTiers()"><option value="all">Todos (58)</option><option value="mine">Solo los míos</option></select></div>
+<section id="tab-tier" class="tab"><div class="card"><h2>🏅 Tier List 3.7 por rol</h2>
+<div class="filters"><select id="tierFilter" onchange="renderTiers()"><option value="all">Todos (60)</option><option value="mine">Solo los míos</option></select></div>
 <div class="subtabs"><button id="stDps" class="active" onclick="tierShow('Dps',this)">⚔️ DPS</button><button id="stSub" onclick="tierShow('Sub',this)">🌀 Sub-DPS</button><button id="stSup" onclick="tierShow('Sup',this)">💚 Supports</button></div>
 <div id="paneDps"><h3>⚔️ DPS principal</h3><div id="tierDps"></div></div>
 <div id="paneSub" style="display:none"><h3>🌀 Sub-DPS</h3><div id="tierSub"></div></div>
@@ -141,7 +141,7 @@ input.num{width:90px;background:#0f172a;color:#fff;border:1px solid #334155;bord
 <div class="filters"><button class="btn2" onclick="exportJSON()">⬇ Exportar todo</button><button class="btn2" onclick="document.getElementById('imp').click()">⬆ Importar</button><input type="file" id="imp" hidden accept=".json" onchange="importJSON(event)"></div>
 <div class="skill">⚽ Tu otra web de fútbol sigue intacta: abre <b>fm-lettir.html</b> en la misma carpeta.</div></div></section>
 </main>
-<div style="position:fixed;bottom:8px;right:10px;background:#000a;border:1px solid #ffffff2e;color:#7dd3fc;font-size:11px;padding:4px 10px;border-radius:20px">v7.7-rebuild2 · 58 pjs · retratos wuthering.gg</div>
+<div style="position:fixed;bottom:8px;right:10px;background:#000a;border:1px solid #ffffff2e;color:#7dd3fc;font-size:11px;padding:4px 10px;border-radius:20px">v7.8 · 60 pjs · retratos wuthering.gg</div>
 <div id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
 <script>
 const RESONATORS=[
@@ -173,8 +173,9 @@ const RESONATORS=[
 {name:'Baizhi',el:'Glacio',arma:'Rectificador',rol:'Support',tier:'A'},{name:'Buling',el:'Electro',arma:'Rectificador',rol:'Support',tier:'A'},
 {name:'Lumi',el:'Electro',arma:'Mandoble',rol:'Sub-DPS',tier:'B'},{name:'Youhu',el:'Glacio',arma:'Guantelete',rol:'Support',tier:'B'},
 {name:'Taoqi',el:'Havoc',arma:'Mandoble',rol:'Support',tier:'B'},{name:'Aalto',el:'Aero',arma:'Pistola',rol:'Sub-DPS',tier:'B'},
-{name:'Chixia',el:'Fusion',arma:'Pistola',rol:'Sub-DPS',tier:'B'},{name:'Yuanwu',el:'Electro',arma:'Guantelete',rol:'Sub-DPS',tier:'B'}];
-const HEAD_ID={Yangyang:'1',Chixia:'2',Verina:'3','Rover (Havoc)':'4','Rover (Electro)':'4','Rover (Aero)':'5','Rover (Spectro)':'5',Baizhi:'6',Sanhua:'7',Taoqi:'9',Danjin:'10',Jiyan:'11',Aalto:'12',Mortefi:'13',Lingyang:'14',Yuanwu:'15',Yinlin:'17',Calcharo:'18',Jianxin:'23_UI',Jinhsi:'24_UI','Xiangli Yao':'25_UI',Changli:'26_UI',Zhezhi:'27_UI',Shorekeeper:'28_UI',Camellya:'29_UI',Lumi:'30_UI',Youhu:'31_UI',Carlotta:'32_UI',Roccia:'33_UI',Cantarella:'34_UI',Ciaccona:'37_UI',Zani:'38_UI',Cartethyia:'40_UI',Phrolova:'41_UI',Brant:'44_UI',Phoebe:'45_UI',Lupa:'46_UI',Iuno:'48_UI',Augusta:'51_UI',Aemeath:'53_UI','Luuk Herssen':'54_UI',Galbrena:'55_UI',Qiuyuan:'56_UI',Chisa:'57_UI',Buling:'58_UI',Lynae:'60_UI',Mornye:'61_UI',Denia:'64_UI',Sigrika:'65_UI',Lucilla:'66_UI',Hiyuki:'67_UI',Lucy:'68_UI',Rebecca:'69_UI','Yangyang: Xuanling':'70_UI',Suisui:'71_UI',Qingxiao:'73_UI',Jingran:'74_UI',Encore:'8',Jiyan2:'11'};
+{name:'Chixia',el:'Fusion',arma:'Pistola',rol:'Sub-DPS',tier:'B'},{name:'Yuanwu',el:'Electro',arma:'Guantelete',rol:'Sub-DPS',tier:'B'},
+{name:'Hsin',el:'Electro',arma:'Rectificador',rol:'DPS principal',tier:'S+'},{name:'Suoming',el:'Electro',arma:'Espada',rol:'Support',tier:'S'}];
+const HEAD_ID={Yangyang:'1',Chixia:'2',Verina:'3','Rover (Havoc)':'4','Rover (Electro)':'4','Rover (Aero)':'5','Rover (Spectro)':'5',Baizhi:'6',Sanhua:'7',Taoqi:'9',Danjin:'10',Jiyan:'11',Aalto:'12',Mortefi:'13',Lingyang:'14',Yuanwu:'15',Yinlin:'17',Calcharo:'18',Jianxin:'23_UI',Jinhsi:'24_UI','Xiangli Yao':'25_UI',Changli:'26_UI',Zhezhi:'27_UI',Shorekeeper:'28_UI',Camellya:'29_UI',Lumi:'30_UI',Youhu:'31_UI',Carlotta:'32_UI',Roccia:'33_UI',Cantarella:'34_UI',Ciaccona:'37_UI',Zani:'38_UI',Cartethyia:'40_UI',Phrolova:'41_UI',Brant:'44_UI',Phoebe:'45_UI',Lupa:'46_UI',Iuno:'48_UI',Augusta:'51_UI',Aemeath:'53_UI','Luuk Herssen':'54_UI',Galbrena:'55_UI',Qiuyuan:'56_UI',Chisa:'57_UI',Buling:'58_UI',Lynae:'60_UI',Mornye:'61_UI',Denia:'64_UI',Sigrika:'65_UI',Lucilla:'66_UI',Hiyuki:'67_UI',Lucy:'68_UI',Rebecca:'69_UI','Yangyang: Xuanling':'70_UI',Suisui:'71_UI',Qingxiao:'73_UI',Jingran:'74_UI',Hsin:'75_UI',Suoming:'76_UI',Encore:'8'};
 function portrait(n){const id=(HEAD_ID[n]||'5');return 'https://wuthering.gg/_ipx/q_70&s_100x100/images/iconrolehead150/T_IconRoleHead150_'+id+'.png';}
 const MY_OWNED=["Augusta","Iuno","Shorekeeper","Lucy","Rebecca","Denia","Hiyuki","Sigrika","Mornye","Lynae","Chisa","Qiuyuan","Phrolova","Cartethyia","Zani","Cantarella","Phoebe","Carlotta","Camellya","Xiangli Yao","Zhezhi","Changli","Jinhsi","Yinlin","Jiyan","Jianxin","Verina","Encore","Rover (Havoc)","Rover (Spectro)","Rover (Aero)","Sanhua","Yangyang","Lumi","Youhu","Mortefi","Taoqi","Aalto","Chixia","Lucilla","Calcharo","Lingyang","Yuanwu","Danjin","Baizhi","Yangyang: Xuanling","Buling"];
 const MY_TEAMS_DEFAULT=[{name:'Electro Heavy (tuyo)',members:['Augusta','Iuno','Shorekeeper']},{name:'Aero Erosion (tuyo)',members:['Cartethyia','Qiuyuan','Rover (Aero)']},{name:'Havoc (tuyo)',members:['Phrolova','Chisa','Rover (Havoc)']},{name:'Spectro Frazzle (tuyo)',members:['Zani','Phoebe','Rover (Spectro)']},{name:'Glacio (tuyo)',members:['Carlotta','Zhezhi','Verina']},{name:'Fusion (tuyo)',members:['Xiangli Yao','Mortefi','Jianxin']}];
@@ -186,8 +187,10 @@ const GUIDE={
 'Lucy':{tal:'Liberación > Habilidad',cr:[65,75],cd:[200,240],atk:[2000,2300],er:[120,135],bonus:['Spectro DMG%',60,100],eco:'Eco Spectro 4-cost · C4 CRIT (43311)',asc:'Material Spectro + drops TD',donde:'Ruta Spectro en Huanglong / Black Shores.',teams:[]},
 'Carlotta':{tal:'Forte > Habilidad',cr:[70,80],cd:[240,270],atk:[2000,2300],er:[110,120],bonus:['Glacio DMG%',60,100],eco:'Sentry Construct · C4 CRIT',asc:'Flor + drops TD Glacio',donde:'Jefe Sentry · Rinascita.',teams:['Glacio: Carlotta+Zhezhi+Shorekeeper']},
 'Cartethyia':{tal:'Forte > Liberación',cr:[65,75],cd:[220,260],atk:[45000,50000],er:[110,120],bonus:['Aero DMG%',60,100],eco:'Fleurdelys (44111 HP)',asc:'Flor Aero + drops TD',donde:'Rinascita ruta Aero.',teams:['Aero Erosion: Cartethyia+Qiuyuan+Rover Aero']},
-'Phrolova':{tal:'Skill > Liberación',cr:[70,80],cd:[240,260],atk:[2000,2300],er:[115,125],bonus:['Havoc DMG%',60,100],eco:'Nightmare Hecate · C4 CRIT',asc:'Material Havoc + drops TD',donde:'Black Shores ruta Havoc.',teams:['Havoc: Phrolova+Chisa+Rover Havoc']}};
-function guideFor(n){if(GUIDE[n])return GUIDE[n];const r=RESONATORS.find(x=>x.name===n);const bonus=r?(r.el+' DMG%'):'DMG%';const sup=r&&r.rol==='Support';return{tal:sup?'Liberación > Intro':'Forte > Liberación > Habilidad',cr:sup?[50,65]:[65,75],cd:sup?[180,220]:[200,240],atk:[1800,2200],er:sup?[200,230]:[115,130],bonus:[bonus,60,100],eco:buildFor(n).main+' · 43311',asc:'Material '+r.el+' + drops TD',donde:'Ver en mi mapa (jefe TD '+r.el+').',teams:[]};}
+'Phrolova':{tal:'Skill > Liberación',cr:[70,80],cd:[240,260],atk:[2000,2300],er:[115,125],bonus:['Havoc DMG%',60,100],eco:'Nightmare Hecate · C4 CRIT',asc:'Material Havoc + drops TD',donde:'Black Shores ruta Havoc.',teams:['Havoc: Phrolova+Chisa+Rover Havoc']},
+'Hsin':{tal:'Skill > Liberación > Eco',cr:[70,80],cd:[220,260],atk:[1900,2200],er:[110,125],bonus:['Electro DMG%',60,100],eco:'Suhsin the Inevitable · Heart of Sworn Vigil 5pc',asc:"Solidarity's Loneflame x16 + Bloom of Hearkening x20 (wuthering.gg)",donde:'Simulacrum Nexus · Mengzhou (jefe Suhsin + ruta Electro Flare).',teams:['Hsin Flare: Hsin+Iuno+Shorekeeper (Unison)']},
+'Suoming':{tal:'Liberación > Intro (apoyo Electro)',cr:[60,70],cd:[200,240],atk:[1800,2100],er:[130,150],bonus:['Electro DMG%',60,100],eco:'Suhsin the Inevitable · Heart of Sworn Vigil 5pc',asc:"Forged Empyrean's Sigh x16 + Miasmic Branch x20 (wuthering.gg)",donde:'Simulacrum Nexus · Mengzhou (fase 2 desde 22-oct, con Lynae + Luuk Herssen).',teams:['Soporte Electro: Suoming+Hsin+Verina (amplifica Electro al equipo)']}};
+function guideFor(n){if(GUIDE[n])return GUIDE[n];const r=RESONATORS.find(x=>x.name===n);if(!r)return{tal:'-',cr:[0,0],cd:[0,0],atk:[0,0],er:[0,0],bonus:['DMG%',0,0],eco:'-',asc:'-',donde:'Personaje desconocido (revisa el import).',teams:[]};const bonus=r.el+' DMG%';const sup=r.rol==='Support';return{tal:sup?'Liberación > Intro':'Forte > Liberación > Habilidad',cr:sup?[50,65]:[65,75],cd:sup?[180,220]:[200,240],atk:[1800,2200],er:sup?[200,230]:[115,130],bonus:[bonus,60,100],eco:buildFor(n).main+' · 43311',asc:'Material '+r.el+' + drops TD',donde:'Ver en mi mapa (jefe TD '+r.el+').',teams:[]};}
 function st2(n){const s=stats[n]||{};return{cr:s.cr||s.prob||0,cd:s.cd||s.cdm||0,atk:s.atk||0,hp:s.hp||0,er:s.er||0,bonus:s.bo||s.bonus||0,heal:s.heal||s.cura||0};}
 function buildPct(n){let p=0;if(ck(n,'w'))p+=34;if(ck(n,'e'))p+=33;if(ck(n,'s'))p+=33;return p;}
 function improveFor(n){const g=guideFor(n),s=st2(n),out=[];if(!ck(n,'w'))out.push('Arma: consigue la signature o la alt F2P');if(!ck(n,'e'))out.push('Ecos: farmea '+g.eco+' (Stats: 4-CRIT)');if(!ck(n,'s'))out.push('Talentos: sube '+g.tal+'. Usa resina diaria en el dominio + jefe semanal');if(s.cr&&s.cr<g.cr[0])out.push('CRIT bajo ('+s.cr+'% < '+g.cr[0]+'%): busca CRIT en ecos');if(s.er&&s.er<g.er[0])out.push('Recarga baja ('+s.er+'% < '+g.er[0]+'%): busca ER en subs');return out.length?out.join(' · '):'Todo al día ✅';}
@@ -210,8 +213,10 @@ const BUILDS={
 'Zani':{w:'Blazing Justice',alt:'Stonard Scalpel',set:'Eternal Radiance 5pc',main:'Capitaneus / Mourning Aix',subs:'ER 115% > CRIT > ATK%',target:'ER 115%',rot:'Skill parry cargar Blaze > Lib Rekindle > Daybreak/Dawning/Nightfall x2 > Lib Last Stand'},
 'Phoebe':{w:'Luminous Hymn',alt:'Cosmic Ripples',set:'Eternal Radiance Absolution / Moonlit Confession',main:'Mourning Aix / Heron sup',subs:'CRIT > ATK% > Heavy/Basic',target:'ER 115-125%',rot:'Conf: Anillo > Hold Skill > Starflash x2 > Lib > Outro'},
 'Lupa':{w:'Wildfire Mark',alt:'Lustrous Razor',set:'Flaming Clawprint 5pc',main:'Lioness of Glory',subs:'CRIT > ATK% > Lib/Heavy',target:'ER 120%',rot:'Skill marca > BA/Heavy Wolflame > Skill mejorada > Eco+Lib > Outro'},
-'Qingxiao':{w:'Signature Aero Espada (Fase 1 3.6)',alt:'Emerald of Genesis F2P',set:'Sierra Gale 5pc',main:'Eco Aero 4-cost',subs:'CRIT > ATK% > ER 120%',target:'70% CR / 240% CD',rot:'Intro > Skill+Eco > BA combo > Liberación > Outro'},
-'Jingran':{w:'Signature Fusion Mandoble (Fase 2 3.6)',alt:'Lustrous Razor F2P',set:'Molten Rift 5pc',main:'Eco Fusion 4-cost',subs:'CRIT > ATK% > Skill',target:'70% CR / 240% CD',rot:'Intro > Skill > Eco > Heavy > Liberación'}};
+'Qingxiao':{w:'Glint of Clouds (signature 3.6)',alt:'Emerald of Genesis F2P',set:"Heart of Evil's Purge 5pc (alt Sierra Gale)",main:'Eco Aero 4-cost (Tune Strain)',subs:'CRIT > ATK% > ER 120%',target:'70% CR / 240% CD',rot:'Intro > Skill+Eco > BA combo (Mindlock) > Liberación > Outro'},
+'Jingran':{w:'Thousandfold Deliverance (signature 3.6)',alt:'Lustrous Razor F2P',set:'Lamp of Nether Road 5pc (alt Molten Rift)',main:'Eco Fusion 4-cost (Heavy)',subs:'CRIT > ATK% > Skill',target:'70% CR / 240% CD',rot:'Intro > Skill > Eco > Heavy > Liberación'},
+'Hsin':{w:'Blooming Jadehaven (signature 3.7)',alt:'Stringmaster > Cosmic Ripples',set:'Heart of Sworn Vigil 5pc (alt Void Thunder)',main:'Suhsin the Inevitable (Flare/Unison)',subs:'CRIT > Skill > ATK% > ER 115%',target:'70% CR / 240% CD',rot:'Intro > Eco Suhsin > Skill (Electro Flare) > Liberación > Unison > Outro'},
+'Suoming':{w:'Unspoken Rue (signature 3.7)',alt:'Emerald of Genesis > Lumingloss',set:'Heart of Sworn Vigil 5pc (apoyo Electro)',main:'Suhsin (Unison/Binding Mind)',subs:'ER 130-150% > CRIT > ATK%',target:'ER 140% / equipo +48% Electro',rot:'Skill > Eco > Liberación (Unison) > buff equipo > Outro al DPS'}};
 function buildFor(n){if(BUILDS[n])return BUILDS[n];const r=RESONATORS.find(x=>x.name===n);if(!r)return{w:'-',alt:'-',set:'-',main:'-',subs:'-',target:'-',rot:'-'};if(r.rol==='Support')return{w:'Variation 4* / Stellar Symphony',alt:'Cosmic Ripples',set:(r.el==='Spectro'||r.el==='Glacio')?'Rejuvenating Glow 5pc':'Moonlit Clouds 5pc',main:'Bell Turtle / Fallacy (41111 ER)',subs:'ER 200%+ > HP%/ATK%',target:'ER 200%+',rot:'Skill > Eco > Liberación > Outro al DPS'};if(r.rol==='Sub-DPS')return{w:'Arma 5★ de '+r.arma+' (signature > 4* CRIT)',alt:'Ver wuthering.gg/'+n.toLowerCase().replace(/[^a-z0-9]+/g,'-'),set:'Moonlit Clouds 5pc (sup) / Set '+r.el+' 5pc (daño)',main:'Heron / Eco '+r.el+' 4-cost',subs:'CRIT > ATK% > ER 130%',target:'ER 130% / 70% CR',rot:'Intro > Skill+Eco > Liberación > Outro al DPS'};return{w:'Arma 5★ de '+r.arma+' (signature > F2P CRIT)',alt:'Ver wuthering.gg',set:'Set de '+r.el+' 5pc (43311)',main:'Eco 4-cost de '+r.el,subs:'CRIT > ATK% > ER 120%',target:'70% CR / 220% CD',rot:'Intro > Skill > Eco > Heavy/BA combo > Liberación > Outro'};}
 let owned=new Set(),checks={},stats={},gacha=[],myTeams=[];
 try{const d=JSON.parse(localStorage.getItem('sonance76')||'{}');owned=new Set(d.owned||[]);checks=d.checks||{};stats=d.stats||{};gacha=d.gacha||[];myTeams=d.myTeams||JSON.parse(JSON.stringify(MY_TEAMS_DEFAULT));}catch(e){myTeams=JSON.parse(JSON.stringify(MY_TEAMS_DEFAULT));}
@@ -225,7 +230,7 @@ function isMine(n){return owned.has(n);}
 function renderPjs(){const q=(document.getElementById('searchPj').value||'').toLowerCase(),fe=document.getElementById('pjEl').value,fr=document.getElementById('pjRol').value;
 const l=RESONATORS.filter(r=>(!q||r.name.toLowerCase().includes(q))&&(!fe||r.el===fe)&&(!fr||r.rol===fr));
 document.getElementById('pjStats').textContent=owned.size+' / '+RESONATORS.length+' marcados como tuyos';
-document.getElementById('pjs').innerHTML=l.map(r=>'<div class="item"><div class="port" style="position:relative"><img loading="lazy" src="'+portrait(r.name)+'" alt="'+r.name+'" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" onerror="this.remove()"><span style="position:relative">'+r.name[0]+'</span></div><h4>'+r.name+' '+(isMine(r.name)?'✅':'')+'</h4><small>'+r.el+' · '+r.arma+' · '+r.rol+' · Tier '+r.tier+'</small><br><button class="btn2" onclick="toggleOne(\''+r.name.replace(/'/g,"\\'")+'\')">'+(isMine(r.name)?'Quitar':'Tengo')+'</button> <button class="btn" onclick="openChar(\''+r.name.replace(/'/g,"\\'")+'\')">Ficha</button></div>').join('');}
+document.getElementById('pjs').innerHTML=l.map(r=>'<div class="item"><div class="port" style="position:relative"><img loading="lazy" src="'+portrait(r.name)+'" alt="'+r.name+'" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" onerror="this.remove()"></div><h4>'+r.name+' '+(isMine(r.name)?'✅':'')+'</h4><small>'+r.el+' · '+r.arma+' · '+r.rol+' · Tier '+r.tier+'</small><br><button class="btn2" onclick="toggleOne(\''+r.name.replace(/'/g,"\\'")+'\')">'+(isMine(r.name)?'Quitar':'Tengo')+'</button> <button class="btn" onclick="openChar(\''+r.name.replace(/'/g,"\\'")+'\')">Ficha</button></div>').join('');}
 function toggleOne(n){if(owned.has(n))owned.delete(n);else owned.add(n);save();renderAll();}
 function ck(n,k){return checks[n+':'+k];}
 function setCk(n,k,v){checks[n+':'+k]=v;save();renderBuilds();renderTeams();renderQueue();}
@@ -253,7 +258,7 @@ function saveStats(n){const g=id=>+document.getElementById(id).value||0;const o=
 function closeModal(){document.getElementById('modal').classList.remove('open');}
 function teamScore(members){return (members||[]).reduce((a,n)=>{const s=stats[n];if(!s||!s.atk)return a;const r=RESONATORS.find(x=>x.name===n);if(!r)return a;const dps=s.atk*(1+Math.min(s.cr,100)/100*(s.cd/100))*(1+(s.bo||0)/100);const w=r.rol==='DPS principal'?1:(r.rol==='Sub-DPS'?0.55:0.2);return a+dps*w;},0);}
 function bestTeams(){const mine=[...owned];const dps=mine.filter(n=>{const r=RESONATORS.find(x=>x.name===n);return r&&r.rol==='DPS principal';}),sub=mine.filter(n=>{const r=RESONATORS.find(x=>x.name===n);return r&&r.rol==='Sub-DPS';}),sup=mine.filter(n=>{const r=RESONATORS.find(x=>x.name===n);return r&&r.rol==='Support';});
-const rank=n=>(RESONATORS.find(r=>r.name===n).tier==='S+'?3:(RESONATORS.find(r=>r.name===n).tier==='S'?2:1));
+const rank=n=>{const r=RESONATORS.find(x=>x.name===n);return !r?1:(r.tier==='S+'?3:(r.tier==='S'?2:1));};
 dps.sort((a,b)=>rank(b)-rank(a));sub.sort((a,b)=>rank(b)-rank(a));sup.sort((a,b)=>rank(b)-rank(a));
 const out=[];for(let i=0;i<6;i++){if(!dps[i])break;out.push([dps[i],sub[i%Math.max(sub.length,1)],sup[i%Math.max(sup.length,1)]].filter(Boolean));}return out;}
 function renderTeams(){const t=bestTeams();document.getElementById('eqInfo').textContent=t.length+' equipos auto con tus '+owned.size+' PJs · más '+myTeams.length+' tuyos abajo · guarda stats en fichas para el semáforo';
@@ -262,14 +267,14 @@ const mine=[...owned];document.getElementById('statSummary').innerHTML=mine.slic
 function teamDPS(){const t=bestTeams();document.getElementById('dpsOut').innerHTML=t.map((m,i)=>'<div class="skill"><b>Equipo '+(i+1)+':</b> '+m.join(' + ')+' → <b>'+Math.round(teamScore(m))+'</b></div>').join('')||'Sin datos';}
 function addMyTeam(){const nm=(document.getElementById('ntName').value||'').trim()||('Mi equipo '+(myTeams.length+1));const mb=(document.getElementById('ntMembers').value||'').split(',').map(s=>s.trim()).filter(Boolean).slice(0,3);if(!mb.length){alert('Escribe al menos 1 PJ: Augusta, Iuno, Shorekeeper');return;}myTeams.push({name:nm,members:mb});save();renderTeams();}
 function delMyTeam(i){if(!confirm('¿Borrar '+myTeams[i].name+'?'))return;myTeams.splice(i,1);save();renderTeams();}
-function renderQueue(){const mine=[...owned];const rank=n=>(RESONATORS.find(r=>r.name===n).tier==='S+'?0:(RESONATORS.find(r=>r.name===n).tier==='S'?1:2));
+function renderQueue(){const mine=[...owned];const tierOf=n=>{const r=RESONATORS.find(x=>x.name===n);return r?r.tier:'B';};const rank=n=>(tierOf(n)==='S+'?0:(tierOf(n)==='S'?1:2));
 mine.sort((a,b)=>rank(a)-rank(b));document.getElementById('queueOut').innerHTML=mine.slice(0,10).map((n,i)=>'<div class="skill"><b>'+(i+1)+'. '+n+'</b> '+(ck(n,'w')&&ck(n,'e')&&ck(n,'s')?'✅ listo':'⚠️ le falta: '+['w:'+(!ck(n,'w')?'arma':'ok'),'e:'+(!ck(n,'e')?'ecos':'ok'),'s:'+(!ck(n,'s')?'talentos':'ok')].filter(x=>x.includes('arma')||x.includes('ecos')||x.includes('talentos')).join(' '))+'</div>').join('');}
 function tierShow(k,btn){document.querySelectorAll('.subtabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.getElementById('paneDps').style.display=k==='Dps'?'block':'none';document.getElementById('paneSub').style.display=k==='Sub'?'block':'none';document.getElementById('paneSup').style.display=k==='Sup'?'block':'none';}
 function renderTiers(){const f=document.getElementById('tierFilter').value;const fil=r=>f==='mine'?isMine(r.name):true;
-const mk=(rol)=>{const tiers=['S+','S','A','B'];const col={'S+':'#ef4444',S:'#fbbf24',A:'#a78bfa',B:'#64748b'};return tiers.map(t=>{const l=RESONATORS.filter(r=>r.tier===t&&r.rol===rol&&fil(r));if(!l.length)return '';return '<div class="tierow"><div class="tierlabel" style="background:'+col[t]+'">'+t+'</div><div class="tiermembers">'+l.map(r=>'<div class="tiermember '+(isMine(r.name)?'':'no')+'" onclick="openChar(\''+r.name.replace(/'/g,"\\'")+'\')"><div class="port" style="position:relative;height:110px"><img loading="lazy" src="'+portrait(r.name)+'" alt="'+r.name+'" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" onerror="this.remove()"><span style="position:relative">'+r.name[0]+'</span></div><small>'+r.name+(isMine(r.name)?' ✅':'')+'</small></div>').join('')+'</div></div>';}).join('');};
+const mk=(rol)=>{const tiers=['S+','S','A','B'];const col={'S+':'#ef4444',S:'#fbbf24',A:'#a78bfa',B:'#64748b'};return tiers.map(t=>{const l=RESONATORS.filter(r=>r.tier===t&&r.rol===rol&&fil(r));if(!l.length)return '';return '<div class="tierow"><div class="tierlabel" style="background:'+col[t]+'">'+t+'</div><div class="tiermembers">'+l.map(r=>'<div class="tiermember '+(isMine(r.name)?'':'no')+'" onclick="openChar(\''+r.name.replace(/'/g,"\\'")+'\')"><div class="port" style="position:relative;height:160px"><img loading="lazy" src="'+portrait(r.name)+'" alt="'+r.name+'" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0" onerror="this.remove()"></div><small>'+r.name+(isMine(r.name)?' ✅':'')+'</small></div>').join('')+'</div></div>';}).join('');};
 document.getElementById('tierDps').innerHTML=mk('DPS principal');document.getElementById('tierSub').innerHTML=mk('Sub-DPS');document.getElementById('tierSup').innerHTML=mk('Support');}
 function waveCalc(){const c=+document.getElementById('wCur').value||0;const m=Math.max(0,240-c);const mins=m*6;const h=Math.floor(mins/60);document.getElementById('wOut').textContent='Lleno en '+h+'h '+(mins%60)+'min';}
-function renderHoy(){const d=new Date();document.getElementById('hoyBody').innerHTML='<div class="skill">Hoy '+d.toLocaleDateString('es-ES')+' · reset diario 05:00 · Fase 1: <b>Qingxiao + Denia</b> · Fase 2: <b>Jingran + Hiyuki + Mornye</b></div>';}
+function renderHoy(){const d=new Date();document.getElementById('hoyBody').innerHTML='<div class="skill">Hoy '+d.toLocaleDateString('es-ES')+' · reset diario 05:00 · Fase 1 (hasta 22-oct): <b>Hsin + Iuno + Chisa</b> · Fase 2 (desde 22-oct): <b>Suoming + Lynae + Luuk Herssen</b></div>';}
 function gachaAdd(){const n=document.getElementById('gName').value||'Tirada';gacha.unshift({n,r:document.getElementById('gRar').value,d:new Date().toLocaleDateString()});document.getElementById('gName').value='';save();renderGacha2();}
 function renderGacha2(){const pity5=gacha.findIndex(g=>g.r==='5');const since5=pity5<0?gacha.length:pity5;document.getElementById('gachaStats').innerHTML='<div class="item"><h4>Total '+gacha.length+'</h4><small>5★: '+gacha.filter(g=>g.r==='5').length+' · 4★: '+gacha.filter(g=>g.r==='4').length+'</small></div><div class="item"><h4>Pity 5★: '+since5+'/80</h4><small>'+(since5>=70?'⚠️ soft-pity, tira ya':(since5>=50?'a medio camino':'en zona segura'))+'</small></div>';
 document.getElementById('gachaHist').innerHTML='<tr><th>Nombre</th><th>Rar</th><th>Fecha</th></tr>'+gacha.slice(0,100).map(g=>'<tr><td>'+g.n+'</td><td>'+g.r+'★</td><td>'+g.d+'</td></tr>').join('');}
