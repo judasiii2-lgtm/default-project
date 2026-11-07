@@ -1,46 +1,216 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SONANCE · Neverness to Everness — en construcción</title>
+<title>SONANCE · Neverness to Everness Command</title>
 <style>
-:root{--bg:#0a0a14}
-*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#e5e7eb;min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:-6%;z-index:-2;background-image:var(--gameart);background-size:cover;background-position:center top;filter:saturate(1.15) brightness(.8);animation:kb 20s ease-in-out infinite alternate}
-body::after{content:'';position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,#0a0a1488 0%,#0a0a14e0 60%,#0a0a14f5 100%)}
-@keyframes kb{0%{transform:scale(1.04)}100%{transform:scale(1.14) translateY(-18px)}}
-.center{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px}
-.emoji{font-size:64px;filter:drop-shadow(0 6px 24px #0009)}
-h1{font-size:44px;margin:14px 0 6px;letter-spacing:6px;background:linear-gradient(90deg,#a78bfa,#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent}
-.jline{color:#94a3b8;font-size:15px;letter-spacing:2px;margin-bottom:26px}
-.frame{max-width:560px;background:linear-gradient(180deg,rgba(16,10,32,.55),rgba(16,10,32,.15));backdrop-filter:blur(8px);border-radius:20px;padding:26px 30px;border:0}
-.frame h2{margin:0 0 10px;font-size:21px;color:#fbbf24}
-.frame p{margin:6px 0;color:#e2e8f0;line-height:1.7;font-size:15px}
-.bar{margin-top:22px;height:6px;border-radius:4px;background:#ffffff14;overflow:hidden}
-.bar i{display:block;height:100%;width:18%;border-radius:4px;background:linear-gradient(90deg,#7dd3fc,#a78bfa);animation:fill 2.6s ease-in-out infinite alternate}
-@keyframes fill{0%{width:8%}100%{width:62%}}
-.btn{margin-top:28px;display:inline-block;padding:12px 30px;border-radius:14px;font-weight:800;text-decoration:none;color:#05070d;background:linear-gradient(90deg,#7dd3fc,#a78bfa);box-shadow:0 10px 30px #7dd3fc44}
-.btn:hover{transform:translateY(-3px)}
-.logomark{display:inline-flex;align-items:flex-end;gap:2px;position:fixed;top:16px;left:18px}
-.logomark i{display:block;width:4px;border-radius:3px;background:linear-gradient(180deg,#7dd3fc,#a78bfa)}
-.logomark i:nth-child(2n){height:14px}.logomark i:nth-child(2n+1){height:8px}
-.sname{position:fixed;top:18px;left:64px;color:#94a3b8;font-size:12px;letter-spacing:3px}
+:root{--bg:#0b0a12;--card:#161226;--accent:#a78bfa;--gold:#fbbf24;--green:#34d399;--text:#e5e7eb}
+*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text)}
+body::before{content:'';position:fixed;inset:-4%;z-index:-1;pointer-events:none;background:linear-gradient(#0b0a12cc,#0b0a1288),url('https://cdn.prydwen.gg/images/nte/website_bg.webp') center center/cover;animation:kb 34s ease-in-out infinite alternate}
+@keyframes kb{0%{transform:scale(1)}100%{transform:scale(1.08) translateY(-16px)}}
+header{background:linear-gradient(90deg,#8b5cf6cc,#ec4899cc,#f97316cc);padding:16px;text-align:center}
+header h1{margin:0;font-size:22px;letter-spacing:2px}
+header .brandname{font-weight:900;font-size:13px;letter-spacing:5px;color:#ffffffcc}
+nav{display:flex;gap:8px;justify-content:center;padding:10px;background:rgba(15,12,26,.9);flex-wrap:wrap}
+nav button{background:#241d3f;border:1px solid #ffffff18;color:var(--text);padding:9px 16px;border-radius:10px;cursor:pointer;font-weight:600;font-size:13px}
+nav button:hover{background:#332a58}
+nav button.active{background:linear-gradient(90deg,#8b5cf6,#ec4899);border-color:transparent}
+main{max-width:1200px;margin:0 auto;padding:18px}
+section.tab{display:none}
+section.tab.active{display:block}
+.card{background:linear-gradient(160deg,#161226e8,#0f0c1ce0);border:1px solid #ffffff10;border-radius:18px;padding:18px;margin-bottom:16px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.filters select,.filters input{background:#1d1733;border:1px solid #ffffff1a;color:var(--text);padding:8px 12px;border-radius:10px;font-size:13px}
+.btn{background:linear-gradient(90deg,#8b5cf6,#ec4899);border:0;color:#fff;padding:9px 18px;border-radius:10px;cursor:pointer;font-weight:700}
+.btn2{background:#2a2148;border:1px solid #ffffff18;color:var(--text);padding:8px 15px;border-radius:10px;cursor:pointer;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.pjcard{position:relative;border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#141a33,#231233);border:1px solid #ffffff14;border-left:4px solid #64748b;cursor:pointer;transition:border-color .25s,transform .25s,box-shadow .3s}
+.pjcard:hover{border-color:#a78bfaaa;transform:translateY(-5px);box-shadow:0 14px 34px #00000070}
+.pjcard.nuevo{box-shadow:0 0 20px #a78bfc40}
+.pjcard .artwrap{position:relative;height:320px;overflow:hidden;background:#0b0a18}
+.pjcard .artwrap img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .55s ease,filter .4s;animation:floaty 7s ease-in-out infinite}
+.pjcard:hover .artwrap img{transform:scale(1.07);filter:saturate(1.15)}
+.pjcard .artwrap::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#0b0a1210 35%,#0b0a12e0 94%)}
+.pjcard .shine{position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(105deg,#ffffff00 20%,#ffffff33 50%,#ffffff00 80%);transform:skewX(-18deg);transition:left .7s;pointer-events:none;z-index:2}
+.pjcard:hover .shine{left:130%}
+.pjcard .pjinfo{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:12px}
+.pjcard .pjinfo h4{margin:0 0 4px;font-size:15px;text-shadow:0 2px 10px #000}
+.pjcard .pjinfo small{color:#cbd5e1;text-shadow:0 1px 6px #000}
+.tierchip{display:inline-block;padding:1px 8px;border-radius:12px;font-size:10px;font-weight:900;color:#000}
+.awchip{display:inline-block;padding:1px 7px;border-radius:12px;font-size:9px;font-weight:800;background:#8b5cf6;color:#fff;vertical-align:middle}
+@keyframes floaty{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-5px) scale(1.015)}}
+/* tier list */
+.tierow{display:flex;gap:10px;margin-bottom:12px;align-items:stretch}
+.tierlabel{flex:0 0 92px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;border-radius:14px;color:#000}
+.tiermembers{flex:1;display:flex;flex-wrap:wrap;gap:10px;padding:8px;border-radius:14px;background:#ffffff06}
+.tiermember{width:96px;cursor:pointer;text-align:center;transition:transform .2s}
+.tiermember:hover{transform:translateY(-4px)}
+.tiermember .port img{border-radius:10px;object-fit:cover}
+.tiermember small{display:block;margin-top:4px;font-size:11px;color:#cbd5e1}
+.tiermember.no{opacity:.55}
+/* ficha modal */
+.modal{position:fixed;inset:0;background:#05030acc;display:none;z-index:50;overflow-y:auto}
+.modal.open{display:block}
+.sheet{position:relative;max-width:900px;margin:40px auto;border-radius:22px;overflow:hidden;padding:24px;background:#0d0a1c}
+.sheet::before{content:'';position:absolute;inset:-8% -6% 0;z-index:0;background-image:var(--charart,none);background-position:center top;background-size:cover;background-repeat:no-repeat;opacity:.82;filter:saturate(1.15) brightness(1.02);transform-origin:62% 18%;animation:kenburns 16s ease-in-out infinite alternate}
+@keyframes kenburns{0%{transform:scale(1)}50%{transform:scale(1.09) translateY(-14px)}100%{transform:scale(1.02) translateY(8px)}}
+.sheet::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#0a0814cc 0%,#0a081480 26%,#0a081426 60%,#0a081440 100%),linear-gradient(0deg,#0a0814b0 0%,#0a081430 26%,#0a081400 40%)}
+.sheet>*{position:relative;z-index:2}
+.sheet .glass{background:linear-gradient(180deg,rgba(10,8,20,.46) 0%,rgba(10,8,20,.30) 55%,rgba(10,8,20,.02) 100%);backdrop-filter:blur(3px);border:0;box-shadow:none;border-radius:16px;padding:14px 16px;margin-bottom:8px}
+.sheet h3{text-shadow:0 1px 10px #000}
+.sheet p,.sheet td,.sheet small,.sheet li{text-shadow:0 1px 5px rgba(0,0,0,.7)}
+.sheet .improve{background:rgba(42,26,5,.42);border:0;border-left:2px solid rgba(251,191,36,.5);border-radius:0 10px 10px 0;padding:10px;margin:8px 0}
+.sheet .module{background:rgba(20,10,42,.42);border:0;border-left:2px solid rgba(139,92,246,.5);border-radius:0 10px 10px 0;padding:10px;margin:8px 0}
+table.statline{width:100%;border-collapse:collapse;font-size:13px}
+table.statline td{padding:6px 8px;background:rgba(10,8,20,.26)}
+table.statline td:first-child{color:#a78bfa;font-weight:700}
+.elchip{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:800;color:#000}
+.tierbig{font-size:15px;font-weight:900;padding:2px 12px;border-radius:14px;color:#000}
+footer{text-align:center;color:#64748b;font-size:11px;padding:26px}
+@media(max-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}.pjcard .artwrap{height:240px}}
 </style>
 </head>
-<body style="--gameart:url('https://cdn.prydwen.gg/images/nte/characters/lacrimosa_full.webp')">
-<div class="logomark"><i></i><i></i><i></i><i></i><i></i></div><span class="sname">SONANCE</span>
-<div class="center">
-  <div class="emoji">🌀</div>
-  <h1>NEVERNESS TO EVERNESS</h1>
-  <div class="jline">KURO GAMES · HIPERCOS · DISTRITO CENTINELA</div>
-  <div class="frame">
-    <h2>🚧 Juego en construcción</h2>
-    <p>Ya está <b>disponible</b> y SONANCE ya localizó sus <b>26 hipercos</b>: adler, akane-rin, aurelia, baicang, blackbird, chaos, chiz, daffodil, edgar, elyms, exe, fadia, haniel, hathor, hotori, iroi, jiuyuan, lacrimosa, linko, mint, nanally, sakiri, shinku, skia, zankou y zero.</p>
-    <p>La web completa (fichas translúcidas con arte, tier list, builds y gacha) llega en la <b style="color:#38bdf8">próxima sesión de SONANCE</b>.</p>
-    <div class="bar"><i></i></div>
-  </div>
-  <a class="btn" href="../SONANCE.html">⬅ Volver a SONANCE</a>
+<body>
+<header><div class="brandname">SONANCE</div><h1>🌀 NEVERNESS TO EVERNESS COMMAND</h1></header>
+<nav id="mainnav">
+<button style="background:linear-gradient(90deg,#8b5cf633,#ec489933)" onclick="location.href='../SONANCE.html'">⬅ SONANCE</button>
+<button class="active" id="nb-pjs" onclick="goTab('pjs',this)">👥 Hipercos</button>
+<button id="nb-tier" onclick="goTab('tier',this)">🏅 Tier</button>
+<button id="nb-builds" onclick="goTab('builds',this)">🛠️ Build y stats</button>
+<button id="nb-sis" onclick="goTab('sis',this)">🔮 Sistemas</button>
+</nav>
+<main>
+<section id="tab-pjs" class="tab active"><div class="card">
+<h2>👥 Hipercos (24)</h2>
+<div class="filters"><input placeholder="Buscar…" oninput="filterPjs(this.value)"><select id="fEl" onchange="renderPjs()"><option value="all">Todos los atributos</option><option>Anima</option><option>Chaos</option><option>Cosmos</option><option>Incantation</option><option>Lakshana</option><option>Psyche</option></select><select id="fCat" onchange="renderPjs()"><option value="all">Todos los roles</option><option>DPS</option><option>Support</option><option>Hybrid</option><option value="mine">Solo los míos</option></select><button class="btn2" onclick="exportMine()">⬇ Exportar</button><button class="btn2" onclick="importMine()">⬆ Importar</button></div>
+<div class="grid" id="pjs"></div>
+</div></section>
+<section id="tab-tier" class="tab"><div class="card">
+<h2>🏅 Tier List — Beyond the Rails / High Risk</h2>
+<p style="font-size:13px;color:#94a3b8">Fuente: Prydwen (patch 1.3, nov 2026). T0 = los reyes del meta.</p>
+<div id="tiers"></div>
+</div></section>
+<section id="tab-builds" class="tab"><div class="card">
+<h2>🛠️ Build y stats objetivo</h2>
+<p style="font-size:13px;color:#94a3b8">Stats de endgame verificados (Prydwen) + Especialización de módulos de cada hipercos.</p>
+<div id="builds"></div>
+</div></section>
+<section id="tab-sis" class="tab"><div class="card">
+<h2>🔮 Sistemas de NTE</h2>
+<div class="glass" style="max-width:none">
+<h3>✨ Especializaciones de Módulos (Type I–IV)</h3>
+<p>Cada Módulo equipado (Type I–IV) sube un stat distinto: Type I = DMG de atributo, Type II = CRIT Rate, Type III = CRIT DMG / ATK / ATK% según personaje, Type IV = ATK plano. Los personajes piden su Type concreto — mira la ficha.</p>
+<h3>🧲 Arcs (compatibilidad)</h3>
+<p>Cada hipercos tiene una compatibilidad de Arc que define sus reacciones: <b>Plasma, Liquid, Gas, Condensate, Solid</b>. Las reacciones (Scorch, Nova, Remora, Hex, Charge, Blossom) dependen del equipo mezclando atributos — busca equipos con dos Arcs compatibles.</p>
+<h3>🔁 Ciclos Espec</h3>
+<p>El Cycle Energy se acumula en combate; llenarlo lanza el Esper Cycle. Hipercos como <b>Zero</b> (Instant Cycle) lo generan de golpe; Zankou entra con +100 de Cycle Energy al iniciar combate.</p>
+<h3>🌆 Ciudad</h3>
+<p>Zona social: tiendas (Shop Management buffs con Nanally/Mint/Skia), Pink Paw Heist (Lacrimosa ayuda a farmear; Zankou puede ser invisible), Mahjong (Shinku acelera las partidas).</p>
 </div>
+</div></section>
+</main>
+<footer>SONANCE · Fuente: Prydwen patch 1.3 (nov 2026) · todo local en tu navegador</footer>
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
+<script>
+// ============ DATOS (Prydwen 1.3, nov 2026) ============
+// el:300 color; cat: DPS/Support/Hybrid; tier de rating Prydwen: 11=T0, 10=T0(.5), 9=T1, 8=T1.5, 7=T2, 6=T3
+const ELEMENTS={'Anima':['#f472b6','#000'],'Chaos':['#ef4444','#000'],'Cosmos':['#fbbf24','#000'],'Incantation':['#34d399','#000'],'Lakshana':['#38bdf8','#000'],'Psyche':['#a78bfa','#000']};
+const TIER_COL={'T0':'#ef4444','T0.5':'#fbbf24','T1':'#34d399','T1.5':'#38bdf8','T2':'#a78bfa','T3':'#64748b'};
+// ===== DATOS REALES DE PRYDWEN (tier list 1.3, nov 2026) =====
+// rate: 11=T0, 10=T0.5, 9=T1, 8=T1.5, 7=T2, 6=T3
+const CHARS=[
+{slug:'lacrimosa',name:'Lacrimosa',rar:'S',el:'Chaos',role:'Daño',cat:'DPS',arc:'Liquid',tier:'T0',tags:['Nova'],fun:'La reina del Chaos y mejor Main DPS del juego: su daño viene del DoT de la cadena de básicos — sacarla del campo pierde DPS. Sinergia total con Sakiri y Haniel.'},
+{slug:'zankou',name:'Zankou',rar:'S',el:'Incantation',role:'Daño',cat:'DPS',arc:'Gas',tier:'T0',tags:[],fun:'Primera villana jugable, ritmo rápido estilo WuWa. Encaja en DoT, Break e Hypercarry — no hay equipo malo para ella. Entra al combate con +100 de Cycle Energy. Fuera de combate puede volverse invisible (50% vel., 20s) — funciona en Pink Paw Heist.'},
+{slug:'akane-rin',name:'Akane Rin',rar:'S',el:'Lakshana',role:'Daño',cat:'DPS',arc:'Liquid',tier:'T0',tags:[],fun:'Debut directo en T0 como DPS Lakshana limitada (1.2). Prydwen aún no publicó comentario largo — guíate por su colocación: top del meta.'},
+{slug:'linko',name:'Linko',rar:'S',el:'Anima',role:'Daño',cat:'Hybrid',arc:'Plasma',tier:'T0',tags:[],fun:'Primera SubDPS pura del juego: daño dentro y fuera de campo, −8% res al elemento seleccionado con 100% de uptime, y potencia el ciclo Hexed de forma notable. Debuta directo en T0 (1.3).'},
+{slug:'blackbird',name:'Blackbird',rar:'S',el:'Psyche',role:'Daño',cat:'Hybrid',arc:'Gas',tier:'T0',tags:[],fun:'Nuevo Hybrid T0 del meta (1.3). Prydwen aún no publicó comentario largo — colocación top del meta.'},
+{slug:'iroi',name:'Iroi',rar:'S',el:'Anima',role:'Supervivencia',cat:'Support',arc:'Liquid',tier:'T0',tags:[],fun:'La pastora de ovejas y MEJOR soporte: con su firma "The Wrong Gate" da 5% Ign. Def, 15% DMG universal, 20% de su ATK, curación y control de masas. Combo perfecto con Speedy Hedgehog. Vergüenza total para los demás sustains.'},
+{slug:'zero',name:'Zero',rar:'S',el:'Cosmos',role:'Daño',cat:'Hybrid',arc:'Solid',tier:'T0',tags:['Instant Cycle'],fun:'Instant Cycle: una sola skill activa el Esper Cycle (única en el juego). Gran SubDPS Anima/Lakshana, y con su Arc alterno puede curar. Dos estilos: "The Rain" (Cycle Intensity 250+) y "Day Off" (ATK 2600+).'},
+{slug:'hotori',name:'Hotori',rar:'S',el:'Cosmos',role:'Buff',cat:'Hybrid',arc:'Solid',tier:'T0',tags:[],fun:'SubDPS que copia habilidades y genera recursos, sube el uptime de reacciones y su daño ocurre con el tiempo detenido — letal contra cronómetro. Solo de tenerla en equipo bajan los kill-times del endgame.'},
+{slug:'nanally',name:'Nanally',rar:'S',el:'Anima',role:'Daño',cat:'DPS',arc:'Plasma',tier:'T0',tags:['Follow-up'],fun:'La DPS más fuerte del lanzamiento con buen equipo. Única con agarre de pared (exploración). Su buff Ichi-Daime se pierde al salir del campo — no interrumpas su ventana de daño.'},
+{slug:'chaos',name:'Chaos',rar:'S',el:'Lakshana',role:'Daño',cat:'DPS',arc:'Condensate',tier:'T0',tags:[],fun:'Primer DPS Lakshana limitado (¡y primer chico!, con su perro). Números gigantes vía Remora; quiere un Cosmos en equipo (Zero) + Hathor. El mejor DPS de todos para Charge y el mejor acompañante de Haniel.'},
+{slug:'shinku',name:'Shinku',rar:'S',el:'Cosmos',role:'Daño',cat:'DPS',arc:'Condensate',tier:'T0.5',tags:['Watchlist'],fun:'La Caballero Dragón: ultimate masiva, carga Defiant Spirit solo atacando; pero depende de Charge, del boss a tiro y desordena enemigos. Watchlist (0.5) mientras ajustan su consistencia.'},
+{slug:'sakiri',name:'Sakiri',rar:'S',el:'Incantation',role:'Buff',cat:'Support',arc:'Gas',tier:'T0',tags:['Control'],fun:'Buffer versátil y fiable: agrupa e inmoviliza (AoE), DoT pasivo amplificado, DEF/ATK down + up universal, y usuario estrella de Speedy Hedgehog. Con A1 sube aún más el ATK buff (T0 completo).'},
+{slug:'daffodil',name:'Daffodil',rar:'S',el:'Chaos',role:'Daño',cat:'Hybrid',arc:'Liquid',tier:'T1',tags:['Experto · A5+'],fun:'Única Chaos con Nova y Scorch + sinergia con Discord: titular garantizada en esos equipos. Necesita A5 para despegar de verdad; antes rinde menos de lo que promete.'},
+{slug:'baicang',name:'Baicang',rar:'S',el:'Incantation',role:'Daño',cat:'DPS',arc:'Condensate',tier:'T1',tags:['Experto'],fun:'El rey del DoT: pega incluso a jefes que huyen. Techo ALTO si aprendes su kit — recompensa invertir horas de dominio.'},
+{slug:'jiuyuan',name:'Jiuyuan',rar:'S',el:'Anima',role:'Daño',cat:'Hybrid',arc:'Solid',tier:'T1',tags:[],fun:'SubDPS de poco campo con gran sinergia con Nanally y Baicang (núcleo de Charge con una Lakshana). La MEJOR agrupación de mobs del juego, y con 1 copia ya cura. Gran valor.'},
+{slug:'fadia',name:'Fadia',rar:'S',el:'Psyche',role:'Supervivencia',cat:'Support',arc:'Condensate',tier:'T1',tags:[],fun:'Absorbe parte del daño que reciben tus aliados y se cura con la ultimate; tras castearla hace más daño que otros sustains. Óptima si no esquivas perfecto.'},
+{slug:'haniel',name:'Haniel',rar:'A',el:'Psyche',role:'Buff',cat:'Support',arc:'Solid',tier:'T1',tags:[],fun:'Buffer genérico accesible y eficaz, el básico para F2P. Da acceso a Stain para los Lakshana y encaja en Nova. Tiene valor incluso sin Daffodil.'},
+{slug:'hathor',name:'Hathor',rar:'S',el:'Lakshana',role:'Buff',cat:'Hybrid',arc:'Plasma',tier:'T1.5',tags:[],fun:'Más SubDPS que Main: burst rotación con poco campo y contra AoE su charged skill pega durísimo. Su buff de Crit Rate la vuelve imprescindible en Charge/Lakshana.'},
+{slug:'chiz',name:'Chiz',rar:'S',el:'Cosmos',role:'Daño',cat:'DPS',arc:'Gas',tier:'T1.5',tags:['A3+'],fun:'Con ≥3 dupes la mecánica Grain deja de ser RNG y ella juega en quick-swap: mucho más cosmética DMG a maximum. En base exige más fe.'},
+{slug:'aurelia',name:'Aurelia',rar:'A',el:'Psyche',role:'Daño',cat:'DPS',arc:'Plasma',tier:'T2',tags:[],fun:'La A-Rank con mayor techo de daño, pero es más de AoE: sufre contra bosses agresivos. Como Nova DPS quiere Hathor (que le disputa el Crit Rate buff).'},
+{slug:'mint',name:'Mint',rar:'A',el:'Anima',role:'Daño',cat:'DPS',arc:'Liquid',tier:'T2',tags:['Gratis'],fun:'Gratis y sin inversión: kit sencillo, aguantona y agradable de controlar en el campo. Gran entrada para aprender el juego. (OHMYGAWDITSMINT)'},
+{slug:'skia',name:'Skia',rar:'A',el:'Lakshana',role:'Daño',cat:'Hybrid',arc:'Gas',tier:'T2',tags:[],fun:'Tras apilar Fang Thrust su daño se dispara y mucho pasa solo. La forma de sombra presiona grupos. La ultimate explota en AoE corta centrada en él — los bosses móviles le duele.'},
+{slug:'adler',name:'Adler',rar:'A',el:'Incantation',role:'Supervivencia',cat:'Support',arc:'Condensate',tier:'T1',tags:['Watchlist'],fun:'Escudo del 75% del uptime + los ÚNICOS debuffs de res/sinergia de break del juego a fecha hoy. Break mono-objetivo MÁS alto con su ultimate. Encaja en Scorch con "The Great Thief".'},
+{slug:'edgar',name:'Edgar',rar:'A',el:'Cosmos',role:'Supervivencia',cat:'Support',arc:'Liquid',tier:'T3',tags:[],fun:'Solo cura, y de hecho estorba la reacción Charge. Opción segura para fiestas lentas; sin daño ni utility. =('},
+];
+// builds: stats objetivo + module type — de Prydwen (el resto, guía Prydwen)
+const BUILDS={
+'Lacrimosa':{st:'HP 20k+ · ATK 2200+ · CRIT 50-80% · CRIT DMG 100%+ · UDMG 10%+ · Chaos DMG 50-87.5%+',mod:'Type III: Chaos DMG +10% por módulo',arc:'Condensate'},
+'Linko':{st:'HP 20k+ · ATK 2000+ · CRIT 90%+ · CRIT DMG 90%+ · UDMG 15%+',mod:'Type III: CRIT Rate +8% por módulo',arc:'Plasma'},
+'Mint':{st:'HP 17k+ · ATK 2000+ · CRIT 60%+ · CRIT DMG 100%+ · Anima DMG 47.5%+',mod:'Type III: CRIT Rate +8% por módulo',arc:'Liquid'},
+'Nanally':{st:'HP 20k+ · ATK 2200+ · CRIT 85%+ · CRIT DMG 100%+ · Anima DMG 47.5%+',mod:'Type II: CRIT Rate +6% por módulo',arc:'Plasma'},
+'Sakiri':{st:'HP 20k+ · ATK 2300+ · CRIT 50%+ · Break 50+ · Incant DMG 54%+',mod:'Type III: Incantation DMG +9% por módulo',arc:'Gas'},
+'Shinku':{st:'HP 20k+ · ATK 2000+ · CRIT 75%+ · CRIT DMG 150%+ · Cosmos DMG 10%+',mod:'Type III: CRIT DMG +16% por módulo',arc:'Condensate'},
+'Skia':{st:'HP 18k+ · ATK 2000+ · DEF 1200+ · CRIT 30%+ · CRIT DMG 135%+ · Lakshana DMG 37.5%+',mod:'Type III: ATK +10% por módulo',arc:'Gas'},
+'Zankou':{st:'HP 20k+ · ATK 2000+ · CRIT 60%+ · CRIT DMG 200%+ · Cycle Intensity 200+',mod:'Type III: CRIT DMG +16% por módulo',arc:'Gas'},
+'Zero':{st:'The Rain: CRIT 45%+, Cycle Intensity 250+ | Day Off: ATK 2600+, Cycle 50+',mod:'Type III: ATK +10% por módulo',arc:'Solid'},
+};
+const MINE=JSON.parse(localStorage.getItem('nte_mine')||'[]');
+function saveMine(){localStorage.setItem('nte_mine',JSON.stringify(MINE));}
+function isMine(n){return MINE.includes(n);}
+function toggleOne(n){isMine(n)?MINE.splice(MINE.indexOf(n),1):MINE.push(n);saveMine();renderPjs();renderTiers();}
+function slug2name(s){return s.split('-').map(w=>w[0].toUpperCase()+w.slice(1)).join(' ');}
+function art(n){const c=CHARS.find(c=>c.name===n);if(!c)return '';return 'https://cdn.prydwen.gg/images/nte/characters/'+c.slug+'_full.webp';}
+function artCard(n){const c=CHARS.find(c=>c.name===n);return 'https://cdn.prydwen.gg/images/nte/characters/'+c.slug+'_card.webp';}
+function artFix(img,n){img.onerror=null;img.src=artCard(n);}
+function goTab(t,btn){document.querySelectorAll('section.tab').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.querySelectorAll('#mainnav button').forEach(b=>b.classList.remove('active'));btn&&btn.classList.add('active');}
+function renderPjs(){
+ const el=document.getElementById('fEl').value,ct=document.getElementById('fCat').value,q=(document.querySelector('.filters input')||{}).value||'';
+ const l=CHARS.filter(c=>(el==='all'||c.el===el)&&(ct==='all'||c.cat===ct||ct==='mine'&&isMine(c.name))&&(!q||c.name.toLowerCase().includes(q.toLowerCase())));
+ document.getElementById('pjs').innerHTML=l.map(c=>{
+  const tc=TIER_COL[c.tier],ec=ELEMENTS[c.el];
+  const tags=(c.tags||[]).map(t=>'<span class="awchip">'+t+'</span>').join(' ');
+  return '<div class="pjcard'+(isMine(c.name)?' nuevo':'')+'" title="Abrir ficha" onclick="openChar(\''+c.name+'\')" style="border-left-color:'+tc+'"><div class="artwrap"><img loading="lazy" src="'+art(c.name)+'" alt="'+c.name+'" onerror="artFix(this,\''+c.name+'\')"><div class="shine"></div></div><div class="pjinfo"><h4>'+c.name+' '+(isMine(c.name)?' [=]':'')+'</h4><small><span class="elchip" style="background:'+ec[0]+'">'+c.el+'</span> · '+c.cat+' · '+c.rar+'-Rank</small><br><span class="tierchip" style="background:'+tc+'">'+c.tier+'</span> '+tags+'</div></div>';
+ }).join('');
+}
+function renderTiers(){
+ const tiers=['T0','T0.5','T1','T1.5','T2','T3'];
+ document.getElementById('tiers').innerHTML=tiers.map(t=>{
+  const l=CHARS.filter(c=>c.tier===t);
+  const col=TIER_COL[t];
+  return '<div class="tierow"><div class="tierlabel" style="background:'+col+'">'+t+'</div><div class="tiermembers">'+l.map(c=>{
+   const ok=isMine(c.name);
+   return '<div class="tiermember'+(ok?'':' no')+'" onclick="openChar(\''+c.name+'\')"><div class="port"><img loading="lazy" src="'+art(c.name)+'" style="width:96px;height:128px" onerror="artFix(this,\''+c.name+'\')"></div><small>'+c.name+'</small></div>';
+  }).join('')+'</div></div>';
+ }).join('');
+}
+function renderBuilds(){
+ document.getElementById('builds').innerHTML=CHARS.map(c=>{
+  const b=BUILDS[c.name];
+  if(!b)return '';
+  return '<div class="glass" style="border-left:2px solid rgba(139,92,246,.5)"><h3>'+c.name+' <span class="tierchip" style="background:'+TIER_COL[c.tier]+'">'+c.tier+'</span></h3><p><b style="color:#a78bfa">Stats endgame:</b> '+b.st+'</p><div class="module"><b>Módulos:</b> '+b.mod+'</div><p><b>Arc:</b> '+b.arc+'</p></div>';
+ }).join('');
+}
+function openChar(n){
+ const c=CHARS.find(c=>c.name===n),b=BUILDS[n],ec=ELEMENTS[c.el],tc=TIER_COL[c.tier];
+ const sh=document.getElementById('sheet');
+ sh.style.setProperty('--charart','url("'+art(n)+'")');
+ sh.innerHTML='<button class="btn2" style="float:right" onclick="closeModal()">✕ Cerrar</button>'+
+ '<div class="glass" style="display:block"><h2 style="font-size:30px;margin:6px 0">'+c.name+'</h2>'+
+ '<p><span class="elchip" style="background:'+ec[0]+'">'+c.el+'</span> · '+c.cat+' · '+c.rar+'-Rank · <span class="tierbig" style="background:'+tc+'">'+c.tier+'</span>'+(c.tags?' '+(c.tags.map(t=>'<span class="awchip">'+t+'</span>').join(' ')):'')+' · '+(isMine(n)?'<b style="color:#34d399">✓ Tuyo</b>':'<button class="btn2" onclick="toggleOne(\''+n+'\');openChar(\''+n+'\')">Marcar como mío</button>')+'</p>'+
+ '<p>'+c.fun+'</p></div>'+
+ (b?'<div class="glass"><h3>🛠️ Build</h3><p><b style="color:#a78bfa">Stats:</b> '+b.st+'</p><div class="module"><b>Módulos:</b> '+b.mod+'</div><p><b>Arc:</b> '+b.arc+'</p><button class="btn2" onclick="window.open(\'https://www.prydwen.gg/neverness-to-everness/characters/'+c.slug+'\',\'_blank\')">Guía completa en Prydwen ↗</button></div>':'<div class="glass"><button class="btn2" onclick="window.open(\'https://www.prydwen.gg/neverness-to-everness/characters/'+c.slug+'\',\'_blank\')">Guía completa en Prydwen ↗</button></div>');
+ document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function filterPjs(){renderPjs();}
+function exportMine(){const el=document.createElement('a');el.href='data:application/json,'+encodeURIComponent(JSON.stringify(MINE));el.download='nte-backup.json';el.click();}
+function importMine(){const i=document.createElement('input');i.type='file';i.accept='.json';i.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{MINE.length=0;JSON.parse(r.result).forEach(x=>{if(!MINE.includes(x))MINE.push(x)});saveMine();renderPjs();renderTiers();alert('Importado ✓');};r.readAsText(f);};i.click();}
+document.getElementById('fEl').onchange=renderPjs;
+document.getElementById('fCat').onchange=renderPjs;
+renderPjs();renderTiers();renderBuilds();
+</script>
 </body>
 </html>
