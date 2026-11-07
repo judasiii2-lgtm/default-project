@@ -5,80 +5,100 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SONANCE · Tu centro de gachas</title>
 <style>
-:root{--bg:#07090f;--text:#e5e7eb}
+:root{--bg:#05070d;--text:#e5e7eb}
 *{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:-6%;z-index:-1;background:radial-gradient(ellipse at 20% 10%,#1a1150aa 0%,#0000 55%),radial-gradient(ellipse at 85% 80%,#0b3a4dcc 0%,#0000 50%),linear-gradient(160deg,#0a1024,#07090f 65%);animation:drift 26s ease-in-out infinite alternate}
-@keyframes drift{0%{transform:scale(1)}100%{transform:scale(1.07) translateY(-20px)}}
-header{padding:44px 16px 6px;text-align:center}
-h1{font-size:42px;margin:0;letter-spacing:12px;font-weight:900;background:linear-gradient(90deg,#7dd3fc,#a78bfa,#f472b6);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
-.sub{color:#94a3b8;font-size:13px;margin-top:8px;letter-spacing:2px}
-.logo{font-size:13px;color:#64748b;margin-top:4px}
-.grid{max-width:1150px;margin:34px auto 60px;padding:0 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-.tile{position:relative;border-radius:20px;overflow:hidden;cursor:pointer;border:1px solid #ffffff10;background:#0d1428;min-height:230px;display:flex;align-items:flex-end;transition:transform .3s,box-shadow .35s,border-color .3s;text-decoration:none;color:inherit}
-.tile:hover{transform:translateY(-7px) scale(1.015);box-shadow:0 22px 50px #00000090;border-color:#7dd3fc66}
+/* ==== FONDO DE MARCA SONANCE: nebulosa + ondas de sonido ondulando ==== */
+body::before{content:'';position:fixed;inset:-10%;z-index:-2;background:
+ radial-gradient(ellipse at 50% -10%,#2b1a6e99 0%,#0000 55%),
+ radial-gradient(ellipse at 8% 85%,#07486b99 0%,#0000 50%),
+ radial-gradient(ellipse at 95% 75%,#5b1566aa 0%,#0000 45%),
+ linear-gradient(160deg,#0a1024,#05070d 70%);animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{0%{transform:scale(1)}100%{transform:scale(1.08) translateY(-24px)}}
+body::after{content:'';position:fixed;left:0;right:0;bottom:-4%;height:34%;z-index:-1;opacity:.5;pointer-events:none;
+ background:repeating-linear-gradient(90deg,#7dd3fc00 0 3px,#7dd3fc34 3px 5px,#7dd3fc00 5px 12px);mask:linear-gradient(90deg,linear-gradient(0deg,#05070d, #000070));transform:skewY(-2deg);
+ -webkit-mask:radial-gradient(ellipse at 50% 100%,#000 30%,#0000 72%);animation:equalize 3.4s ease-in-out infinite alternate}
+@keyframes equalize{0%{opacity:.28}100%{opacity:.6}}
+/* ==== CABECERA / LOGO ==== */
+header{padding:52px 16px 4px;text-align:center}
+.logomark{display:inline-flex;align-items:flex-end;gap:3px;justify-content:center;margin-bottom:14px}
+.logomark i{display:block;width:7px;border-radius:4px;background:linear-gradient(180deg,#7dd3fc,#a78bfa);box-shadow:0 0 14px #7dd3fc88;animation:bar 1.15s ease-in-out infinite alternate}
+.logomark i:nth-child(1){height:14px;animation-delay:0s}.logomark i:nth-child(2){height:26px;animation-delay:.12s}
+.logomark i:nth-child(3){height:38px;animation-delay:.24s}.logomark i:nth-child(4){height:50px;animation-delay:.36s}
+.logomark i:nth-child(5){height:34px;animation-delay:.48s}.logomark i:nth-child(6){height:22px;animation-delay:.6s}
+.logomark i:nth-child(7){height:12px;animation-delay:.72s}
+@keyframes bar{0%{transform:scaleY(.55)}100%{transform:scaleY(1.12)}}
+h1{font-size:56px;margin:0;letter-spacing:16px;font-weight:900;padding-left:16px;
+ background:linear-gradient(90deg,#7dd3fc 0%,#a78bfa 45%,#f472b6 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+ filter:drop-shadow(0 0 24px #7dd3fc44)}
+.sub{color:#cbd5e1;font-size:14px;margin-top:10px;letter-spacing:4px}
+.logo{font-size:12px;color:#64748b;margin-top:5px;letter-spacing:3px}
+/* ==== MOSAICOS GRANDES ==== */
+.grid{max-width:1250px;margin:40px auto 70px;padding:0 22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(440px,1fr));gap:28px}
+.tile{position:relative;border-radius:24px;overflow:hidden;cursor:pointer;border:1px solid #ffffff12;background:#0d1428;height:400px;display:flex;align-items:flex-end;transition:transform .32s,box-shadow .38s,border-color .3s;text-decoration:none;color:inherit}
+.tile:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 30px 70px #000000b0;border-color:#7dd3fc88}
 .tile .bg{position:absolute;inset:0;z-index:0}
-.tile .bg img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:saturate(1.15);animation:zoomy 14s ease-in-out infinite alternate}
-@keyframes zoomy{0%{transform:scale(1.02)}100%{transform:scale(1.12)}}
-.tile .fade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,#07090f14 0%,#07090fe6 78%),linear-gradient(90deg,#00000055,#00000000 55%)}
-.tile .info{position:relative;z-index:2;padding:18px 20px}
-.tile h2{margin:0 0 3px;font-size:24px;text-shadow:0 2px 14px #000;display:flex;align-items:center;gap:10px}
-.tile small{color:#cbd5e1;text-shadow:0 1px 8px #000;display:block;line-height:1.5}
-.badge{font-size:10px;font-weight:900;padding:3px 10px;border-radius:14px;letter-spacing:1px}
-.ok{background:#22c55e;color:#001a06}
-.ready{background:#38bdf8;color:#000}
+.tile .bg img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:saturate(1.2) contrast(1.05);animation:zoomy 13s ease-in-out infinite alternate}
+@keyframes zoomy{0%{transform:scale(1.025)}100%{transform:scale(1.14)}}
+.tile .fade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,#05070d05 0%,#05070d40 34%,#05070fd9 74%,#05070ff2 100%)}
+.tile .info{position:relative;z-index:2;padding:24px 26px}
+.tile h2{margin:0 0 8px;font-size:31px;text-shadow:0 3px 18px #000;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tile small{color:#e2e8f0;font-size:15px;text-shadow:0 2px 10px #000;display:block;line-height:1.55;max-width:34em}
+.badge{font-size:11px;font-weight:900;padding:4px 12px;border-radius:16px;letter-spacing:1px}
+.ok{background:#22c55e;color:#001a06;box-shadow:0 0 16px #22c55e66}
+.ready{background:#38bdf8;color:#000;box-shadow:0 0 16px #38bdf866}
 .soon{background:#47556966;color:#cbd5e1;border:1px solid #64748b88}
-.tile.soon{cursor:not-allowed}
-.tile.soon:hover{transform:none;box-shadow:none;border-color:#ffffff10}
-.tile.soon .bg img{filter:grayscale(.9) saturate(.5) brightness(.55);animation:none}
-footer{text-align:center;color:#475569;font-size:11px;padding:0 16px 36px}
+.tile.soon{cursor:not-allowed;filter:saturate(.6)}
+.tile.soon:hover{transform:none;box-shadow:none;border-color:#ffffff12}
+footer{text-align:center;color:#475569;font-size:11px;padding:0 16px 40px;letter-spacing:1px}
 </style>
 </head>
 <body>
 <header>
+  <div class="logomark"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <h1>SONANCE</h1>
   <div class="sub">TU CENTRO DE GACHAS · ELIGE TU JUEGO</div>
-  <div class="logo">wuwa · nte · zzz · hsr · silver palace</div>
+  <div class="logo">wuthering waves · nte · zzz · honkai star rail · silver palace</div>
 </header>
 
 <div class="grid">
   <a class="tile" href="wuwa/index.html">
-    <div class="bg"><img src="https://cdn.prydwen.gg/images/wuthering-waves/characters/cartethyia_full.webp" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+    <div class="bg"><img src="https://cdn.prydwen.gg/images/wuthering-waves/characters/shorekeeper_full.webp" alt="Wuthering Waves" loading="lazy" onerror="this.style.background='linear-gradient(160deg,#0ea5e9,#6366f1)';this.style.display='block'"></div>
     <div class="fade"></div>
     <div class="info">
       <h2>🌊 Wuthering Waves <span class="badge ok">ACTIVA</span></h2>
-      <small>61 resonadores · tier list 3.7 F2 · Lily 3.8 (12-nov) · builds, gacha, calendario y cuenta</small>
+      <small>61 resonadores · meta 3.7 F2 · Lily debuta en 3.8 (12-nov) · builds, tier list, gacha, calendario y tu cuenta</small>
     </div>
   </a>
 
   <a class="tile" href="nte/index.html">
-    <div class="bg"><img src="https://cdn.prydwen.gg/images/nte/characters/haniel_full.webp" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+    <div class="bg"><img src="https://cdn.prydwen.gg/images/nte/characters/lacrimosa_full.webp" alt="Neverness to Everness" loading="lazy" onerror="this.style.background='linear-gradient(160deg,#8b5cf6,#ec4899)'"></div>
     <div class="fade"></div>
     <div class="info">
       <h2>🌀 Neverness to Everness <span class="badge ready">DISPONIBLE</span></h2>
-      <small>Kuro Games · 26 hipercos definidos · fichas estilo WuWa · <b style="color:#fbbf24">en construcción</b></small>
+      <small>Kuro Games · 26 hipercos con fichas · tiendas y combates urbanos · <b style="color:#fbbf24">en construcción — próxima sesión</b></small>
     </div>
   </a>
 
-  <a class="tile soon">
-    <div class="bg"><img src="https://cdn.prydwen.gg/images/zenless-zone-zero/characters/ellen_full.webp" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+  <a class="tile" href="zzz/index.html">
+    <div class="bg"><img src="https://cdn.prydwen.gg/images/zenless-zone-zero/characters/miyabi_full.webp" alt="Zenless Zone Zero" loading="lazy" onerror="this.style.background='linear-gradient(160deg,#f97316,#e11d48)'"></div>
     <div class="fade"></div>
     <div class="info">
       <h2>🧡 Zenless Zone Zero <span class="badge ready">DISPONIBLE</span></h2>
-      <small>Agentes · protomundos TV · <b style="color:#fbbf24">en construcción — próxima sesión</b></small>
+      <small>Agentes de Nuevo Eridu · protomundos TV · <b style="color:#fbbf24">en construcción — próxima sesión</b></small>
     </div>
   </a>
 
-  <a class="tile soon">
-    <div class="bg"><img src="https://cdn.prydwen.gg/images/honkai-star-rail/characters/kafka_full.webp" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+  <a class="tile" href="hsr/index.html">
+    <div class="bg"><img src="https://cdn.prydwen.gg/images/honkai-star-rail/characters/acheron_full.webp" alt="Honkai Star Rail" loading="lazy" onerror="this.style.background='linear-gradient(160deg,#8b5cf6,#0ea5e9)'"></div>
     <div class="fade"></div>
     <div class="info">
       <h2>🚂 Honkai Star Rail <span class="badge ready">DISPONIBLE</span></h2>
-      <small>Vía Estelar · caminos · Simulación Universo · <b style="color:#fbbf24">en construcción — próxima sesión</b></small>
+      <small>Vía Estelar · caminos y Simulación Universo · <b style="color:#fbbf24">en construcción — próxima sesión</b></small>
     </div>
   </a>
 
   <a class="tile soon">
-    <div class="bg"><img src="https://cdn.prydwen.gg/images/silver-palace/homepage_bg.webp" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+    <div class="bg"><img src="https://cdn.prydwen.gg/images/silver-palace/homepage_bg.webp" alt="Silver Palace" loading="lazy" onerror="this.style.background='linear-gradient(160deg,#334155,#0f172a)'"></div>
     <div class="fade"></div>
     <div class="info">
       <h2>🏰 Silver Palace <span class="badge soon">🔒 PRÓXIMAMENTE</span></h2>
@@ -87,6 +107,6 @@ footer{text-align:center;color:#475569;font-size:11px;padding:0 16px 36px}
   </a>
 </div>
 
-<footer>SONANCE DATOS © tu propio archivo local · todo se guarda solo en tu navegador</footer>
+<footer>SONANCE © tu centro local de datos · todo se guarda solo en tu navegador · hecho a tu medida</footer>
 </body>
 </html>

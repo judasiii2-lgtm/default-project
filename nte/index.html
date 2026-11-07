@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SONANCE · Neverness to Everness — en construcción</title>
+<style>
+:root{--bg:#0a0a14}
+*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#e5e7eb;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:-6%;z-index:-2;background-image:var(--gameart);background-size:cover;background-position:center top;filter:saturate(1.15) brightness(.8);animation:kb 20s ease-in-out infinite alternate}
+body::after{content:'';position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,#0a0a1488 0%,#0a0a14e0 60%,#0a0a14f5 100%)}
+@keyframes kb{0%{transform:scale(1.04)}100%{transform:scale(1.14) translateY(-18px)}}
+.center{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px}
+.emoji{font-size:64px;filter:drop-shadow(0 6px 24px #0009)}
+h1{font-size:44px;margin:14px 0 6px;letter-spacing:6px;background:linear-gradient(90deg,#a78bfa,#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent}
+.jline{color:#94a3b8;font-size:15px;letter-spacing:2px;margin-bottom:26px}
+.frame{max-width:560px;background:linear-gradient(180deg,rgba(16,10,32,.55),rgba(16,10,32,.15));backdrop-filter:blur(8px);border-radius:20px;padding:26px 30px;border:0}
+.frame h2{margin:0 0 10px;font-size:21px;color:#fbbf24}
+.frame p{margin:6px 0;color:#e2e8f0;line-height:1.7;font-size:15px}
+.bar{margin-top:22px;height:6px;border-radius:4px;background:#ffffff14;overflow:hidden}
+.bar i{display:block;height:100%;width:18%;border-radius:4px;background:linear-gradient(90deg,#7dd3fc,#a78bfa);animation:fill 2.6s ease-in-out infinite alternate}
+@keyframes fill{0%{width:8%}100%{width:62%}}
+.btn{margin-top:28px;display:inline-block;padding:12px 30px;border-radius:14px;font-weight:800;text-decoration:none;color:#05070d;background:linear-gradient(90deg,#7dd3fc,#a78bfa);box-shadow:0 10px 30px #7dd3fc44}
+.btn:hover{transform:translateY(-3px)}
+.logomark{display:inline-flex;align-items:flex-end;gap:2px;position:fixed;top:16px;left:18px}
+.logomark i{display:block;width:4px;border-radius:3px;background:linear-gradient(180deg,#7dd3fc,#a78bfa)}
+.logomark i:nth-child(2n){height:14px}.logomark i:nth-child(2n+1){height:8px}
+.sname{position:fixed;top:18px;left:64px;color:#94a3b8;font-size:12px;letter-spacing:3px}
+</style>
+</head>
+<body style="--gameart:url('https://cdn.prydwen.gg/images/nte/characters/lacrimosa_full.webp')">
+<div class="logomark"><i></i><i></i><i></i><i></i><i></i></div><span class="sname">SONANCE</span>
+<div class="center">
+  <div class="emoji">🌀</div>
+  <h1>NEVERNESS TO EVERNESS</h1>
+  <div class="jline">KURO GAMES · HIPERCOS · DISTRITO CENTINELA</div>
+  <div class="frame">
+    <h2>🚧 Juego en construcción</h2>
+    <p>Ya está <b>disponible</b> y SONANCE ya localizó sus <b>26 hipercos</b>: adler, akane-rin, aurelia, baicang, blackbird, chaos, chiz, daffodil, edgar, elyms, exe, fadia, haniel, hathor, hotori, iroi, jiuyuan, lacrimosa, linko, mint, nanally, sakiri, shinku, skia, zankou y zero.</p>
+    <p>La web completa (fichas translúcidas con arte, tier list, builds y gacha) llega en la <b style="color:#38bdf8">próxima sesión de SONANCE</b>.</p>
+    <div class="bar"><i></i></div>
+  </div>
+  <a class="btn" href="../SONANCE.html">⬅ Volver a SONANCE</a>
+</div>
+</body>
+</html>
