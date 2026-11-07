@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SONANCE · Tu centro de gachas</title>
+<style>
+:root{--bg:#07090f;--text:#e5e7eb}
+*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:-6%;z-index:-1;background:radial-gradient(ellipse at 20% 10%,#1a1150aa 0%,#0000 55%),radial-gradient(ellipse at 85% 80%,#0b3a4dcc 0%,#0000 50%),linear-gradient(160deg,#0a1024,#07090f 65%);animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{0%{transform:scale(1)}100%{transform:scale(1.07) translateY(-20px)}}
+header{padding:44px 16px 6px;text-align:center}
+h1{font-size:42px;margin:0;letter-spacing:12px;font-weight:900;background:linear-gradient(90deg,#7dd3fc,#a78bfa,#f472b6);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
+.sub{color:#94a3b8;font-size:13px;margin-top:8px;letter-spacing:2px}
+.logo{font-size:13px;color:#64748b;margin-top:4px}
+.grid{max-width:1150px;margin:34px auto 60px;padding:0 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.tile{position:relative;border-radius:20px;overflow:hidden;cursor:pointer;border:1px solid #ffffff10;background:#0d1428;min-height:230px;display:flex;align-items:flex-end;transition:transform .3s,box-shadow .35s,border-color .3s;text-decoration:none;color:inherit}
+.tile:hover{transform:translateY(-7px) scale(1.015);box-shadow:0 22px 50px #00000090;border-color:#7dd3fc66}
+.tile .bg{position:absolute;inset:0;z-index:0}
+.tile .bg img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:saturate(1.15);animation:zoomy 14s ease-in-out infinite alternate}
+@keyframes zoomy{0%{transform:scale(1.02)}100%{transform:scale(1.12)}}
+.tile .fade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,#07090f14 0%,#07090fe6 78%),linear-gradient(90deg,#00000055,#00000000 55%)}
+.tile .info{position:relative;z-index:2;padding:18px 20px}
+.tile h2{margin:0 0 3px;font-size:24px;text-shadow:0 2px 14px #000;display:flex;align-items:center;gap:10px}
+.tile small{color:#cbd5e1;text-shadow:0 1px 8px #000;display:block;line-height:1.5}
+.badge{font-size:10px;font-weight:900;padding:3px 10px;border-radius:14px;letter-spacing:1px}
+.ok{background:#22c55e;color:#001a06}
+.ready{background:#38bdf8;color:#000}
+.soon{background:#47556966;color:#cbd5e1;border:1px solid #64748b88}
+.tile.soon{cursor:not-allowed}
+.tile.soon:hover{transform:none;box-shadow:none;border-color:#ffffff10}
+.tile.soon .bg img{filter:grayscale(.9) saturate(.5) brightness(.55);animation:none}
+footer{text-align:center;color:#475569;font-size:11px;padding:0 16px 36px}
+</style>
+</head>
+<body>
+<header>
+  <h1>SONANCE</h1>
+  <div class="sub">TU CENTRO DE GACHAS · ELIGE TU JUEGO</div>
+  <div class="logo">wuwa · nte · zzz · hsr · silver palace</div>
+</header>
+
+<div class="grid">
+  <a class="tile" href="wuwa/index.html">
+    <div class="bg"><img src="https://cdn.prydwen.gg/images/wuthering-waves/characters/cartethyia_full.webp" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+    <div class="fade"></div>
+    <div class="info">
+      <h2>🌊 Wuthering Waves <span class="badge ok">ACTIVA</span></h2>
+      <small>61 resonadores · tier list 3.7 F2 · Lily 3.8 (12-nov) · builds, gacha, calendario y cuenta</small>
+    </div>
+  </a>
+
+  <a class="tile" href="nte/index.html">
+    <div class="bg"><img src="https://cdn.prydwen.gg/images/nte/characters/haniel_full.webp" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+    <div class="fade"></div>
+    <div class="info">
+      <h2>🌀 Neverness to Everness <span class="badge ready">DISPONIBLE</span></h2>
+      <small>Kuro Games · 26 hipercos definidos · fichas estilo WuWa · <b style="color:#fbbf24">en construcción</b></small>
+    </div>
+  </a>
+
+  <a class="tile soon">
+    <div class="bg"><img src="https://cdn.prydwen.gg/images/zenless-zone-zero/characters/ellen_full.webp" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+    <div class="fade"></div>
+    <div class="info">
+      <h2>🧡 Zenless Zone Zero <span class="badge ready">DISPONIBLE</span></h2>
+      <small> agentes · protomundos TV · <b style="color:#fbbf24">en construcción — próxima sesión</b></small>
+    </div>
+  </a>
+
+  <a class="tile soon">
+    <div class="bg"><img src="https://cdn.prydwen.gg/images/honkai-star-rail/characters/kafka_full.webp" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+    <div class="fade"></div>
+    <div class="info">
+      <h2>🚂 Honkai Star Rail <span class="badge ready">DISPONIBLE</span></h2>
+      <small>Veles · camino Nihilo · simulado universa · <b style="color:#fbbf24">en construcción — próxima sesión</b></small>
+    </div>
+  </a>
+
+  <a class="tile soon">
+    <div class="bg"><img src="https://cdn.prydwen.gg/images/silver-palace/promo.webp" alt="" loading="lazy" onerror="this.style.display='none'"></div>
+    <div class="fade"></div>
+    <div class="info">
+      <h2>🏰 Silver Palace <span class="badge soon">🔒 PRÓXIMAMENTE</span></h2>
+      <small>El gacha nuevo que esperamos · se desbloqueará con su lanzamiento</small>
+    </div>
+  </a>
+</div>
+
+<footer>SONANCE DATOS © tu propio archivo local · todo se guarda solo en tu navegador</footer>
+</body>
+</html>
