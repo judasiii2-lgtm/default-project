@@ -1,6 +1,6 @@
 # SONANCE — Documento maestro del proyecto (multijuego)
 
-Actualizado: 7-nov-2026
+Actualizado: 8-nov-2026
 Repositorio: `judasiii2-lgtm/default-project` (rama `main`, privado)
 Git: SIEMPRE usar `C:\Users\loshi\AppData\Local\GitHubDesktop\app-3.6.10\resources\app\git\cmd\git.exe` (git del sistema NO existe)
 Auth: if network fails → `$env:GIT_TERMINAL_PROMPT=0; $env:GCM_INTERACTIVE="never"; $env:GCM_GUI_PROMPT="never"` (GCM con credenciales de judasiii2-lgtm)
@@ -13,6 +13,19 @@ acentos/ñ para evitar mojibake en el mensaje de commit. Verificar por BYTES, no
 ---
 
 ## 1. Estado actual
+
+### TODAS LAS WEBS ACTIVAS ✅ (8-nov-2026)
+| Web | Roster | Contenido | Commit base |
+|---|---|---|---|
+| `wuwa/index.html` | 61 pjs · meta 3.7 F2 | builds, tier, gacha, calendario | 4df6309 |
+| `nte/index.html` | 24 hipercos · patch 1.3 | fichas, tier, builds+stats objetivos, sistemas | 8c23f08 |
+| `zzz/index.html` | 61 agentes | fichas, tier, clases CritDPS/AnoDPS/Support | (8-nov) |
+| `hsr/index.html` | 93 personajes | fichas, tier T0–T5, ratings por modo MoC/Pure/Apo en ficha | (8-nov) |
+
+- Hub `SONANCE.html` rediseñado: **colaje de 2 personajes por mosaico** (`.m1` derecha 66% + `.m2` izquierda
+  con mask), glow radial de color por juego, zoom animado, fade inferior. WuWa=Cartethyia+Shorekeeper,
+  NTE=Lacrimosa+Zankou, ZZZ=Miyabi+Evelyn, HSR=Acheron+Firefly, Silver=homepage_bg.
+- Colores por juego: WuWa azul/violeta · NTE violeta/rosa · ZZZ naranja/violeta · HSR violeta/azul.
 
 ### WuWa — TERMINADA ✅ (v8.0.3, commits c6f4645→4df6309)
 - Archivo fuente: `C:\Users\loshi\Documents\Web WuWa\index.html` (61 personajes, copia al repo como `index.html`)
@@ -47,33 +60,34 @@ Todos en `{base}` = `https://cdn.prydwen.gg/images/`
 Rovers WuWa: Spectro/Aero/Havoc (`rover-spectro`, `rover-aero`, `rover-havoc`) con `_full`;
 Electro usa wuthering.gg `T_IconRole_Pile_zhujue_UI.png`.
 
-### Rosters ya localizados (para próximas sesiones)
-- **NTE (26 pjs, YA LANZADO!)**: adler, akane-rin, aurelia, baicang, blackbird, chaos, chiz, daffodil,
-  edgar, elyms, exe, fadia, haniel, hathor, hotori, iroi, jiuyuan, lacrimosa, linko, mint, nanally,
-  sakiri, shinku, skia, zankou, zero.
-- **ZZZ**: la página /zenless/characters/ lista ≥30 (alice, anby-demara, anby-demara-soldier-0, anton,
-  aria, astra-yao, banyue, ben, billy-kid, billy-starlight, burnice, caesar, cissia, claret, corin,
-  dialyn, ellen, evelyn, grace-howard, harumasa, hugo, jane-doe, ju-fufu, kafka, koleda, lighter,
-  lucia, lucy, lycaon, manato + más que quedaron cortados). Sacar lista COMPLETA + tiers de su tier list.
-- **HSR**: obtener roster de /star-rail/characters/ (kafka verificado).
+### Rosters ya incrustados en las webs (fuente Prydwen, nov 2026)
+- **NTE 24** (tier list 1.3): T0=Lacrimosa, Zankou, Akane Rin, Linko, Blackbird, Iroi, Zero, Hotori,
+  Nanally, Chaos, Sakiri · T0.5=Shinku · T1=Daffodil, Baicang, Jiuyuan, Fadia, Haniel, Adler (Watchlist) ·
+  T1.5=Hathor, Chiz · T2=Aurelia, Mint, Skia · T3=Edgar. Zero sin `_full` (usar `_card`).
+- **ZZZ 61**: T0(11)=Claret, Dialyn, Lucia, Nangong Yu, Norma, Phoenix, Remielle, Sigrid, Sunna,
+  Velina, Ye Shunguang, Yuzuha (rating 11). Facciones pendientes (deep-dive opcional).
+- **HSR 93**: rating=max(moc,pure,apo); tier: 11→T0, 10→T0.5, 9→T1, 8→T1.5, 7→T2, 6→T3, 5→T4, ≤4→T5.
+  T0 (20): Archer, Ashveil, Aventurine Waveflair, Blade Mortenax, Castorice, Cyrene, Dan Heng • Permansor
+  Terrae, Evanescia, Evernight, Himeko Nova, Huohuo, Hyacine, Pearl, Rin Tohsaka, Robin Summeretto,
+  Silver Wolf • Lv. 999, Sparxie, Trailblazer - Elation, Tribbie, Yao Guang.
+- Mapeo rating→tier usado en NTE/ZZZ: 11→T0, 10→T0.5, 9→T1, 8→T1.5, 7→T2, 6→T3.
 
 ## 3. Arquitectura del hub
-- `SONANCE.html` en la raíz del workspace local (y del repo) — mosaico de juegos:
-  - WuWa ✅ enlaza `Web WuWa/index.html` (local) — en repo: subida como carpeta `wuwa/index.html`.
-  - NTE / ZZZ / HSR: fichas "⭐ DISPONIBLE" (NTE y HSR/ZZZ se construyen en próximas sesiones).
-  - Silver Palace: "🔒 PRÓXIMAMENTE" (cuando lanzado, prydwen ya tiene web para decir datos).
+- `SONANCE.html` en la raíz — mosaico de 5 juegos, TODOS ACTIVOS salvo Silver Palace (PRÓXIMAMENTE).
 - Cada web tiene botón "⬅ SONANCE" que vuelve al hub (`SONANCE.html`).
-- Estructura HTML/Javascript de WuWa reutilizable: ROSTERS (datos), SPLASH (slugs CDN),
-  artWithFallback()/artFix(), ficha translúcida, tier list, builds, gacha/tools si procede.
+- Plantilla común (base NTE/ZZZ/HSR): tabs Pjs/Tier/Sistemas, ficha modal translúcida con ken-burns,
+  localStorage "tuyos" + export/import JSON (`<juego>-backup.json`), filtros + buscador.
 
 ## 4. Plan por sesión (HOJA DE RUTA)
-- [x] Sesión hoya: plan + hub SONANCE + WuWa al día + patrones CDN descubierto
-- [ ] **Próxima: NTE** ← mejor candidato de arranque (26 pjs listos): fetch su tier list + game info,
-  construir `nte/index.html` con 26 personajes, fichas estilo WuWa, commit+push.
-- [ ] Session HSR: roster de /star-rail/characters/ + tier list → build completa.
-- [ ] Session ZZZ: roster completo (la lista anterior está cortada) → build completa.
+- [x] Hub SONANCE + WuWa al día + patrones CDN
+- [x] NTE v1 completa (24 hipercos, patch 1.3)
+- [x] ZZZ v1 completa (61 agentes)
+- [x] HSR v1 completa (93 personajes, ratings por modo)
+- [x] Hub rediseñado con colajes por juego (Usuario lo aprobó visualmente ✓ — "epico")
+- [ ] Opcional deep-dive ZZZ: facciones, W-Engine firmas y discos por personaje (ficha build)
+- [ ] Opcional deep-dive HSR: conos de luz recomendados y equipos por personaje
 - [ ] Silver Palace: esperar lanzamiento (hub dice PRÓXIMAMENTE).
-- [ ] 12-nov: revisar WuWa 3.8 (Lily debut, quitar chip ✨, validar tier real con Prydwen).
+- [ ] **12-nov: REVISAR WuWa 3.8** (Lily debut: quitar `nuevo:true`, re-verificar tier con Prydwen).
 
 ## 5. Recuerdos operativos
 - Servidor pruebas: `C:\Users\loshi\AppData\Local\Temp\opencode\webserver.ps1` → http://127.0.0.1:8642/

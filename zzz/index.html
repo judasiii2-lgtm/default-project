@@ -3,44 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SONANCE · Zenless Zone Zero — en construcción</title>
+<title>SONANCE · Zenless Zone Zero Command</title>
 <style>
-:root{--bg:#0a0a14}
-*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#e5e7eb;min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:-6%;z-index:-2;background-image:var(--gameart);background-size:cover;background-position:center top;filter:saturate(1.15) brightness(.8);animation:kb 20s ease-in-out infinite alternate}
-body::after{content:'';position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,#0a0a1488 0%,#0a0a14e0 60%,#0a0a14f5 100%)}
-@keyframes kb{0%{transform:scale(1.04)}100%{transform:scale(1.14) translateY(-18px)}}
-.center{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px}
-.emoji{font-size:64px;filter:drop-shadow(0 6px 24px #0009)}
-h1{font-size:44px;margin:14px 0 6px;letter-spacing:6px;background:linear-gradient(90deg,#f97316,#e11d48);-webkit-background-clip:text;background-clip:text;color:transparent}
-.jline{color:#94a3b8;font-size:15px;letter-spacing:2px;margin-bottom:26px}
-.frame{max-width:560px;background:linear-gradient(180deg,rgba(32,14,6,.55),rgba(32,14,6,.15));backdrop-filter:blur(8px);border-radius:20px;padding:26px 30px;border:0}
-.frame h2{margin:0 0 10px;font-size:21px;color:#fbbf24}
-.frame p{margin:6px 0;color:#e2e8f0;line-height:1.7;font-size:15px}
-.bar{margin-top:22px;height:6px;border-radius:4px;background:#ffffff14;overflow:hidden}
-.bar i{display:block;height:100%;width:18%;border-radius:4px;background:linear-gradient(90deg,#f97316,#e11d48);animation:fill 2.6s ease-in-out infinite alternate}
-@keyframes fill{0%{width:8%}100%{width:62%}}
-.btn{margin-top:28px;display:inline-block;padding:12px 30px;border-radius:14px;font-weight:800;text-decoration:none;color:#05070d;background:linear-gradient(90deg,#f97316,#e11d48);box-shadow:0 10px 30px #f9731644}
-.btn:hover{transform:translateY(-3px)}
-.logomark{display:inline-flex;align-items:flex-end;gap:2px;position:fixed;top:16px;left:18px}
-.logomark i{display:block;width:4px;border-radius:3px;background:linear-gradient(180deg,#f97316,#e11d48)}
-.logomark i:nth-child(2n){height:14px}.logomark i:nth-child(2n+1){height:8px}
-.sname{position:fixed;top:18px;left:64px;color:#94a3b8;font-size:12px;letter-spacing:3px}
+:root{--bg:#0b0a0c;--accent:#f97316;--gold:#fbbf24;--text:#e5e7eb}
+*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text)}
+body::before{content:'';position:fixed;inset:-4%;z-index:-1;pointer-events:none;background:linear-gradient(#0b0a0cd9,#0b0a0c99),url('https://cdn.prydwen.gg/images/zenless-zone-zero/website_bg.webp') center center/cover;animation:kb 34s ease-in-out infinite alternate}
+@keyframes kb{0%{transform:scale(1)}100%{transform:scale(1.08) translateY(-16px)}}
+header{background:linear-gradient(90deg,#f97316cc,#e11d48cc,#7c3aedcc);padding:16px;text-align:center}
+header h1{margin:0;font-size:22px;letter-spacing:2px}
+header .brandname{font-weight:900;font-size:13px;letter-spacing:5px;color:#ffffffcc}
+nav{display:flex;gap:8px;justify-content:center;padding:10px;background:rgba(20,14,14,.9);flex-wrap:wrap}
+nav button{background:#2b1d22;border:1px solid #ffffff18;color:var(--text);padding:9px 16px;border-radius:10px;cursor:pointer;font-weight:600;font-size:13px}
+nav button:hover{background:#3b2830}
+nav button.active{background:linear-gradient(90deg,#f97316,#e11d48);border-color:transparent}
+main{max-width:1200px;margin:0 auto;padding:18px}
+section.tab{display:none}
+section.tab.active{display:block}
+.card{background:linear-gradient(160deg,#191321e8,#100b14e0);border:1px solid #ffffff10;border-radius:18px;padding:18px;margin-bottom:16px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.filters select,.filters input{background:#201722;border:1px solid #ffffff1a;color:var(--text);padding:8px 12px;border-radius:10px;font-size:13px}
+.btn2{background:#2d2030;border:1px solid #ffffff18;color:var(--text);padding:8px 15px;border-radius:10px;cursor:pointer;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.pjcard{position:relative;border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#1c1a2e,#2e1230);border:1px solid #ffffff14;border-left:4px solid #64748b;cursor:pointer;transition:border-color .25s,transform .25s,box-shadow .3s}
+.pjcard:hover{border-color:#f97316aa;transform:translateY(-5px);box-shadow:0 14px 34px #00000070}
+.pjcard.nuevo{box-shadow:0 0 20px #f9731640}
+.pjcard .artwrap{position:relative;height:320px;overflow:hidden;background:#0b0a14}
+.pjcard .artwrap img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .55s,filter .4s;animation:floaty 7s ease-in-out infinite}
+.pjcard:hover .artwrap img{transform:scale(1.07);filter:saturate(1.15)}
+.pjcard .artwrap::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#0b0a1210 35%,#0b0a12e0 94%)}
+.pjcard .shine{position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(105deg,#ffffff00 20%,#ffffff33 50%,#ffffff00 80%);transform:skewX(-18deg);transition:left .7s;pointer-events:none;z-index:2}
+.pjcard:hover .shine{left:130%}
+.pjcard .pjinfo{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:12px}
+.pjcard .pjinfo h4{margin:0 0 4px;font-size:15px;text-shadow:0 2px 10px #000}
+.pjcard .pjinfo small{color:#cbd5e1;text-shadow:0 1px 6px #000}
+.tierchip{display:inline-block;padding:1px 8px;border-radius:12px;font-size:10px;font-weight:900;color:#000}
+.awchip{display:inline-block;padding:1px 7px;border-radius:12px;font-size:9px;font-weight:800;background:#f97316;color:#fff;vertical-align:middle}
+@keyframes floaty{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-5px) scale(1.015)}}
+.tierow{display:flex;gap:10px;margin-bottom:12px;align-items:stretch}
+.tierlabel{flex:0 0 92px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;border-radius:14px;color:#000}
+.tiermembers{flex:1;display:flex;flex-wrap:wrap;gap:10px;padding:8px;border-radius:14px;background:#ffffff06}
+.tiermember{width:96px;cursor:pointer;text-align:center;transition:transform .2s}
+.tiermember:hover{transform:translateY(-4px)}
+.tiermember no{opacity:.5}
+.tiermember .port img{border-radius:10px;object-fit:cover}
+.tiermember small{display:block;margin-top:4px;font-size:11px;color:#cbd5e1}
+.modal{position:fixed;inset:0;background:#07040acc;display:none;z-index:50;overflow-y:auto}
+.modal.open{display:block}
+.sheet{position:relative;max-width:900px;margin:40px auto;border-radius:22px;overflow:hidden;padding:24px;background:#120d16}
+.sheet::before{content:'';position:absolute;inset:-8% -6% 0;z-index:0;background-image:var(--charart,none);background-position:center top;background-size:cover;background-repeat:no-repeat;opacity:.82;filter:saturate(1.15) brightness(1.02);transform-origin:62% 18%;animation:kenburns 16s ease-in-out infinite alternate}
+@keyframes kenburns{0%{transform:scale(1)}50%{transform:scale(1.09) translateY(-14px)}100%{transform:scale(1.02) translateY(8px)}}
+.sheet::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#0e0a12cc 0%,#0e0a1280 26%,#0e0a1226 60%,#0e0a1240 100%),linear-gradient(0deg,#0e0a12b0 0%,#0e0a1230 26%,#0e0a1200 40%)}
+.sheet>*{position:relative;z-index:2}
+.sheet .glass{background:linear-gradient(180deg,rgba(14,10,18,.46),rgba(14,10,18,.30) 55%,rgba(14,10,18,.02));backdrop-filter:blur(3px);border:0;border-radius:16px;padding:14px 16px;margin-bottom:8px}
+.sheet h3{text-shadow:0 1px 10px #000}
+.sheet p,.sheet td,.sheet li{text-shadow:0 1px 5px rgba(0,0,0,.7)}
+.elchip{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:800;color:#000}
+.tierbig{font-size:15px;font-weight:900;padding:2px 12px;border-radius:14px;color:#000}
+footer{text-align:center;color:#64748b;font-size:11px;padding:26px}
+@media(max-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}.pjcard .artwrap{height:240px}}
 </style>
 </head>
-<body style="--gameart:url('https://cdn.prydwen.gg/images/zenless-zone-zero/characters/miyabi_full.webp')">
-<div class="logomark"><i></i><i></i><i></i><i></i><i></i></div><span class="sname">SONANCE</span>
-<div class="center">
-  <div class="emoji">🧡</div>
-  <h1>ZENLESS ZONE ZERO</h1>
-  <div class="jline">HOYOLAND · AGENTES · NUEVO ERIDU</div>
-  <div class="frame">
-    <h2>🚧 Juego en construcción</h2>
-    <p>El roster ya está localizado en Prydwen (agentes como Miyabi, Ellen, Evelyn, Caesar, Astra Yao, Burnice, Jane Doe y más — ≥30 con builds y sus tier lists).</p>
-    <p>La web completa (fichas translúcidas con arte, tier list, builds y gacha) llega en la <b style="color:#fb923c">próxima sesión de SONANCE</b>.</p>
-    <div class="bar"><i></i></div>
-  </div>
-  <a class="btn" href="../SONANCE.html">⬅ Volver a SONANCE</a>
+<body>
+<header><div class="brandname">SONANCE</div><h1>🧡 ZENLESS ZONE ZERO COMMAND</h1></header>
+<nav id="mainnav">
+<button style="background:linear-gradient(90deg,#f9731633,#e11d4833)" onclick="location.href='../SONANCE.html'">⬅ SONANCE</button>
+<button class="active" id="nb-pjs" onclick="goTab('pjs',this)">👥 Agentes</button>
+<button id="nb-tier" onclick="goTab('tier',this)">🏅 Tier</button>
+<button id="nb-sis" onclick="goTab('sis',this)">🔧 Sistemas</button>
+</nav>
+<main>
+<section id="tab-pjs" class="tab active"><div class="card">
+<h2>👥 Agentes (61)</h2>
+<div class="filters"><input placeholder="Buscar…" oninput="renderPjs()"><select id="fEl" onchange="renderPjs()"><option value="all">Todos los atributos</option><option>Physical</option><option>Fire</option><option>Ice</option><option>Electric</option><option>Ether</option><option>Wind</option><option>Lumiflux</option></select><select id="fCat" onchange="renderPjs()"><option value="all">Todas las clases</option><option value="CritDPS">DPS Crítico</option><option value="AnoDPS">DPS Anomalía</option><option value="Support">Soporte</option><option value="mine">Solo los míos</option></select><button class="btn2" onclick="exportMine()">⬇ Exportar</button><button class="btn2" onclick="importMine()">⬆ Importar</button></div>
+<div class="grid" id="pjs"></div>
+</div></section>
+<section id="tab-tier" class="tab"><div class="card">
+<h2>🏅 Tier List de Agentes</h2>
+<p style="font-size:13px;color:#94a3b8">Fuente: Prydwen (nov 2026). Rating 11=T0 · 10=T0.5 · 9=T1 · 8=T1.5 · 7=T2 · 6=T3.</p>
+<div id="tiers"></div>
+</div></section>
+<section id="tab-sis" class="tab"><div class="card">
+<h2>🔧 Sistemas de ZZZ</h2>
+<div class="glass" style="max-width:none">
+<h3>⚙️ W-Engines (armas)</h3><p>Cada agente tiene su firma que da su forza específica. En la gacha (canal exclusivo) puedes obtenerlas; el canal estándar garantiza S en 90 tiradas.</p>
+<h3>💾 Disc Drives (reliquias)</h3><p>Sets de 2 y 4 piezas. Los DPS críticos buscan CRIT Rate/DMG; los de Anomalía buscan Anomaly Proficiency y Mastery; los soportes, ATK% o Vida/Energía según rol.</p>
+<h3>🤖 Bangboo</h3><p>Compañeros de una correría que dan buffs de cazas/pesca y ataque en combate. Un bangboo S (M6+ de gacha) suma daño notable.</p>
+<h3>📺 TV / Protomundos</h3><p>Dive Study:治疗效果 misiones del Hollow; el sistema de Hollow TV fue simplificado en las versiones actuales — más acción directa.</p>
+<h3>🧭 Faction /增幅</h3><p>Los agentes de la misma facción se activan buff mutuos; el"Duo/Trío bonus" de equipo importa al armar squad (p. ej. Victoria Housekeeping, N.E.P.S., Stars of Lyra).</p>
 </div>
+</div></section>
+</main>
+<footer>SONANCE · Fuente: Prydwen (nov 2026) · todo local en tu navegador</footer>
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
+<script>
+// slug|nombre|rar|el|cat|rate (Prydwen nov 2026)
+const RAW=[
+['alice','Alice','S','Physical','AnoDPS',10],['anby-demara','Anby','A','Electric','Support',6],['anby-demara-soldier-0','Anby: Soldier 0','S','Electric','CritDPS',9],
+['anton','Anton','A','Electric','CritDPS',6],['aria','Aria','S','Ether','AnoDPS',10],['astra-yao','Astra Yao','S','Ether','Support',10],
+['banyue','Banyue','S','Fire','CritDPS',10],['ben','Ben','A','Fire','CritDPS',6],['billy-kid','Billy','A','Physical','CritDPS',7],
+['billy-starlight','Billy ★ Starlight','S','Physical','CritDPS',10],['burnice','Burnice','S','Fire','AnoDPS',10],['caesar','Caesar','S','Physical','Support',7],
+['cissia','Cissia','S','Electric','CritDPS',10],['claret','Claret','S','Electric','CritDPS',11],['corin','Corin','A','Physical','CritDPS',7],
+['dialyn','Dialyn','S','Physical','Support',11],['ellen','Ellen','S','Ice','CritDPS',8],['evelyn','Evelyn','S','Fire','CritDPS',9],
+['grace-howard','Grace','S','Electric','AnoDPS',9],['harumasa','Harumasa','S','Electric','CritDPS',9],['hugo','Hugo','S','Ice','CritDPS',8],
+['jane-doe','Jane Doe','S','Physical','AnoDPS',9],['ju-fufu','Ju Fufu','S','Fire','Support',9],['koleda','Koleda','S','Fire','Support',8],
+['lighter','Lighter','S','Fire','Support',9],['lucia','Lucia','S','Ether','Support',11],['lucy','Lucy','A','Fire','Support',7],
+['lycaon','Lycaon','S','Ice','Support',9],['manato','Manato','A','Fire','CritDPS',8],['miyabi','Miyabi','S','Ice','AnoDPS',10],
+['nangong-yu','Nangong Yu','S','Ether','Support',11],['nekomata','Nekomata','S','Physical','CritDPS',9],['nicole-demara','Nicole','A','Ether','Support',10],
+['norma','Norma','S','Fire','Support',11],['orphie-and-magus','Orphie (Magus)','S','Fire','CritDPS',9],['pan-yinhu','Pan Yinhu','A','Physical','Support',8],
+['phoenix','Phoenix','S','Fire','AnoDPS',11],['piper','Piper','A','Physical','AnoDPS',9],['promeia','Promeia','S','Ice','AnoDPS',10],
+['pulchra','Pulchra','A','Physical','Support',7],['pyrois','Pyrois','S','Ether','CritDPS',10],['qingyi','Qingyi','S','Electric','Support',8],
+['remielle','Remielle','S','Lumiflux','AnoDPS',11],['rina','Rina','S','Electric','Support',10],['roxy','Roxy','S','Wind','Support',10],
+['seed','Seed','S','Electric','CritDPS',10],['seth','Seth','A','Electric','Support',6],['sigrid','Sigrid','S','Ice','CritDPS',11],
+['soldier-11','Soldier 11','S','Fire','CritDPS',9],['soukaku','Soukaku','A','Ice','Support',8],['sunna','Sunna','S','Physical','Support',11],
+['trigger','Trigger','S','Electric','Support',9],['velina','Velina','S','Wind','AnoDPS',11],['vivian','Vivian','S','Ether','AnoDPS',9],
+['yanagi','Yanagi','S','Electric','AnoDPS',9],['ye-shunguang','Ye Shunguang','S','Physical','CritDPS',11],['yidhari','Yidhari','S','Ice','CritDPS',10],
+['yixuan','Yixuan','S','Ether','CritDPS',10],['ukinami-yuzuha','Yuzuha','S','Physical','Support',11],['zhao','Zhao','S','Ice','Support',10],
+['zhu-yuan','Zhu Yuan','S','Ether','CritDPS',8]];
+const TIER={11:'T0',10:'T0.5',9:'T1',8:'T1.5',7:'T2',6:'T3'};
+const TIER_COL={'T0':'#ef4444','T0.5':'#fbbf24','T1':'#34d399','T1.5':'#38bdf8','T2':'#a78bfa','T3':'#64748b'};
+const ELC={'Physical':'#fb923c','Fire':'#ef4444','Ice':'#7dd3fc','Electric':'#a78bfa','Ether':'#fbbf24','Wind':'#34d399','Lumiflux':'#f472b6'};
+const CATES={'CritDPS':'DPS Crítico','AnoDPS':'DPS Anomalía','Support':'Soporte'};
+const CHARS=RAW.map(r=>({slug:r[0],name:r[1],rar:r[2],el:r[3],cat:r[4],tier:TIER[r[5]]||'T3'}));
+const MINE=JSON.parse(localStorage.getItem('zzz_mine')||'[]');
+function saveMine(){localStorage.setItem('zzz_mine',JSON.stringify(MINE));}
+function isMine(n){return MINE.includes(n);}
+function toggleOne(n){isMine(n)?MINE.splice(MINE.indexOf(n),1):MINE.push(n);saveMine();renderPjs();renderTiers();}
+function art(n){const c=CHARS.find(c=>c.name===n);return 'https://cdn.prydwen.gg/images/zenless-zone-zero/characters/'+c.slug+'_full.webp';}
+function artB(n){const c=CHARS.find(c=>c.name===n);return 'https://cdn.prydwen.gg/images/zenless-zone-zero/characters/'+c.slug+'_card.webp';}
+function artFix(img,n){img.onerror=null;img.src=artB(n);}
+function goTab(t,btn){document.querySelectorAll('section.tab').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.querySelectorAll('#mainnav button').forEach(b=>b.classList.remove('active'));btn&&btn.classList.add('active');}
+function renderPjs(){
+ const el=document.getElementById('fEl').value,ct=document.getElementById('fCat').value,q=(document.querySelector('.filters input')||{}).value||'';
+ const l=CHARS.filter(c=>(el==='all'||c.el===el)&&(ct==='all'||c.cat===ct||ct==='mine'&&isMine(c.name))&&(!q||c.name.toLowerCase().includes(q.toLowerCase())));
+ document.getElementById('pjs').innerHTML=l.map(c=>{
+  const tc=TIER_COL[c.tier],ec=ELC[c.el];
+  return '<div class="pjcard'+(isMine(c.name)?' nuevo':'')+'" title="Abrir ficha" onclick="openChar(\''+c.name+'\')" style="border-left-color:'+tc+'"><div class="artwrap"><img loading="lazy" src="'+art(c.name)+'" alt="'+c.name+'" onerror="artFix(this,\''+c.name+'\')"><div class="shine"></div></div><div class="pjinfo"><h4>'+c.name+(isMine(c.name)?' ✓':'')+'</h4><small><span class="elchip" style="background:'+ec+'">'+c.el+'</span> · '+CATES[c.cat]+' · '+c.rar+'-Rank</small><br><span class="tierchip" style="background:'+tc+'">'+c.tier+'</span></div></div>';
+ }).join('');
+}
+function renderTiers(){
+ const tiers=['T0','T0.5','T1','T1.5','T2','T3'];
+ document.getElementById('tiers').innerHTML=tiers.map(t=>{
+  col=TIER_COL[t];
+  return '<div class="tierow"><div class="tierlabel" style="background:'+col+'">'+t+'</div><div class="tiermembers">'+CHARS.filter(c=>c.tier===t).map(c=>
+   '<div class="tiermember" onclick="openChar(\''+c.name+'\')"><div class="port"><img loading="lazy" src="'+art(c.name)+'" style="width:96px;height:128px" onerror="artFix(this,\''+c.name+'\')"></div><small>'+c.name+(isMine(c.name)?' ✓':'')+'</small></div>').join('')+'</div></div>';
+ }).join('');
+}
+function openChar(n){
+ const c=CHARS.find(c=>c.name===n),ec=ELC[c.el],tc=TIER_COL[c.tier];
+ const sh=document.getElementById('sheet');
+ sh.style.setProperty('--charart','url("'+art(n)+'")');
+ sh.innerHTML='<button class="btn2" style="float:right" onclick="closeModal()">✕ Cerrar</button>'+
+ '<div class="glass"><h2 style="font-size:30px;margin:6px 0">'+c.name+(isMine(n)?' 🔅':'')+'</h2>'+
+ '<p><span class="elchip" style="background:'+ec+'">'+c.el+'</span> · '+CATES[c.cat]+' · '+c.rar+'-Rank · <span class="tierbig" style="background:'+tc+'">'+c.tier+'</span> · '+(isMine(n)?'<b style="color:#34d399">✓ Tuyo</b>':'<button class="btn2" onclick="toggleOne(\''+n+'\');openChar(\''+n+'\')">Marcar como mío</button>')+'</p>'+
+ '<p>Guía completa (build, engine firmo, discos y equipos) en Prydwen:</p>'+
+ '<button class="btn2" onclick="window.open(\'https://www.prydwen.gg/zenless/agents/'+c.slug+'\',\'_blank\')">Guía en Prydwen ↗</button></div>'+
+ '<div class="glass"><p style="color:#94a3b8;font-size:13px">Tip: los agentes de la <b>misma facción</b> potencian el equipo; el DPS crítico quiere CRIT Rate/DMG y el de anomalía, Anomaly Proficiency.</p></div>';
+ document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function exportMine(){const el=document.createElement('a');el.href='data:application/json,'+encodeURIComponent(JSON.stringify(MINE));el.download='zzz-backup.json';el.click();}
+function importMine(){const i=document.createElement('input');i.type='file';i.accept='.json';i.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{MINE.length=0;JSON.parse(r.result).forEach(x=>{if(!MINE.includes(x))MINE.push(x)});saveMine();renderPjs();renderTiers();alert('Importado ✓');};r.readAsText(f);};i.click();}
+renderPjs();renderTiers();
+</script>
 </body>
 </html>

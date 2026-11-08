@@ -3,44 +3,245 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SONANCE · Honkai Star Rail — en construcción</title>
+<title>SONANCE · Honkai Star Rail Command</title>
 <style>
-:root{--bg:#0a0a14}
-*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:#e5e7eb;min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:-6%;z-index:-2;background-image:var(--gameart);background-size:cover;background-position:center top;filter:saturate(1.15) brightness(.8);animation:kb 20s ease-in-out infinite alternate}
-body::after{content:'';position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,#0a0a1488 0%,#0a0a14e0 60%,#0a0a14f5 100%)}
-@keyframes kb{0%{transform:scale(1.04)}100%{transform:scale(1.14) translateY(-18px)}}
-.center{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px}
-.emoji{font-size:64px;filter:drop-shadow(0 6px 24px #0009)}
-h1{font-size:44px;margin:14px 0 6px;letter-spacing:6px;background:linear-gradient(90deg,#8b5cf6,#0ea5e9);-webkit-background-clip:text;background-clip:text;color:transparent}
-.jline{color:#94a3b8;font-size:15px;letter-spacing:2px;margin-bottom:26px}
-.frame{max-width:560px;background:linear-gradient(180deg,rgba(16,10,40,.55),rgba(16,10,40,.15));backdrop-filter:blur(8px);border-radius:20px;padding:26px 30px;border:0}
-.frame h2{margin:0 0 10px;font-size:21px;color:#fbbf24}
-.frame p{margin:6px 0;color:#e2e8f0;line-height:1.7;font-size:15px}
-.bar{margin-top:22px;height:6px;border-radius:4px;background:#ffffff14;overflow:hidden}
-.bar i{display:block;height:100%;width:18%;border-radius:4px;background:linear-gradient(90deg,#8b5cf6,#0ea5e9);animation:fill 2.6s ease-in-out infinite alternate}
-@keyframes fill{0%{width:8%}100%{width:62%}}
-.btn{margin-top:28px;display:inline-block;padding:12px 30px;border-radius:14px;font-weight:800;text-decoration:none;color:#05070d;background:linear-gradient(90deg,#8b5cf6,#0ea5e9);box-shadow:0 10px 30px #8b5cf644}
-.btn:hover{transform:translateY(-3px)}
-.logomark{display:inline-flex;align-items:flex-end;gap:2px;position:fixed;top:16px;left:18px}
-.logomark i{display:block;width:4px;border-radius:3px;background:linear-gradient(180deg,#8b5cf6,#0ea5e9)}
-.logomark i:nth-child(2n){height:14px}.logomark i:nth-child(2n+1){height:8px}
-.sname{position:fixed;top:18px;left:64px;color:#94a3b8;font-size:12px;letter-spacing:3px}
+:root{--bg:#0b0a12;--accent:#8b5cf6;--gold:#fbbf24;--text:#e5e7eb}
+*{box-sizing:border-box}body{margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text)}
+body::before{content:'';position:fixed;inset:-4%;z-index:-1;pointer-events:none;background:linear-gradient(#0b0a12d9,#0b0a1299),url('https://cdn.prydwen.gg/images/honkai-star-rail/website_bg.webp') center center/cover;animation:kb 34s ease-in-out infinite alternate}
+@keyframes kb{0%{transform:scale(1)}100%{transform:scale(1.08) translateY(-16px)}}
+header{background:linear-gradient(90deg,#8b5cf6cc,#6366f1cc,#0ea5e9cc);padding:16px;text-align:center}
+header h1{margin:0;font-size:22px;letter-spacing:2px}
+header .brandname{font-weight:900;font-size:13px;letter-spacing:5px;color:#ffffffcc}
+nav{display:flex;gap:8px;justify-content:center;padding:10px;background:rgba(18,14,28,.9);flex-wrap:wrap}
+nav button{background:#241d3f;border:1px solid #ffffff18;color:var(--text);padding:9px 16px;border-radius:10px;cursor:pointer;font-weight:600;font-size:13px}
+nav button:hover{background:#332a58}
+nav button.active{background:linear-gradient(90deg,#8b5cf6,#6366f1);border-color:transparent}
+main{max-width:1200px;margin:0 auto;padding:18px}
+section.tab{display:none}
+section.tab.active{display:block}
+.card{background:linear-gradient(160deg,#16122aef,#0f0c20e6);border:1px solid #ffffff10;border-radius:18px;padding:18px;margin-bottom:16px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.filters select,.filters input{background:#1d1733;border:1px solid #ffffff1a;color:var(--text);padding:8px 12px;border-radius:10px;font-size:13px}
+.btn2{background:#2a2148;border:1px solid #ffffff18;color:var(--text);padding:8px 15px;border-radius:10px;cursor:pointer;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.pjcard{position:relative;border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#141a33,#231233);border:1px solid #ffffff14;border-left:4px solid #64748b;cursor:pointer;transition:border-color .25s,transform .25s,box-shadow .3s}
+.pjcard:hover{border-color:#8b5cf6aa;transform:translateY(-5px);box-shadow:0 14px 34px #00000070}
+.pjcard.nuevo{box-shadow:0 0 20px #8b5cf640}
+.pjcard .artwrap{position:relative;height:320px;overflow:hidden;background:#0b0a18}
+.pjcard .artwrap img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .55s,filter .4s;animation:floaty 7s ease-in-out infinite}
+.pjcard:hover .artwrap img{transform:scale(1.07);filter:saturate(1.15)}
+.pjcard .artwrap::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#0b0a1210 35%,#0b0a12e0 94%)}
+.pjcard .shine{position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(105deg,#ffffff00 20%,#ffffff33 50%,#ffffff00 80%);transform:skewX(-18deg);transition:left .7s;pointer-events:none;z-index:2}
+.pjcard:hover .shine{left:130%}
+.pjcard .pjinfo{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:12px}
+.pjcard .pjinfo h4{margin:0 0 4px;font-size:15px;text-shadow:0 2px 10px #000}
+.pjcard .pjinfo small{color:#cbd5e1;text-shadow:0 1px 6px #000}
+.tierchip{display:inline-block;padding:1px 8px;border-radius:12px;font-size:10px;font-weight:900;color:#000}
+.awchip{display:inline-block;padding:1px 7px;border-radius:12px;font-size:9px;font-weight:800;background:#8b5cf6;color:#fff;vertical-align:middle}
+@keyframes floaty{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-5px) scale(1.015)}}
+.tierow{display:flex;gap:10px;margin-bottom:12px;align-items:stretch}
+.tierlabel{flex:0 0 92px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;border-radius:14px;color:#000}
+.tiermembers{flex:1;display:flex;flex-wrap:wrap;gap:10px;padding:8px;border-radius:14px;background:#ffffff06}
+.tiermember{width:96px;cursor:pointer;text-align:center;transition:transform .2s}
+.tiermember:hover{transform:translateY(-4px)}
+.tiermember.no{opacity:.55}
+.tiermember .port img{border-radius:10px;object-fit:cover}
+.tiermember small{display:block;margin-top:4px;font-size:11px;color:#cbd5e1}
+.modal{position:fixed;inset:0;background:#05030acc;display:none;z-index:50;overflow-y:auto}
+.modal.open{display:block}
+.sheet{position:relative;max-width:900px;margin:40px auto;border-radius:22px;overflow:hidden;padding:24px;background:#0d0a1c}
+.sheet::before{content:'';position:absolute;inset:-8% -6% 0;z-index:0;background-image:var(--charart,none);background-position:center top;background-size:cover;background-repeat:no-repeat;opacity:.82;filter:saturate(1.15) brightness(1.02);transform-origin:62% 18%;animation:kenburns 16s ease-in-out infinite alternate}
+@keyframes kenburns{0%{transform:scale(1)}50%{transform:scale(1.09) translateY(-14px)}100%{transform:scale(1.02) translateY(8px)}}
+.sheet::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#0a0814cc 0%,#0a081480 26%,#0a081426 60%,#0a081440 100%),linear-gradient(0deg,#0a0814b0 0%,#0a081430 26%,#0a081400 40%)}
+.sheet>*{position:relative;z-index:2}
+.sheet .glass{background:linear-gradient(180deg,rgba(10,8,20,.46) 0%,rgba(10,8,20,.30) 55%,rgba(10,8,20,.02) 100%);backdrop-filter:blur(3px);border:0;border-radius:16px;padding:14px 16px;margin-bottom:8px}
+.sheet h3{text-shadow:0 1px 10px #000}
+.sheet p,.sheet td,.sheet li{text-shadow:0 1px 5px rgba(0,0,0,.7)}
+.elchip{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:800;color:#000}
+.pchip{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:800;color:#fff;background:#6d28d9cc}
+.tierbig{font-size:15px;font-weight:900;padding:2px 12px;border-radius:14px;color:#000}
+table.rates{border-collapse:collapse;font-size:13px;margin-top:6px}
+table.rates td{padding:5px 10px;background:rgba(10,8,20,.35)}
+table.rates td:first-child{font-weight:700;color:#a78bfa}
+footer{text-align:center;color:#64748b;font-size:11px;padding:26px}
+@media(max-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}.pjcard .artwrap{height:240px}}
 </style>
 </head>
-<body style="--gameart:url('https://cdn.prydwen.gg/images/honkai-star-rail/characters/acheron_full.webp')">
-<div class="logomark"><i></i><i></i><i></i><i></i><i></i></div><span class="sname">SONANCE</span>
-<div class="center">
-  <div class="emoji">🚂</div>
-  <h1>HONKAI STAR RAIL</h1>
-  <div class="jline">EXPRESS · CAMINOS · SIMULACIÓN UNIVERSO</div>
-  <div class="frame">
-    <h2>🚧 Juego en construcción</h2>
-    <p>El patrón de arte completo ya está verificado (Acheron, Firefly, Castorice, The Herta y todo el roster del Expreso Astral en Prydwen).</p>
-    <p>La web completa (fichas translúcidas con arte, tier list, builds y gacha) llega en la <b style="color:#a78bfa">próxima sesión de SONANCE</b>.</p>
-    <div class="bar"><i></i></div>
-  </div>
-  <a class="btn" href="../SONANCE.html">⬅ Volver a SONANCE</a>
+<body>
+<header><div class="brandname">SONANCE</div><h1>🚂 HONKAI STAR RAIL COMMAND</h1></header>
+<nav id="mainnav">
+<button style="background:linear-gradient(90deg,#8b5cf633,#6366f133)" onclick="location.href='../SONANCE.html'">⬅ SONANCE</button>
+<button class="active" id="nb-pjs" onclick="goTab('pjs',this)">👥 Personajes</button>
+<button id="nb-tier" onclick="goTab('tier',this)">🏅 Tier</button>
+<button id="nb-sis" onclick="goTab('sis',this)">🌌 Sistemas</button>
+</nav>
+<main>
+<section id="tab-pjs" class="tab active"><div class="card">
+<h2>👥 Personajes (93)</h2>
+<div class="filters"><input placeholder="Buscar…" oninput="renderPjs()"><select id="fEl" onchange="renderPjs()"><option value="all">Todos los elementos</option><option>Physical</option><option>Fire</option><option>Ice</option><option>Lightning</option><option>Wind</option><option>Quantum</option><option>Imaginary</option></select><select id="fPath" onchange="renderPjs()"><option value="all">Todos los caminos</option><option>Destruction</option><option>Hunt</option><option>Erudition</option><option>Harmony</option><option>Nihility</option><option>Preservation</option><option>Abundance</option><option>Remembrance</option><option>Elation</option></select><select id="fCat" onchange="renderPjs()"><option value="all">Todos los roles</option><option>DPS</option><option>Amplifier</option><option>Sustain</option><option>Specialist</option><option value="mine">Solo los míos</option></select><button class="btn2" onclick="exportMine()">⬇ Exportar</button><button class="btn2" onclick="importMine()">⬆ Importar</button></div>
+<div class="grid" id="pjs"></div>
+</div></section>
+<section id="tab-tier" class="tab"><div class="card">
+<h2>🏅 Tier List</h2>
+<p style="font-size:13px;color:#94a3b8">Fuente: Prydwen (nov 2026). Tier por el mejor rating entre MoC · Pure Fiction · Apocalyptic. 11=T0 · 10=T0.5 · 9=T1 · 8=T1.5 · 7=T2 · 6=T3 · 5=T4 · ≤4=T5 (antiguos).</p>
+<div id="tiers"></div>
+</div></section>
+<section id="tab-sis" class="tab"><div class="card">
+<h2>🌌 Sistemas de HSR</h2>
+<div style="background:linear-gradient(180deg,rgba(10,8,20,.46),rgba(10,8,20,.02));border-radius:16px;padding:14px 16px">
+<h3>⚔️ Los 3 modos endgame</h3><p><b>Memory of Chaos (MoC)</b>: dos mitades de ciclos, daño puro. <b>Pure Fiction</b>: hordas infinitas, recompensa AoE y clears rápidos. <b>Apocalyptic Shadow</b>: jefes con weaknesses fijas, recompensa maximizar break/DoT. Un personaje puede brillar en uno y caer en otro — por eso la ficha muestra su rating en cada modo.</p>
+<h3>💎 Reliquias y esferas</h3><p>Sets de 4 piezas + 2 de planar. Los DPS buscan y achacan CRIT Rate/DMG; Harmony quiere Speed/Energy Regen; break teams apuestan por los sets de Break Effect (Thief/Watchmaker).</p>
+<h3>🛤️ Caminos</h3><p>Destrucción (equilibrio DPS), Cacería (mono-objetivo), Ereudita (AoE), Armonía (buffers), Nihilidad (debuffs/DoT), Conservación y Abundancia (sustains), Remembranza (mascotas memoir), Elocuencia (el camino nuevo del Xianzhou collide/Troupe; multiplicadores joint-cast).</p>
+<h3>🎫 Gacha: canales</h3><p>Canal estándar + canal de personaje (pity 90, soft-pity ~74) y canal de cono de luz (pity 80). El Xianzhou guarantee: si pierdes el 50/50, el siguiente es el limitado. Los collabs y Elation tienen reglas propias.</p>
+<h3>✨ Superimposición y Eidos</h3><p>Los conos de luz se superimponen con copias (S1–S5); los personajes ganan Eidos (E1–E6) que cambian el kit. E2 en muchos DPS limitados dispara su techo.</p>
 </div>
+</div></section>
+</main>
+<footer>SONANCE · Fuente: Prydwen (nov 2026) · todo local en tu navegador</footer>
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
+<script>
+// slug|nombre|elemento|camino|rol|moc|pure|apo (Prydwen nov 2026)
+const RAW=[
+['ashveil','Ashveil','Lightning','Hunt','DPS',11,11,11],
+['aventurine-waveflair','Aventurine Waveflair','Quantum','Elation','DPS',11,11,11],
+['blade-mortenax','Blade Mortenax','Fire','Nihility','Amplifier',11,11,11],
+['evanescia','Evanescia','Physical','Elation','DPS',11,11,11],
+['himeko-nova','Himeko Nova','Fire','Erudition','DPS',11,11,11],
+['huohuo','Huohuo','Wind','Abundance','Sustain',11,11,11],
+['hyacine','Hyacine','Wind','Remembrance','Sustain',11,11,11],
+['pearl','Pearl','Ice','Elation','Sustain',11,11,11],
+['robin-summeretto','Robin Summeretto','Wind','Remembrance','Amplifier',11,11,11],
+['silver-wolf-lv-999','Silver Wolf • Lv. 999','Imaginary','Elation','DPS',11,11,11],
+['sparxie','Sparxie','Fire','Elation','Specialist',11,11,11],
+['yao-guang','Yao Guang','Physical','Elation','Amplifier',11,11,11],
+['trailblazer-elation','Trailblazer - Elation','Lightning','Elation','Amplifier',11,10,11],
+['archer','Archer','Quantum','Hunt','DPS',11,9,11],
+['castorice','Castorice','Quantum','Remembrance','DPS',11,10,10],
+['cyrene','Cyrene','Ice','Remembrance','Amplifier',11,10,10],
+['dan-heng-permansor-terrae','Dan Heng • Permansor Terrae','Physical','Preservation','Sustain',10,10,11],
+['march-7th-evernight','Evernight','Ice','Remembrance','Specialist',11,10,10],
+['rin-tohsaka','Rin Tohsaka','Quantum','Erudition','Specialist',11,9,11],
+['tribbie','Tribbie','Quantum','Harmony','Amplifier',10,11,10],
+['acheron','Acheron','Lightning','Nihility','DPS',10,10,10],
+['gilgamesh','Gilgamesh','Lightning','Destruction','Specialist',10,10,10],
+['saber','Saber','Wind','Destruction','DPS',10,10,10],
+['sparkle','Sparkle','Quantum','Harmony','Amplifier',10,10,10],
+['trailblazer-remembrance','Trailblazer - Remembrance','Ice','Remembrance','Amplifier',10,10,10],
+['black-swan','Black Swan','Wind','Nihility','Specialist',10,9,10],
+['hysilens','Hysilens','Physical','Nihility','DPS',10,9,10],
+['kafka','Kafka','Lightning','Nihility','Specialist',10,9,10],
+['welt','Welt','Imaginary','Nihility','Amplifier',10,9,10],
+['firefly','Firefly','Fire','Destruction','DPS',10,8,10],
+['lingsha','Lingsha','Fire','Abundance','Sustain',9,9,10],
+['the-dahlia','The Dahlia','Fire','Nihility','Amplifier',10,8,10],
+['anaxa','Anaxa','Wind','Erudition','DPS',9,8,10],
+['fu-xuan','Fu Xuan','Quantum','Preservation','Sustain',9,9,9],
+['ruan-mei','Ruan Mei','Ice','Harmony','Amplifier',9,8,10],
+['sunday','Sunday','Imaginary','Harmony','Amplifier',9,9,9],
+['aventurine','Aventurine','Imaginary','Preservation','Sustain',8,9,9],
+['cerydra','Cerydra','Wind','Harmony','Amplifier',9,8,9],
+['tingyun-fugue','Fugue','Fire','Nihility','Amplifier',9,8,9],
+['trailblazer-harmony','Trailblazer - Harmony','Imaginary','Harmony','Amplifier',9,8,9],
+['cipher','Cipher','Quantum','Nihility','Amplifier',8,8,9],
+['gallagher','Gallagher','Fire','Abundance','Sustain',8,8,9],
+['phainon','Phainon','Physical','Destruction','DPS',9,7,9],
+['robin','Robin','Physical','Harmony','Amplifier',8,8,9],
+['the-herta','The Herta','Ice','Erudition','DPS',8,9,8],
+['feixiao','Feixiao','Wind','Hunt','DPS',8,8,8],
+['luocha','Luocha','Imaginary','Abundance','Sustain',7,9,8],
+['mydei','Mydei','Imaginary','Destruction','DPS',8,8,8],
+['jade','Jade','Quantum','Erudition','Specialist',7,9,7],
+['seele','Seele','Quantum','Hunt','DPS',7,8,8],
+['silver-wolf','Silver Wolf','Quantum','Nihility','Amplifier',8,6,9],
+['asta','Asta','Fire','Harmony','Amplifier',6,8,8],
+['bronya','Bronya','Wind','Harmony','Amplifier',7,7,8],
+['rappa','Rappa','Imaginary','Erudition','DPS',7,7,8],
+['aglaea','Aglaea','Lightning','Remembrance','DPS',8,6,7],
+['herta','Herta','Ice','Erudition','Specialist',6,9,6],
+['boothill','Boothill','Physical','Hunt','DPS',7,4,9],
+['march-7th-swordmaster','March 7th - The Hunt','Imaginary','Hunt','Specialist',6,7,7],
+['himeko','Himeko','Fire','Erudition','DPS',5,8,6],
+['jiaoqiu','Jiaoqiu','Fire','Nihility','Amplifier',6,6,7],
+['tingyun','Tingyun','Lightning','Harmony','Amplifier',6,6,7],
+['bailu','Bailu','Lightning','Abundance','Sustain',6,6,6],
+['lynx','Lynx','Quantum','Abundance','Sustain',6,6,6],
+['argenti','Argenti','Physical','Erudition','Specialist',5,6,6],
+['blade','Blade','Wind','Destruction','DPS',6,5,5],
+['jing-yuan','Jing Yuan','Lightning','Erudition','DPS',5,5,6],
+['jingliu','Jingliu','Ice','Destruction','DPS',6,5,5],
+['topaz','Topaz & Numby','Fire','Hunt','Specialist',6,4,6],
+['yunli','Yunli','Physical','Destruction','DPS',6,5,5],
+['gepard','Gepard','Ice','Preservation','Sustain',5,5,5],
+['pela','Pela','Ice','Nihility','Amplifier',5,5,5],
+['serval','Serval','Lightning','Erudition','Specialist',5,5,5],
+['clara','Clara','Physical','Destruction','DPS',5,5,4],
+['imbibitor-lunae','Imbibitor Lunae','Imaginary','Destruction','DPS',5,4,5],
+['moze','Moze','Lightning','Hunt','Specialist',5,4,5],
+['arlan','Arlan','Lightning','Destruction','DPS',4,4,4],
+['dan-heng','Dan Heng','Wind','Hunt','DPS',4,4,4],
+['dr-ratio','Dr. Ratio','Imaginary','Hunt','DPS',4,4,4],
+['guinaifen','Guinaifen','Fire','Nihility','Amplifier',4,4,4],
+['hanya','Hanya','Physical','Harmony','Amplifier',4,4,4],
+['hook','Hook','Fire','Destruction','DPS',4,4,4],
+['luka','Luka','Physical','Nihility','DPS',4,4,4],
+['march-7th','March 7th','Ice','Preservation','Sustain',4,4,4],
+['misha','Misha','Ice','Destruction','DPS',4,4,4],
+['natasha','Natasha','Physical','Abundance','Sustain',4,4,4],
+['qingque','Qingque','Quantum','Erudition','DPS',4,4,4],
+['sampo','Sampo','Wind','Nihility','Specialist',4,4,4],
+['sushang','Sushang','Physical','Hunt','DPS',4,4,4],
+['trailblazer-destruction','Trailblazer - Destruction','Physical','Destruction','DPS',4,4,4],
+['trailblazer-preservation','Trailblazer - Preservation','Fire','Preservation','Sustain',4,4,4],
+['xueyi','Xueyi','Quantum','Destruction','DPS',4,4,4],
+['yanqing','Yanqing','Ice','Hunt','DPS',4,4,4],
+['yukong','Yukong','Imaginary','Harmony','Amplifier',4,4,4],
+];
+const RATE2TIER={11:'T0',10:'T0.5',9:'T1',8:'T1.5',7:'T2',6:'T3',5:'T4',4:'T5',3:'T5',2:'T5',1:'T5'};
+const TIER_COL={'T0':'#ef4444','T0.5':'#fbbf24','T1':'#34d399','T1.5':'#38bdf8','T2':'#a78bfa','T3':'#64748b','T4':'#475569','T5':'#334155'};
+const ELC={'Physical':'#fb923c','Fire':'#ef4444','Ice':'#7dd3fc','Lightning':'#c084fc','Wind':'#34d399','Quantum':'#818cf8','Imaginary':'#fbbf24'};
+const PATH_ES={'Destruction':'Destrucción','Hunt':'Cacería','Erudition':'Ereudita','Harmony':'Armonía','Nihility':'Nihilidad','Preservation':'Conservación','Abundance':'Abundancia','Remembrance':'Remembranza','Elation':'Elocuencia'};
+const CAT_ES={'DPS':'DPS','Amplifier':'Amplificador','Sustain':'Sustain','Specialist':'Especialista'};
+const CHARS=RAW.map(r=>{const rate=Math.max(r[5],r[6],r[7]);return {slug:r[0],name:r[1],el:r[2],path:r[3],cat:r[4],moc:r[5],pure:r[6],apo:r[7],rate,tier:RATE2TIER[rate]||'T5'};});
+const MINE=JSON.parse(localStorage.getItem('hsr_mine')||'[]');
+function saveMine(){localStorage.setItem('hsr_mine',JSON.stringify(MINE));}
+function isMine(n){return MINE.includes(n);}
+function toggleOne(n){isMine(n)?MINE.splice(MINE.indexOf(n),1):MINE.push(n);saveMine();renderPjs();renderTiers();}
+function art(n){const c=CHARS.find(c=>c.name===n);return 'https://cdn.prydwen.gg/images/honkai-star-rail/characters/'+c.slug+'_full.webp';}
+function artB(n){const c=CHARS.find(c=>c.name===n);return 'https://cdn.prydwen.gg/images/honkai-star-rail/characters/'+c.slug+'_icon.webp';}
+function artFix(img,n){img.onerror=null;img.src=artB(n);}
+function goTab(t,btn){document.querySelectorAll('section.tab').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.querySelectorAll('#mainnav button').forEach(b=>b.classList.remove('active'));btn&&btn.classList.add('active');}
+function renderPjs(){
+ const el=document.getElementById('fEl').value,pth=document.getElementById('fPath').value,ct=document.getElementById('fCat').value,q=(document.querySelector('.filters input')||{}).value||'';
+ const l=CHARS.filter(c=>(el==='all'||c.el===el)&&(pth==='all'||c.path===pth)&&(ct==='all'||c.cat===ct||ct==='mine'&&isMine(c.name))&&(!q||c.name.toLowerCase().includes(q.toLowerCase())));
+ document.getElementById('pjs').innerHTML=l.map(c=>{
+  const tc=TIER_COL[c.tier],ec=ELC[c.el];
+  return '<div class="pjcard'+(isMine(c.name)?' nuevo':'')+'" title="Abrir ficha" onclick="openChar(\''+c.name+'\')" style="border-left-color:'+tc+'"><div class="artwrap"><img loading="lazy" src="'+art(c.name)+'" alt="'+c.name+'" onerror="artFix(this,\''+c.name+'\')"><div class="shine"></div></div><div class="pjinfo"><h4>'+c.name+(isMine(c.name)?' ✓':'')+'</h4><small><span class="elchip" style="background:'+ec+'">'+c.el+'</span> · '+PATH_ES[c.path]+' · '+CAT_ES[c.cat]+'</small><br><span class="tierchip" style="background:'+tc+'">'+c.tier+'</span></div></div>';
+ }).join('')||'<p style="color:#94a3b8">Sin resultados con esos filtros.</p>';
+}
+function renderTiers(){
+ const tiers=['T0','T0.5','T1','T1.5','T2','T3','T4','T5'];
+ document.getElementById('tiers').innerHTML=tiers.map(t=>{
+  const col=TIER_COL[t];
+  return '<div class="tierow"><div class="tierlabel" style="background:'+col+'">'+t+'</div><div class="tiermembers">'+CHARS.filter(c=>c.tier===t).map(c=>
+   '<div class="tiermember'+(isMine(c.name)?'':' no')+'" onclick="openChar(\''+c.name+'\')"><div class="port"><img loading="lazy" src="'+art(c.name)+'" style="width:96px;height:128px" onerror="artFix(this,\''+c.name+'\')"></div><small>'+c.name+(isMine(c.name)?' ✓':'')+'</small></div>').join('')+'</div></div>';
+ }).join('');
+}
+function openChar(n){
+ const c=CHARS.find(c=>c.name===n),ec=ELC[c.el],tc=TIER_COL[c.tier];
+ const sh=document.getElementById('sheet');
+ sh.style.setProperty('--charart','url("'+art(n)+'")');
+ sh.innerHTML='<button class="btn2" style="float:right" onclick="closeModal()">✕ Cerrar</button>'+
+ '<div class="glass"><h2 style="font-size:30px;margin:6px 0">'+c.name+'</h2>'+
+ '<p><span class="elchip" style="background:'+ec+'">'+c.el+'</span> · <span class="pchip">'+PATH_ES[c.path]+'</span> · '+CAT_ES[c.cat]+' · <span class="tierbig" style="background:'+tc+'">'+c.tier+'</span> · '+(isMine(n)?'<b style="color:#34d399">✓ Tuyo</b>':'<button class="btn2" onclick="toggleOne(\''+n+'\');openChar(\''+n+'\')">Marcar como mío</button>')+'</p>'+
+ '<p>Rating de Prydwen por modo endgame:</p>'+
+ '<table class="rates"><tr><td>Memory of Chaos</td><td>@'+c.moc+'/11</td></tr><tr><td>Pure Fiction</td><td>@'+c.pure+'/11</td></tr><tr><td>Apocalyptic Shadow</td><td>@'+c.apo+'/11</td></tr></table>'+
+ '<p style="margin-top:10px"><button class="btn2" onclick="window.open(\'https://www.prydwen.gg/star-rail/characters/'+c.slug+'\',\'_blank\')">Guía completa en Prydwen ↗</button></p></div>';
+ document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function exportMine(){const el=document.createElement('a');el.href='data:application/json,'+encodeURIComponent(JSON.stringify(MINE));el.download='hsr-backup.json';el.click();}
+function importMine(){const i=document.createElement('input');i.type='file';i.accept='.json';i.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{MINE.length=0;JSON.parse(r.result).forEach(x=>{if(!MINE.includes(x))MINE.push(x)});saveMine();renderPjs();renderTiers();alert('Importado ✓');};r.readAsText(f);};i.click();}
+renderPjs();renderTiers();
+</script>
 </body>
 </html>
