@@ -142,6 +142,12 @@ Electro usa wuthering.gg `T_IconRole_Pile_zhujue_UI.png`.
 - El usuario quiere primero CONTEXTO/RESUMEN antes de largas tareas (este archivo).
 
 ## 6. Dónde seguir si se corta la sesión (estado 9-nov-2026)
+- **PUBLICACION ONLINE (9-nov)**: GitHub Pages activa (repo publicado, era privado → público
+  por plan gratuito). URL del hub: **https://judasiii2-lgtm.github.io/default-project/**
+  - Webs: `.../default-project/zzz/index.html`, `.../hsr/index.html`, `.../nte/index.html`,
+    `.../wuwa/index.html` (index.html de la raíz redirige al hub).
+  - Cada `git push` a main reconstruye la web solo (1-2 min). Comprobar build con
+    API `/repos/judasiii2-lgtm/default-project/pages/builds/latest` (token via `git credential fill`).
 - Codigo fuente de las fichas nuevas (por si hay que re-parchear): `ficha_zzz.js` / `ficha_hsr.js`
   / `ficha_nte.js` en `C:\Users\loshi\AppData\Local\Temp\opencode\`. Ya estan pegadas dentro
   de los 3 `index.html` (funcion `openChar` + CSS comparador).
