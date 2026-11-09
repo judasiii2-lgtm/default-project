@@ -121,6 +121,10 @@ Electro usa wuthering.gg `T_IconRole_Pile_zhujue_UI.png`.
   ZZZ 61/61 (61/61 con equipos tras rescrape moc), HSR 93/93, NTE 24/24. VERIFICADO en browser.
 - [x] Deep-dive build: integrado dentro de las fichas v2 (seccion Build prime).
 - [ ] NTE: Re-scrape de equipos moc mas adelante (hoy algunos caen en "Sin equipos destacados").
+- [x] NTE 24/24 con equipos. HSR 80/93 con equipos MOC — los 13 restantes (Yukong, Hook, Misha,
+  Hanya, Gepard, Dan Heng, Luka, Trailblazer Destruction/Preservation, Sampo, Guinaifen, Yanqing, Arlan)
+  NO tienen bloque team-container-moc en Prydwen (uso casi nulo): es el techo natural. La ficha
+  muestra fallback español. ZZZ 61/61 con equipos.
 - [ ] Silver Palace: esperar lanzamiento (hub dice PRÓXIMAMENTE).
 - [ ] **12-nov: REVISAR WuWa 3.8** (Lily debut: quitar `nuevo:true`, re-verificar tier con Prydwen).
 
