@@ -65,7 +65,20 @@ table.rates td{padding:5px 10px;background:rgba(10,8,20,.35)}
 table.rates td:first-child{font-weight:700;color:#a78bfa}
 footer{text-align:center;color:#64748b;font-size:11px;padding:26px}
 @media(max-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}.pjcard .artwrap{height:240px}}
-</style>
+
+.statgrid{display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px}
+.statline{display:flex;gap:8px;align-items:center;background:rgba(30,22,44,.5);border:0;box-shadow:none;border-radius:10px;padding:8px 12px;font-size:14px;flex-wrap:wrap}
+.statline span{color:#e6e8f0;font-size:13px}
+.statline b{font-size:14px}
+.rec{color:#7dd3fc;font-weight:600}
+.opt{color:#c4b5fd;font-weight:600}
+.ratebit{padding:3px 8px;border-radius:7px;color:#0c0a12;font-weight:800;font-size:11px;min-width:46px;text-align:center;display:inline-block}
+input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #3b3a54;border-radius:8px;padding:7px}
+.atabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 2px}
+.atab{background:rgba(30,22,44,.5);border:0;box-shadow:none;border-radius:9px;padding:8px 13px;cursor:pointer;color:#d8dcf0;font-weight:600}
+.atab:hover{background:rgba(60,50,90,.7);color:#fff}
+.skx{background:rgba(30,22,44,.42);border:0;box-shadow:none;border-radius:12px;padding:10px 13px;margin:6px 0}
+.chip2{display:inline-block;background:rgba(125,140,200,.25);color:#dbe2ff;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:700;vertical-align:middle}</style>
 </head>
 <body>
 <header><div class="brandname">SONANCE</div><h1>🚂 HONKAI STAR RAIL COMMAND</h1></header>
@@ -99,7 +112,7 @@ footer{text-align:center;color:#64748b;font-size:11px;padding:26px}
 </main>
 <footer>SONANCE · Fuente: Prydwen (nov 2026) · todo local en tu navegador</footer>
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
-<script>
+<script src="data.js"></script><script>
 // slug|nombre|elemento|camino|rol|moc|pure|apo (Prydwen nov 2026)
 const RAW=[
 ['ashveil','Ashveil','Lightning','Hunt','DPS',11,11,11],
@@ -226,16 +239,71 @@ function renderTiers(){
    '<div class="tiermember'+(isMine(c.name)?'':' no')+'" onclick="openChar(\''+c.name+'\')"><div class="port"><img loading="lazy" src="'+art(c.name)+'" style="width:96px;height:128px" onerror="artFix(this,\''+c.name+'\')"></div><small>'+c.name+(isMine(c.name)?' ✓':'')+'</small></div>').join('')+'</div></div>';
  }).join('');
 }
+// ===== Sonance ficha HSR (estilo WuWa) =====
+function goSec(id){var e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});}
+function charStatsAll(){try{return JSON.parse(localStorage.getItem('hsr_sts')||'{}')}catch(e){return{}}}
+function rateOf(v,rec){if(!v||!rec)return['?','#334155'];var r=v/rec;if(r>=1)return['OK','#34d399'];if(r>=0.85)return['CASI','#fbbf24'];if(r>=0.65)return['BAJO','#fb923c'];return['BAJO','#f87171'];}
+function saveCharStats(n){var g=function(id){return +document.getElementById(id).value||0};var o=charStatsAll();o[n]={atk:g('h_atk'),hp:g('h_hp'),df:g('h_df'),cr:g('h_cr'),cd:g('h_cd'),spd:g('h_spd')};localStorage.setItem('hsr_sts',JSON.stringify(o));openChar(n);}
+function jsq(s){return String(s).replace(/'/g,"\\'");}
+function optO(lbl,rec){if(!rec)return '';var L=String(lbl).toLowerCase();
+ if(L.indexOf('crit rate')>=0)return Math.min(75,Math.round(rec*1.15));
+ if(L.indexOf('crit dmg')>=0)return Math.round(rec*1.32);
+ if(L.indexOf('spd')>=0)return Math.round(rec*1.08);
+ return Math.round(rec*1.12);}
+var H_S2N={};CHARS.forEach(function(c){H_S2N[c.slug]=c.name;});
 function openChar(n){
- const c=CHARS.find(c=>c.name===n),ec=ELC[c.el],tc=TIER_COL[c.tier];
- const sh=document.getElementById('sheet');
+ var c=CHARS.find(function(x){return x.name===n;});if(!c)return;
+ var P=(typeof PRYD!=='undefined'&&PRYD[n])||{};
+ var s=(charStatsAll()[n])||{};
+ var ec=ELC[c.el]||'#64748b',tc=TIER_COL[c.tier]||'#64748b';
+ var sh=document.getElementById('sheet');
  sh.style.setProperty('--charart','url("'+art(n)+'")');
- sh.innerHTML='<button class="btn2" style="float:right" onclick="closeModal()">✕ Cerrar</button>'+
- '<div class="glass"><h2 style="font-size:30px;margin:6px 0">'+c.name+'</h2>'+
- '<p><span class="elchip" style="background:'+ec+'">'+c.el+'</span> · <span class="pchip">'+PATH_ES[c.path]+'</span> · '+CAT_ES[c.cat]+' · <span class="tierbig" style="background:'+tc+'">'+c.tier+'</span> · '+(isMine(n)?'<b style="color:#34d399">✓ Tuyo</b>':'<button class="btn2" onclick="toggleOne(\''+n+'\');openChar(\''+n+'\')">Marcar como mío</button>')+'</p>'+
- '<p>Rating de Prydwen por modo endgame:</p>'+
- '<table class="rates"><tr><td>Memory of Chaos</td><td>@'+c.moc+'/11</td></tr><tr><td>Pure Fiction</td><td>@'+c.pure+'/11</td></tr><tr><td>Apocalyptic Shadow</td><td>@'+c.apo+'/11</td></tr></table>'+
- '<p style="margin-top:10px"><button class="btn2" onclick="window.open(\'https://www.prydwen.gg/star-rail/characters/'+c.slug+'\',\'_blank\')">Guía completa en Prydwen ↗</button></p></div>';
+ var row=function(lb,v,rec,opt,u){var rt=rateOf(v,rec);
+  return '<div class="statline"><span class="ratebit" style="background:'+rt[1]+'">'+rt[0]+'</span><b>'+lb+'</b><span>Tuyo <b>'+(v||'-')+(v?(u||''):'')+'</b></span><span style="margin-left:auto">Objetivo <span class="rec">'+(rec!==''&&rec!=null?'='+(rec+(u||'')):'-')+'</span></span><span>Optimo <span class="opt">'+(opt!==''&&opt!=null?'='+(opt+(u||'')):'-')+'</span></span></div>';};
+ // header (mantiene ratings por modo)
+ var H='<button class="btn2" style="float:right" onclick="closeModal()">X Cerrar</button>'
+ +'<div class="glass" style="display:block"><h2 style="font-size:30px;margin:6px 0">'+c.name+'</h2>'
+ +'<p><span class="elchip" style="background:'+ec+'">'+c.el+'</span> | '+PATH_ES[c.path]+' | '+CAT_ES[c.cat]+' | <span class="tierbig" style="background:'+tc+'">'+c.tier+'</span> | '+
+ (isMine(n)?'<b style="color:#34d399">Tuyo</b>':'<button class="btn2" onclick="toggleOne(\''+jsq(n)+'\');openChar(\''+jsq(n)+'\')">Marcar como mio</button>')+'</p>'
+ +'<p style="color:#94a3b8">Ratings Prydwen: MoC '+c.moc+'/11 - Pure Fiction '+c.pure+'/11 - Apocalyptic '+c.apo+'/11</p>'
+ +'<div class="atabs"><button class="atab" onclick="goSec(\'sec_stats\')">Mis stats</button><button class="atab" onclick="goSec(\'sec_skills\')">Habilidades</button><button class="atab" onclick="goSec(\'sec_build\')">Build prime</button><button class="atab" onclick="goSec(\'sec_rot\')">Rotacion</button><button class="atab" onclick="goSec(\'sec_teams\')">Equipos</button><button class="atab" onclick="window.open(\'https://www.prydwen.gg/star-rail/characters/'+c.slug+'\',\'_blank\')">Guia Prydwen</button></div></div>';
+ // stats
+ var stL=(P.build&&P.build.st)||[];var hm={};stL.forEach(function(x){hm[x[0]]=x[1];});
+ var ROW='';
+ if(hm['CRIT Rate'])ROW+=row('CRIT Rate',s.cr,hm['CRIT Rate'],optO('CRIT Rate',hm['CRIT Rate']),'%');
+ if(hm['CRIT DMG'])ROW+=row('CRIT DMG',s.cd,hm['CRIT DMG'],optO('CRIT DMG',hm['CRIT DMG']),'%');
+ if(hm['ATK'])ROW+=row('ATK',s.atk,hm['ATK'],optO('ATK',hm['ATK']),'');
+ if(hm['HP'])ROW+=row('HP',s.hp,hm['HP'],optO('HP',hm['HP']),'');
+ if(hm['SPD'])ROW+=row('SPD',s.spd,hm['SPD'],optO('SPD',hm['SPD']),'');
+ if(hm['DEF'])ROW+=row('DEF',s.df,hm['DEF'],optO('DEF',hm['DEF']),'');
+ var STATS='<h3 id="sec_stats" style="margin:14px 0 4px">Mis stats vs objetivo</h3><div class="statgrid">'+(ROW||'<p style="color:#94a3b8">Objetivos no disponibles: pon tus numeros abajo y guarda.</p>')+'</div>'
+ +'<div class="filters" style="margin:8px 0 0">'
+ +'<input class="num" id="h_cr" type="number" value="'+(s.cr||'')+'" placeholder="CRIT%">'
+ +'<input class="num" id="h_cd" type="number" value="'+(s.cd||'')+'" placeholder="CDMG%">'
+ +'<input class="num" id="h_atk" type="number" value="'+(s.atk||'')+'" placeholder="ATK">'
+ +'<input class="num" id="h_hp" type="number" value="'+(s.hp||'')+'" placeholder="HP">'
+ +'<input class="num" id="h_spd" type="number" value="'+(s.spd||'')+'" placeholder="SPD">'
+ +'<button class="btn2" onclick="saveCharStats(\''+jsq(n)+'\')">Guardar</button></div>';
+ // habilidades
+ var sk=(P.skills||[]);
+ var SK='<h3 id="sec_skills" style="margin:14px 0 4px">Habilidades (kit Prydwen)</h3>'+(sk.length?
+  sk.map(function(x){return '<div class="skx"><b>'+x.n+'</b> <span class="chip2">'+(x.t||'')+'</span>'+(x.d?'<p>'+x.d+'</p>':'')+'</div>';}).join(''):'<p style="color:#94a3b8">Sin datos.</p>');
+ // build
+ var b=P.build||{};
+ var w=(b.w||[]).join(' / ')||'Sin conos recomendados';
+ var BL='<h3 id="sec_build" style="margin:14px 0 4px">Build prime</h3><div class="skx">'
+ +'<p><b>Conos:</b> '+w+'</p>'
+ +((P.relics||[]).length?'<p><b>Reliquias:</b> '+P.relics.join(' / ')+'</p>':'')
+ +((b.p||[]).length?'<p><b>Planares:</b> '+b.p.join(' / ')+'</p>':'')
+ +'</div>';
+ var tr=(P.traces||[]).map(function(x){return '<li><b>'+x.r+'</b>: '+x.d+'</li>';}).join('');
+ if(tr)BL+='<div class="skx"><b style="color:#a78bfa">Trazas / Eidolons a priorizar:</b><ul style="margin:6px 0 0 18px">'+tr+'</ul></div>';
+ // rotacion
+ var ROT='<h3 id="sec_rot" style="margin:14px 0 4px">Rotacion y como jugar</h3><div class="skx"><p>'+(P.how||'Sin guia Prydwen.')+'</p></div>';
+ // equipos
+ var tm=(P.teams||[]).map(function(t){return '<div class="skx"><b>Rank '+t.rk+' - uso '+t.u+'%</b><p>'+(t.m||[]).map(function(x){return H_S2N[x]||x;}).join(' + ')+'</p></div>';}).join('')||'<p style="color:#94a3b8">Sin equipos destacados.</p>';
+ var TM='<h3 id="sec_teams" style="margin:14px 0 4px">Equipos (MoC)</h3>'+tm;
+ sh.innerHTML=H+STATS+SK+BL+ROT+TM;
  document.getElementById('modal').classList.add('open');
 }
 function closeModal(){document.getElementById('modal').classList.remove('open');}

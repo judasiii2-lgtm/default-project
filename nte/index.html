@@ -69,7 +69,20 @@ table.statline td:first-child{color:#a78bfa;font-weight:700}
 .tierbig{font-size:15px;font-weight:900;padding:2px 12px;border-radius:14px;color:#000}
 footer{text-align:center;color:#64748b;font-size:11px;padding:26px}
 @media(max-width:700px){.grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}.pjcard .artwrap{height:240px}}
-</style>
+
+.statgrid{display:grid;grid-template-columns:1fr;gap:6px;margin-top:6px}
+.statline{display:flex;gap:8px;align-items:center;background:rgba(30,22,44,.5);border:0;box-shadow:none;border-radius:10px;padding:8px 12px;font-size:14px;flex-wrap:wrap}
+.statline span{color:#e6e8f0;font-size:13px}
+.statline b{font-size:14px}
+.rec{color:#7dd3fc;font-weight:600}
+.opt{color:#c4b5fd;font-weight:600}
+.ratebit{padding:3px 8px;border-radius:7px;color:#0c0a12;font-weight:800;font-size:11px;min-width:46px;text-align:center;display:inline-block}
+input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #3b3a54;border-radius:8px;padding:7px}
+.atabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 2px}
+.atab{background:rgba(30,22,44,.5);border:0;box-shadow:none;border-radius:9px;padding:8px 13px;cursor:pointer;color:#d8dcf0;font-weight:600}
+.atab:hover{background:rgba(60,50,90,.7);color:#fff}
+.skx{background:rgba(30,22,44,.42);border:0;box-shadow:none;border-radius:12px;padding:10px 13px;margin:6px 0}
+.chip2{display:inline-block;background:rgba(125,140,200,.25);color:#dbe2ff;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:700;vertical-align:middle}</style>
 </head>
 <body>
 <header><div class="brandname">SONANCE</div><h1>🌀 NEVERNESS TO EVERNESS COMMAND</h1></header>
@@ -112,7 +125,7 @@ footer{text-align:center;color:#64748b;font-size:11px;padding:26px}
 </main>
 <footer>SONANCE · Fuente: Prydwen patch 1.3 (nov 2026) · todo local en tu navegador</footer>
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
-<script>
+<script src="data.js"></script><script>
 // ============ DATOS (Prydwen 1.3, nov 2026) ============
 // el:300 color; cat: DPS/Support/Hybrid; tier de rating Prydwen: 11=T0, 10=T0(.5), 9=T1, 8=T1.5, 7=T2, 6=T3
 const ELEMENTS={'Anima':['#f472b6','#000'],'Chaos':['#ef4444','#000'],'Cosmos':['#fbbf24','#000'],'Incantation':['#34d399','#000'],'Lakshana':['#38bdf8','#000'],'Psyche':['#a78bfa','#000']};
@@ -193,15 +206,59 @@ function renderBuilds(){
   return '<div class="glass" style="border-left:2px solid rgba(139,92,246,.5)"><h3>'+c.name+' <span class="tierchip" style="background:'+TIER_COL[c.tier]+'">'+c.tier+'</span></h3><p><b style="color:#a78bfa">Stats endgame:</b> '+b.st+'</p><div class="module"><b>Módulos:</b> '+b.mod+'</div><p><b>Arc:</b> '+b.arc+'</p></div>';
  }).join('');
 }
+// ===== Sonance ficha NTE (estilo WuWa) =====
+function goSec(id){var e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});}
+function charStatsAll(){try{return JSON.parse(localStorage.getItem('nte_sts')||'{}')}catch(e){return{}}}
+function rateOf(v,rec){if(!v||!rec)return['?','#334155'];var r=v/rec;if(r>=1)return['OK','#34d399'];if(r>=0.85)return['CASI','#fbbf24'];if(r>=0.65)return['BAJO','#fb923c'];return['BAJO','#f87171'];}
+function saveCharStats(n){var g=function(id){return +document.getElementById(id).value||0};var o=charStatsAll();o[n]={atk:g('n_atk'),hp:g('n_hp'),cr:g('n_cr'),cd:g('n_cd')};localStorage.setItem('nte_sts',JSON.stringify(o));openChar(n);}
+function jsq(s){return String(s).replace(/'/g,"\\'");}
+function optO(lbl,rec){if(!rec)return '';var L=String(lbl).toLowerCase();
+ if(L.indexOf('crit rate')>=0)return Math.min(75,Math.round(rec*1.15));
+ if(L.indexOf('crit dmg')>=0)return Math.round(rec*1.32);
+ return Math.round(rec*1.12);}
+var N_S2N={};CHARS.forEach(function(c){N_S2N[c.slug]=c.name;});
 function openChar(n){
- const c=CHARS.find(c=>c.name===n),b=BUILDS[n],ec=ELEMENTS[c.el],tc=TIER_COL[c.tier];
- const sh=document.getElementById('sheet');
+ var c=CHARS.find(function(x){return x.name===n;});if(!c)return;
+ var P=(typeof PRYD!=='undefined'&&PRYD[n])||{};
+ var s=(charStatsAll()[n])||{};
+ var elc=ELEMENTS[c.el]||['#64748b','#000'];
+ var tc=TIER_COL[c.tier]||'#64748b';
+ var bd=(typeof BUILDS!=='undefined'&&BUILDS[n])||null;
+ var sh=document.getElementById('sheet');
  sh.style.setProperty('--charart','url("'+art(n)+'")');
- sh.innerHTML='<button class="btn2" style="float:right" onclick="closeModal()">✕ Cerrar</button>'+
- '<div class="glass" style="display:block"><h2 style="font-size:30px;margin:6px 0">'+c.name+'</h2>'+
- '<p><span class="elchip" style="background:'+ec[0]+'">'+c.el+'</span> · '+c.cat+' · '+c.rar+'-Rank · <span class="tierbig" style="background:'+tc+'">'+c.tier+'</span>'+(c.tags?' '+(c.tags.map(t=>'<span class="awchip">'+t+'</span>').join(' ')):'')+' · '+(isMine(n)?'<b style="color:#34d399">✓ Tuyo</b>':'<button class="btn2" onclick="toggleOne(\''+n+'\');openChar(\''+n+'\')">Marcar como mío</button>')+'</p>'+
- '<p>'+c.fun+'</p></div>'+
- (b?'<div class="glass"><h3>🛠️ Build</h3><p><b style="color:#a78bfa">Stats:</b> '+b.st+'</p><div class="module"><b>Módulos:</b> '+b.mod+'</div><p><b>Arc:</b> '+b.arc+'</p><button class="btn2" onclick="window.open(\'https://www.prydwen.gg/neverness-to-everness/characters/'+c.slug+'\',\'_blank\')">Guía completa en Prydwen ↗</button></div>':'<div class="glass"><button class="btn2" onclick="window.open(\'https://www.prydwen.gg/neverness-to-everness/characters/'+c.slug+'\',\'_blank\')">Guía completa en Prydwen ↗</button></div>');
+ var row=function(lb,v,rec,opt,u){var rt=rateOf(v,rec);
+  return '<div class="statline"><span class="ratebit" style="background:'+rt[1]+'">'+rt[0]+'</span><b>'+lb+'</b><span>Tuyo <b>'+(v||'-')+(v?(u||''):'')+'</b></span><span style="margin-left:auto">Objetivo <span class="rec">'+(rec!==''&&rec!=null?'='+(rec+(u||'')):'-')+'</span></span><span>Optimo <span class="opt">'+(opt!==''&&opt!=null?'='+(opt+(u||'')):'-')+'</span></span></div>';};
+ // header
+ var H='<button class="btn2" style="float:right" onclick="closeModal()">X Cerrar</button>'
+ +'<div class="glass" style="display:block"><h2 style="font-size:30px;margin:6px 0">'+c.name+'</h2>'
+ +'<p><span class="elchip" style="background:'+elc[0]+'">'+c.el+'</span> | '+c.cat+' | '+c.rar+'-Rank | <span class="tierbig" style="background:'+tc+'">'+c.tier+'</span>'+((c.tags&&c.tags.length)?' '+c.tags.map(function(t){return '<span class="awchip">'+t+'</span>';}).join(' '):'')+' | '+
+ (isMine(n)?'<b style="color:#34d399">Tuyo</b>':'<button class="btn2" onclick="toggleOne(\''+jsq(n)+'\');openChar(\''+jsq(n)+'\')">Marcar como mio</button>')+'</p>'
+ +'<p>'+c.fun+'</p>'
+ +'<div class="atabs"><button class="atab" onclick="goSec(\'sec_stats\')">Mis stats</button><button class="atab" onclick="goSec(\'sec_skills\')">Habilidades</button><button class="atab" onclick="goSec(\'sec_build\')">Build prime</button><button class="atab" onclick="goSec(\'sec_rot\')">Rotacion</button><button class="atab" onclick="goSec(\'sec_teams\')">Equipos</button><button class="atab" onclick="window.open(\'https://www.prydwen.gg/neverness-to-everness/characters/'+c.slug+'\',\'_blank\')">Guia Prydwen</button></div></div>';
+ // stats: objetivo textual (BUILDS) mas filas genericas
+ var TXT=(bd?'<div class="statline" style="display:block"><b>Objetivo</b><span> '+bd.st+'</span></div>':'<p style="color:#94a3b8">Sin objetivos numerados de Prydwen - la build sirve de guia.</p>');
+ var ROW=row('CRIT Rate',s.cr,null,null,'%')+row('CRIT DMG',s.cd,null,null,'%')+row('ATK',s.atk,null,null,'')+row('HP',s.hp,null,null,'');
+ var STATS='<h3 id="sec_stats" style="margin:14px 0 4px">Mis stats vs objetivo</h3><div class="statgrid">'+TXT+ROW+'</div>'
+ +'<div class="filters" style="margin:8px 0 0">'
+ +'<input class="num" id="n_cr" type="number" value="'+(s.cr||'')+'" placeholder="CRIT%">'
+ +'<input class="num" id="n_cd" type="number" value="'+(s.cd||'')+'" placeholder="CDMG%">'
+ +'<input class="num" id="n_atk" type="number" value="'+(s.atk||'')+'" placeholder="ATK">'
+ +'<input class="num" id="n_hp" type="number" value="'+(s.hp||'')+'" placeholder="HP">'
+ +'<button class="btn2" onclick="saveCharStats(\''+jsq(n)+'\')">Guardar</button></div>';
+ // habilidades
+ var sk=(P.skills||[]);
+ var SK='<h3 id="sec_skills" style="margin:14px 0 4px">Habilidades (kit Prydwen)</h3>'+(sk.length?
+  sk.map(function(x){return '<div class="skx"><b>'+x.n+'</b> <span class="chip2">'+(x.t||'')+'</span>'+(x.d?'<p>'+x.d+'</p>':'')+(x.m&&x.m.length?'<small style="color:#94a3b8">'+x.m.join(' - ')+'</small>':'')+'</div>';}).join(''):'<p style="color:#94a3b8">Sin datos.</p>');
+ // build
+ var BL='<h3 id="sec_build" style="margin:14px 0 4px">Build prime</h3>'+(bd?
+  '<div class="skx"><p><b style="color:#a78bfa">Stats:</b> '+bd.st+'</p><div class="module"><b>Modulos:</b> '+bd.mod+'</div><p><b>Arc:</b> '+bd.arc+'</p></div>':
+  '<div class="skx"><p style="color:#94a3b8">Sin build Prydwen para este personaje.</p></div>');
+ // rotacion
+ var ROT='<h3 id="sec_rot" style="margin:14px 0 4px">Rotacion y como jugar</h3><div class="skx"><p>'+(P.how||'Sin guia Prydwen.')+'</p></div>';
+ // equipos
+ var tm=(P.teams||[]).map(function(t){return '<div class="skx"><b>'+t.n+'</b><p>'+(t.m||[]).map(function(x){return N_S2N[x]||x;}).join(' + ')+'</p>'+(t.c?'<p style="color:#94a3b8"><small>'+t.c+'</small></p>':'')+'</div>';}).join('')||'<p style="color:#94a3b8">Sin equipos destacados.</p>';
+ var TM='<h3 id="sec_teams" style="margin:14px 0 4px">Equipos recomendados</h3>'+tm;
+ sh.innerHTML=H+STATS+SK+BL+ROT+TM;
  document.getElementById('modal').classList.add('open');
 }
 function closeModal(){document.getElementById('modal').classList.remove('open');}

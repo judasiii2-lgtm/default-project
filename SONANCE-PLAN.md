@@ -1,6 +1,6 @@
 # SONANCE — Documento maestro del proyecto (multijuego)
 
-Actualizado: 8-nov-2026
+Actualizado: 9-nov-2026
 Repositorio: `judasiii2-lgtm/default-project` (rama `main`, privado)
 Git: SIEMPRE usar `C:\Users\loshi\AppData\Local\GitHubDesktop\app-3.6.10\resources\app\git\cmd\git.exe` (git del sistema NO existe)
 Auth: if network fails → `$env:GIT_TERMINAL_PROMPT=0; $env:GCM_INTERACTIVE="never"; $env:GCM_GUI_PROMPT="never"` (GCM con credenciales de judasiii2-lgtm)
@@ -14,13 +14,28 @@ acentos/ñ para evitar mojibake en el mensaje de commit. Verificar por BYTES, no
 
 ## 1. Estado actual
 
-### TODAS LAS WEBS ACTIVAS ✅ (8-nov-2026)
+### TODAS LAS WEBS ACTIVAS ✅ (actualizado 9-nov-2026)
 | Web | Roster | Contenido | Commit base |
 |---|---|---|---|
 | `wuwa/index.html` | 61 pjs · meta 3.7 F2 | builds, tier, gacha, calendario | 4df6309 |
-| `nte/index.html` | 24 hipercos · patch 1.3 | fichas, tier, builds+stats objetivos, sistemas | 8c23f08 |
-| `zzz/index.html` | 61 agentes | fichas, tier, clases CritDPS/AnoDPS/Support | (8-nov) |
-| `hsr/index.html` | 93 personajes | fichas, tier T0–T5, ratings por modo MoC/Pure/Apo en ficha | (8-nov) |
+| `nte/index.html` | 24 hipercos · patch 1.3 | fichas v2, tier, builds+stats objetivos, sistemas | 8c23f08 |
+| `zzz/index.html` | 61 agentes | fichas v2, tier, clases CritDPS/AnoDPS/Support | (9-nov) |
+| `hsr/index.html` | 93 personajes | fichas v2, tier T0–T5, ratings por modo MoC/Pure/Apo en ficha | (9-nov) |
+
+### FICHAS v2 (estilo WuWa — VERIFICADAS 9-nov-2026) ✅
+Ficha igual en ZZZ/HSR/NTE (WuWa ya la tenia). Secciones apiladas con nav por anclas (`goSec`):
+1. **Mis stats vs objetivo** — inputs propios + objetivo/optimos de Prydwen con rating
+   `rateOf` (OK verde / CASI ambar / BAJO rojo). Guardado localStorage (`zzz_sts`/`hsr_sts`/`nte_sts`).
+2. **Habilidades** — kit completo Prydwen (desc + multiplicadores). Descripciones en EN (no traducir).
+3. **Build prime** — arma/cono/W-Engine + reliquias/discos + prioridades.
+4. **Rotacion** — ZZZ/HSR del scrape; NTE usa howToPlay+Tips (rotaciones de teams vienen vacias).
+5. **Equipos** — recomendados (HSR/ZZZ `team-container-moc` con Rank; NTE solo si hay).
+6. **Guia Prydwen** — link externo.
+- Datos: `<juego>/data.js` = `const PRYD={...}` (clave = nombre EXACTO del index), tag `<script src="data.js">` antes del script principal. CSS del comparador ya esta en los 3 index.
+- Registros: **ZZZ 61/61 (61/61 con equipos tras rescrape moc)**, **HSR 93/93 (464 skills)**, **NTE 24/24**. 0 MISSING.
+- ⚠️ **Prydwen ELIMINO los subdominios** (9-nov: `zzz.prydwen.gg` = NXDOMAIN confirmado en Cloudflare):
+  todo ahora en `https://www.prydwen.gg/<ruta>/...` (zenless, star-rail, neverness-to-everness, wuthering-waves, silver-palace). Cloudflare bloquea PowerShell/UA no browser (403) pero el `fetch` de Code Mode SI pasa.
+- Fichas abiertas y verificadas in-app: 0 errores de consola en las 3 webs.
 
 - Hub `SONANCE.html` rediseñado: **colaje de 2 personajes por mosaico** (`.m1` derecha 66% + `.m2` izquierda
   con mask), glow radial de color por juego, zoom animado, fade inferior. WuWa=Cartethyia+Shorekeeper,
@@ -84,8 +99,11 @@ Electro usa wuthering.gg `T_IconRole_Pile_zhujue_UI.png`.
 - [x] ZZZ v1 completa (61 agentes)
 - [x] HSR v1 completa (93 personajes, ratings por modo)
 - [x] Hub rediseñado con colajes por juego (Usuario lo aprobó visualmente ✓ — "epico")
-- [ ] Opcional deep-dive ZZZ: facciones, W-Engine firmas y discos por personaje (ficha build)
-- [ ] Opcional deep-dive HSR: conos de luz recomendados y equipos por personaje
+- [x] **Fichas v2 en ZZZ/HSR/NTE (9-nov)**: comparador de stats vs objetivos Prydwen con rating,
+  habilidades (kit), build prime, rotacion y equipos. data.js por juego + CSS + openChar.
+  ZZZ 61/61 (61/61 con equipos tras rescrape moc), HSR 93/93, NTE 24/24. VERIFICADO en browser.
+- [x] Deep-dive build: integrado dentro de las fichas v2 (seccion Build prime).
+- [ ] NTE: Re-scrape de equipos moc mas adelante (hoy algunos caen en "Sin equipos destacados").
 - [ ] Silver Palace: esperar lanzamiento (hub dice PRÓXIMAMENTE).
 - [ ] **12-nov: REVISAR WuWa 3.8** (Lily debut: quitar `nuevo:true`, re-verificar tier con Prydwen).
 
@@ -101,3 +119,14 @@ Electro usa wuthering.gg `T_IconRole_Pile_zhujue_UI.png`.
 - AGENTS.md del repo: normas del usuario para commits (leer antes de commits especiales).
 - El usuario habla español con faltas de ortografía: interpreta, no corrijas.
 - El usuario quiere primero CONTEXTO/RESUMEN antes de largas tareas (este archivo).
+
+## 6. Dónde seguir si se corta la sesión (estado 9-nov-2026)
+- Codigo fuente de las fichas nuevas (por si hay que re-parchear): `ficha_zzz.js` / `ficha_hsr.js`
+  / `ficha_nte.js` en `C:\Users\loshi\AppData\Local\Temp\opencode\`. Ya estan pegadas dentro
+  de los 3 `index.html` (funcion `openChar` + CSS comparador).
+- Generador de `data.js`: `gen_data.ps1` (usa backups `{zzz,hsr}_b1..b4.b64` y `nte_b1.b64`).
+- Equipos ZZZ: `fix_zzz_teams.ps1` + `zzz_teams.json` + `merge_zzz_teams.ps1` (ya ejecutados y mergidos;
+  data.js queda con 61/61 `teams`).
+- Si hay que actualizar descripciones/objetivos: repetir scraping contra
+  `https://www.prydwen.gg/zenless|star-rail|neverness-to-everness/characters/<slug>/` con fetch de Code Mode.
+- Proximo hito: 12-nov WuWa 3.8 (ver arriba).
