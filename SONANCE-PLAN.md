@@ -139,28 +139,38 @@ Electro usa wuthering.gg `T_IconRole_Pile_zhujue_UI.png`.
   de cada juego rota; regenerar `endgames.js` (el pipeline: Code Mode fetch + parser moc
   `team-row` + tier-list `single-team`, desc en español a mano).
 
-## 4c. ENDGAMES (9-nov-2026) ✅
+## 4c. ENDGAMES (9-nov-2026, revisado) ✅
 - Pestaña nueva `🎯 Endgames` en **los 4 juegos** (zzz/hsr/nte/wuwa). Implementacion:
   - `<boton nb-eg onclick=goTab('eg',this)>` + `<section id="tab-eg" class="tab"><div class="card"><div id="egwrap">`
     + `<script src="endgames.js">` antes del script principal.
-  - `endgames.js` por juego: `const EG={fecha,fuente,endgames:[{id,nombre,tag,desc,teams:[{rk,u,tier,nombre,m}]}]}`
-    + render inline (mejor equipo = "⭐ MEJOR EQUIPO" + 4 alternativas). CSS por inline styles, 0 dependencias.
-  - WuWa: es un sistema de tabs propio (sections `tab-*` dentro de `<main>`, nav buttons sin id) —
-    pestaña insertada entre Equipos y Tier. OJO: su `<section id="tab-tier">` fue restaurada a mano
-    (al insertar tab-eg la habia machacado — verificar al tocar).
-- Datos scrapeados de **https://www.prydwen.gg/** (via Code Mode fetch):
-  - HSR: 4 endgames — Memory of Chaos, Pure Fiction, Apocalyptic Shadow, **Anomaly Arbitration**
-    (endgame nuevo,existe pagina con datos). Parser: split `<div class="team-row">`,
-    rank/uso + members por `href="/star-rail|zenless/characters/..."><div class="avatar..."><img alt="..."
-    (el ALT trae el nombre display — no hace falta mapa slug!).
-  - ZZZ: 2 endgames — Shiyu Defense, Deadly Assault. Mismo parser.
-  - NTE: Team Tier List (`single-team`, tier por `tier-rating` previo, alt names) — T0 Akane Hyper
-    es el mejor equipo. No hay leaderboard endgame formal todavia.
-  - WuWa: Team Tier List (Tower of Adversity) — T0 Hiyuki Hypercarry. Parser igual a NTE.
-- Top-5 actual (uso): MoC Firefly/Tingyun-Fugue/Dahlia/Lingsha 7.71% · PF Castorice/Evernight/
-  Cyrene/Hyacine 24.93% · AS+AA SilverWolf-999/Sparxie/YaoGuang/Pearl 33%+ · Shiyu+DA
-  Remielle/Phoenix/Velina ~36% · NTE Akane Rin+Blackbird+Zero+Linko · ToA Hiyuki+Lucilla+Lynae+Suisui.
-- Verificado en browser (local): 4 webs cargan Endgames, 0 errores de consola, Tier de WuWa intacto.
+  - `endgames.js` por juego: `const EG={fecha,fuente,css.av,endgames:[{id,nombre,tag,desc,teams:[{u|tier,nombre,m:[[name,icono]]}]}]}`
+    + render con AVATAR DEL PJ (icono redondo 34px de cdn.prydwen.gg) + nombre. CSS inline, 0 dependencias.
+  - WuWa: sistema de tabs propio (sections `tab-*` dentro de `<main>`, nav buttons sin id) —
+    pestaña entre Equipos y Tier. OJO: al insertar tab-eg se machaco `<section id="tab-tier">`
+    si no se restaura a mano (ya paso — verificar al tocar).
+- **WuWa tiene 3 endgames** (verificado con Game8/WutheringPity + Prydwen):
+  1. **Torre de la Adversidad** (ToA) — equipo leaderboards de Prydwen (SSR de la propia pagina):
+     T0 = Hiyuki Hypercarry, Hsin Unison, Jingran Hypercarry, Qingxiao Hypercarry, Xuanling Hypercarry.
+  2. **Whimpering Wastes** (desde 2.1, Rinascita, 2 equipos por etapa) — la URL `?mode=ww` NO cambia el SSR;
+     hay que hacer CLIC en el switcher `.tier-list-switcher .option` desde el BROWSER IN-APP y re-extraer.
+     Recomendados cambian respecto a ToA: T0 = Hiyuki Hypercarry, Hsin Unison, **Phrolova Echo**,
+     Sigrika Hypercarry (Jingran cae a T1); 5to = Aemeath Fusion Burst (T0.5).
+  3. **Endstate Matrix** (desde 3.2, ex Doubled Pawns Matrix; ciclo S2 "Adversity Vanguard" hasta 3.8) —
+     NO hay leaderboard publico de equipos; en el tab va desc del modo + 5 equipaciones recomendadas
+     por los buffs del ciclo (Unison/Electro Flare/Echo Skill/Escudo/Basic ATK) segun Game8.
+  - Endstate requiere: 24 Crestas en ToA + 3.500 pts en Torrents de Whimpering Wastes.
+- Otros juegos verificados: **HSR 4 endgames** (MoC/Pure Fiction/Apocalyptic Shadow/**Anomaly
+  Arbitration**, el nuevo), **ZZZ 2** (Shiyu Critical + Deadly Assault; Hollow Zero es roguelike sin
+  leaderboard), **NTE 1 bloque** (Team Tier List T0; no hay modo endgame formal aun).
+- Parser tipo moc: split `<div class="team-row">`, uso por `App. rate`, miembros por
+  `href=".../characters/slug"><div class="avatar..."><img alt=... src=...` — **alt = nombre display y
+  src = icono directo** (no hace falta mapa slug ni resolver nada).
+- Parser tier-list: split `single-team`, tier por `tier-rating` mas cercano hacia atras, avatares alt+src.
+- Top-5 recalado (uso): MoC Firefly/TingyunFugue/Dahlia/Lingsha 7.71% · PF Castorice/Evernight/
+  Cyrene/Hyacine 24.93% · AS+AA Wolf-999/Sparxie/YaoGuang/Pearl 24.8-33.5% · Shiyu+DA
+  Remielle/Phoenix/Velina 35-36% · NTE Akane Rin+Blackbird+Zero+Linko (T0) · ToA/WW y Endstate arriba.
+- Verificado local: 4 webs con endgames + iconos (60 imgs WuWa, 80 HSR, 30 ZZZ, 22 NTE), 0 errores consola.
+  ⚠️ Las imgs con `loading=lazy` no cargan en tab en-background del browser: probarlas con `new Image()`.
 
 ## 5. Recuerdos operativos
 - Servidor pruebas: `C:\Users\loshi\AppData\Local\Temp\opencode\webserver.ps1` → http://127.0.0.1:8642/
