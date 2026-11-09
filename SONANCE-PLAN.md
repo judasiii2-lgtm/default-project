@@ -26,16 +26,33 @@ acentos/ñ para evitar mojibake en el mensaje de commit. Verificar por BYTES, no
 Ficha igual en ZZZ/HSR/NTE (WuWa ya la tenia). Secciones apiladas con nav por anclas (`goSec`):
 1. **Mis stats vs objetivo** — inputs propios + objetivo/optimos de Prydwen con rating
    `rateOf` (OK verde / CASI ambar / BAJO rojo). Guardado localStorage (`zzz_sts`/`hsr_sts`/`nte_sts`).
-2. **Habilidades** — kit completo Prydwen (desc + multiplicadores). Descripciones en EN (no traducir).
+2. **Habilidades** — kit completo. Descripciones EN ESPAÑOL (ver TRADUCCIONES abajo).
 3. **Build prime** — arma/cono/W-Engine + reliquias/discos + prioridades.
 4. **Rotacion** — ZZZ/HSR del scrape; NTE usa howToPlay+Tips (rotaciones de teams vienen vacias).
 5. **Equipos** — recomendados (HSR/ZZZ `team-container-moc` con Rank; NTE solo si hay).
 6. **Guia Prydwen** — link externo.
-- Datos: `<juego>/data.js` = `const PRYD={...}` (clave = nombre EXACTO del index), tag `<script src="data.js">` antes del script principal. CSS del comparador ya esta en los 3 index.
+- Datos: `<juego>/data.js` = `const PRYD={...}` (clave = nombre EXACTO del index), tag `<script src="data.js">` antes del script
+  principal. CSS del comparador ya esta en los 3 index. El chip de tipo de skill (t) va en español: Básico/Habilidad/
+  Definitiva/Talento/Técnica/Asistencia/Cadena/Esquiva/Parada/Recuperación/Habilidad de Apoyo/Entrada/ATK Básico.
 - Registros: **ZZZ 61/61 (61/61 con equipos tras rescrape moc)**, **HSR 93/93 (464 skills)**, **NTE 24/24**. 0 MISSING.
 - ⚠️ **Prydwen ELIMINO los subdominios** (9-nov: `zzz.prydwen.gg` = NXDOMAIN confirmado en Cloudflare):
   todo ahora en `https://www.prydwen.gg/<ruta>/...` (zenless, star-rail, neverness-to-everness, wuthering-waves, silver-palace). Cloudflare bloquea PowerShell/UA no browser (403) pero el `fetch` de Code Mode SI pasa.
 - Fichas abiertas y verificadas in-app: 0 errores de consola en las 3 webs.
+
+### TRADUCCIONES AL ESPAÑOL (9-nov-2026) ✅
+- Todo el contenido de fichas (habilidades: n/d/m, rotaciones `how`, pros/cons, trazas, teams NTE n/c)
+  esta traducido en los 3 `data.js` via endpoint `clients5.google.com/translate_a/t?client=dict-chrome-ex`
+  (funciona con PowerShell; `translate.googleapis.com` da 429; multi-`q=` por URL hasta ~7.4KB).
+- Caché/resumen de traducciones: `C:\Users\loshi\AppData\Local\Temp\opencode\trad_map.json` (4310 pares).
+  Scripts: `translate_collect.ps1` (colecta+traduce), `apply_translation.ps1` (aplica), `repair_map.ps1`
+  (re-traduce valores truncados uno-a-uno), `fix_mojibake.ps1` (deshace mojibake de literales del .ps1 sin BOM),
+  `clean_undefined.ps1` (purga `$undefined`/`$indefinido` de Flight).
+- ⚠️ Lecciones: 1) si un .ps1 tiene literales con acentos y se escribe SIN BOM, PS 5.1 lo lee como ANSI → mojibake
+  al aplicar (usar BOM o `[char]225`); 2) verificar por BYTES (C3 A1 = á), la consola siempre pinta mojibake;
+  3) enumerar PSCustomObject del JSON, NO las pseudo-propiedades de hashtable;
+  4) strings >3.4KB url-escapados hay que trocearlos por frases.
+- Nombres de personajes/ítems/slugs (build.w, build.a, build.relics, teams.m) siguen en inglés a propósito (nombres propios).
+- `$undefined` limpiados; si un char no tiene `how` la ficha muestra un fallback en español.
 
 - Hub `SONANCE.html` rediseñado: **colaje de 2 personajes por mosaico** (`.m1` derecha 66% + `.m2` izquierda
   con mask), glow radial de color por juego, zoom animado, fade inferior. WuWa=Cartethyia+Shorekeeper,
