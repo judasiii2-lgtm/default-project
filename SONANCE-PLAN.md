@@ -126,7 +126,41 @@ Electro usa wuthering.gg `T_IconRole_Pile_zhujue_UI.png`.
   NO tienen bloque team-container-moc en Prydwen (uso casi nulo): es el techo natural. La ficha
   muestra fallback español. ZZZ 61/61 con equipos.
 - [ ] Silver Palace: esperar lanzamiento (hub dice PRÓXIMAMENTE).
-- [ ] **12-nov: REVISAR WuWa 3.8** (Lily debut: quitar `nuevo:true`, re-verificar tier con Prydwen).
+- [ ] **12-nov: REVISAR WuWa 3.8** (Lily debut: quitar `nuevo:true`, re-verificar tier con Prydwen
+  y ACTUALIZAR TAMBIEN `wuwa/endgames.js` si el meta de Torre de la Adversidad cambia).
+
+## 4b. PAUTA PERMANENTE (aplicar en CADA sesion, a peticion del usuario)
+- **Version del juego**: SIEMPRE verificar al empezar la sesion (y cuando se hable de un juego):
+  - WuWa: banner/patch actual + proximo hito (3.8 Lily = 12-nov-2026).
+  - ZZZ/HSR/NTE: version y personajes nuevos publicados; si hay nuevos, scrape Prydwen y
+    añadirlos al index (roster) + data.js + tier.
+- **Tier lists**: re-verificar por date; actualizar tiers/nuevos en el roster inline de cada index.
+- **Endgames**: re-scrape de "../endgames" de Prydwen (y tracker de nuevos modos) si el caneva
+  de cada juego rota; regenerar `endgames.js` (el pipeline: Code Mode fetch + parser moc
+  `team-row` + tier-list `single-team`, desc en español a mano).
+
+## 4c. ENDGAMES (9-nov-2026) ✅
+- Pestaña nueva `🎯 Endgames` en **los 4 juegos** (zzz/hsr/nte/wuwa). Implementacion:
+  - `<boton nb-eg onclick=goTab('eg',this)>` + `<section id="tab-eg" class="tab"><div class="card"><div id="egwrap">`
+    + `<script src="endgames.js">` antes del script principal.
+  - `endgames.js` por juego: `const EG={fecha,fuente,endgames:[{id,nombre,tag,desc,teams:[{rk,u,tier,nombre,m}]}]}`
+    + render inline (mejor equipo = "⭐ MEJOR EQUIPO" + 4 alternativas). CSS por inline styles, 0 dependencias.
+  - WuWa: es un sistema de tabs propio (sections `tab-*` dentro de `<main>`, nav buttons sin id) —
+    pestaña insertada entre Equipos y Tier. OJO: su `<section id="tab-tier">` fue restaurada a mano
+    (al insertar tab-eg la habia machacado — verificar al tocar).
+- Datos scrapeados de **https://www.prydwen.gg/** (via Code Mode fetch):
+  - HSR: 4 endgames — Memory of Chaos, Pure Fiction, Apocalyptic Shadow, **Anomaly Arbitration**
+    (endgame nuevo,existe pagina con datos). Parser: split `<div class="team-row">`,
+    rank/uso + members por `href="/star-rail|zenless/characters/..."><div class="avatar..."><img alt="..."
+    (el ALT trae el nombre display — no hace falta mapa slug!).
+  - ZZZ: 2 endgames — Shiyu Defense, Deadly Assault. Mismo parser.
+  - NTE: Team Tier List (`single-team`, tier por `tier-rating` previo, alt names) — T0 Akane Hyper
+    es el mejor equipo. No hay leaderboard endgame formal todavia.
+  - WuWa: Team Tier List (Tower of Adversity) — T0 Hiyuki Hypercarry. Parser igual a NTE.
+- Top-5 actual (uso): MoC Firefly/Tingyun-Fugue/Dahlia/Lingsha 7.71% · PF Castorice/Evernight/
+  Cyrene/Hyacine 24.93% · AS+AA SilverWolf-999/Sparxie/YaoGuang/Pearl 33%+ · Shiyu+DA
+  Remielle/Phoenix/Velina ~36% · NTE Akane Rin+Blackbird+Zero+Linko · ToA Hiyuki+Lucilla+Lynae+Suisui.
+- Verificado en browser (local): 4 webs cargan Endgames, 0 errores de consola, Tier de WuWa intacto.
 
 ## 5. Recuerdos operativos
 - Servidor pruebas: `C:\Users\loshi\AppData\Local\Temp\opencode\webserver.ps1` → http://127.0.0.1:8642/

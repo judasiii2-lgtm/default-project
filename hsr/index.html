@@ -86,7 +86,7 @@ input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #
 <button style="background:linear-gradient(90deg,#8b5cf633,#6366f133)" onclick="location.href='../SONANCE.html'">⬅ SONANCE</button>
 <button class="active" id="nb-pjs" onclick="goTab('pjs',this)">👥 Personajes</button>
 <button id="nb-tier" onclick="goTab('tier',this)">🏅 Tier</button>
-<button id="nb-sis" onclick="goTab('sis',this)">🌌 Sistemas</button>
+<button id="nb-eg" onclick="goTab('eg',this)">🎯 Endgames</button><button id="nb-sis" onclick="goTab('sis',this)">🌌 Sistemas</button>
 </nav>
 <main>
 <section id="tab-pjs" class="tab active"><div class="card">
@@ -99,7 +99,7 @@ input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #
 <p style="font-size:13px;color:#94a3b8">Fuente: Prydwen (nov 2026). Tier por el mejor rating entre MoC · Pure Fiction · Apocalyptic. 11=T0 · 10=T0.5 · 9=T1 · 8=T1.5 · 7=T2 · 6=T3 · 5=T4 · ≤4=T5 (antiguos).</p>
 <div id="tiers"></div>
 </div></section>
-<section id="tab-sis" class="tab"><div class="card">
+<section id="tab-eg" class="tab"><div class="card"><div id="egwrap"></div></div></section><section id="tab-sis" class="tab"><div class="card">
 <h2>🌌 Sistemas de HSR</h2>
 <div style="background:linear-gradient(180deg,rgba(10,8,20,.46),rgba(10,8,20,.02));border-radius:16px;padding:14px 16px">
 <h3>⚔️ Los 3 modos endgame</h3><p><b>Memory of Chaos (MoC)</b>: dos mitades de ciclos, daño puro. <b>Pure Fiction</b>: hordas infinitas, recompensa AoE y clears rápidos. <b>Apocalyptic Shadow</b>: jefes con weaknesses fijas, recompensa maximizar break/DoT. Un personaje puede brillar en uno y caer en otro — por eso la ficha muestra su rating en cada modo.</p>
@@ -112,7 +112,7 @@ input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #
 </main>
 <footer>SONANCE · Fuente: Prydwen (nov 2026) · todo local en tu navegador</footer>
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
-<script src="data.js"></script><script>
+<script src="data.js"></script><script src="endgames.js"></script><script>
 // slug|nombre|elemento|camino|rol|moc|pure|apo (Prydwen nov 2026)
 const RAW=[
 ['ashveil','Ashveil','Lightning','Hunt','DPS',11,11,11],

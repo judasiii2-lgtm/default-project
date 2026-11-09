@@ -91,7 +91,7 @@ input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #
 <button class="active" id="nb-pjs" onclick="goTab('pjs',this)">👥 Hipercos</button>
 <button id="nb-tier" onclick="goTab('tier',this)">🏅 Tier</button>
 <button id="nb-builds" onclick="goTab('builds',this)">🛠️ Build y stats</button>
-<button id="nb-sis" onclick="goTab('sis',this)">🔮 Sistemas</button>
+<button id="nb-eg" onclick="goTab('eg',this)">🎯 Endgames</button><button id="nb-sis" onclick="goTab('sis',this)">🔮 Sistemas</button>
 </nav>
 <main>
 <section id="tab-pjs" class="tab active"><div class="card">
@@ -109,7 +109,7 @@ input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #
 <p style="font-size:13px;color:#94a3b8">Stats de endgame verificados (Prydwen) + Especialización de módulos de cada hipercos.</p>
 <div id="builds"></div>
 </div></section>
-<section id="tab-sis" class="tab"><div class="card">
+<section id="tab-eg" class="tab"><div class="card"><div id="egwrap"></div></div></section><section id="tab-sis" class="tab"><div class="card">
 <h2>🔮 Sistemas de NTE</h2>
 <div class="glass" style="max-width:none">
 <h3>✨ Especializaciones de Módulos (Type I–IV)</h3>
@@ -125,7 +125,7 @@ input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #
 </main>
 <footer>SONANCE · Fuente: Prydwen patch 1.3 (nov 2026) · todo local en tu navegador</footer>
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
-<script src="data.js"></script><script>
+<script src="data.js"></script><script src="endgames.js"></script><script>
 // ============ DATOS (Prydwen 1.3, nov 2026) ============
 // el:300 color; cat: DPS/Support/Hybrid; tier de rating Prydwen: 11=T0, 10=T0(.5), 9=T1, 8=T1.5, 7=T2, 6=T3
 const ELEMENTS={'Anima':['#f472b6','#000'],'Chaos':['#ef4444','#000'],'Cosmos':['#fbbf24','#000'],'Incantation':['#34d399','#000'],'Lakshana':['#38bdf8','#000'],'Psyche':['#a78bfa','#000']};

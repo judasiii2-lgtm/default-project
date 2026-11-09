@@ -82,7 +82,7 @@ input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #
 <button style="background:linear-gradient(90deg,#f9731633,#e11d4833)" onclick="location.href='../SONANCE.html'">⬅ SONANCE</button>
 <button class="active" id="nb-pjs" onclick="goTab('pjs',this)">👥 Agentes</button>
 <button id="nb-tier" onclick="goTab('tier',this)">🏅 Tier</button>
-<button id="nb-sis" onclick="goTab('sis',this)">🔧 Sistemas</button>
+<button id="nb-eg" onclick="goTab('eg',this)">🎯 Endgames</button><button id="nb-sis" onclick="goTab('sis',this)">🔧 Sistemas</button>
 </nav>
 <main>
 <section id="tab-pjs" class="tab active"><div class="card">
@@ -95,7 +95,7 @@ input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #
 <p style="font-size:13px;color:#94a3b8">Fuente: Prydwen (nov 2026). Rating 11=T0 · 10=T0.5 · 9=T1 · 8=T1.5 · 7=T2 · 6=T3.</p>
 <div id="tiers"></div>
 </div></section>
-<section id="tab-sis" class="tab"><div class="card">
+<section id="tab-eg" class="tab"><div class="card"><div id="egwrap"></div></div></section><section id="tab-sis" class="tab"><div class="card">
 <h2>🔧 Sistemas de ZZZ</h2>
 <div class="glass" style="max-width:none">
 <h3>⚙️ W-Engines (armas)</h3><p>Cada agente tiene su firma que da su forza específica. En la gacha (canal exclusivo) puedes obtenerlas; el canal estándar garantiza S en 90 tiradas.</p>
@@ -108,7 +108,7 @@ input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #
 </main>
 <footer>SONANCE · Fuente: Prydwen (nov 2026) · todo local en tu navegador</footer>
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
-<script src="data.js"></script><script>
+<script src="data.js"></script><script src="endgames.js"></script><script>
 // slug|nombre|rar|el|cat|rate (Prydwen nov 2026)
 const RAW=[
 ['alice','Alice','S','Physical','AnoDPS',10],['anby-demara','Anby','A','Electric','Support',6],['anby-demara-soldier-0','Anby: Soldier 0','S','Electric','CritDPS',9],
