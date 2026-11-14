@@ -210,12 +210,30 @@ function renderBuilds(){
 function goSec(id){var e=document.getElementById(id);if(e)e.scrollIntoView({behavior:'smooth',block:'start'});}
 function charStatsAll(){try{return JSON.parse(localStorage.getItem('nte_sts')||'{}')}catch(e){return{}}}
 function rateOf(v,rec){if(!v||!rec)return['?','#334155'];var r=v/rec;if(r>=1)return['OK','#34d399'];if(r>=0.85)return['CASI','#fbbf24'];if(r>=0.65)return['BAJO','#fb923c'];return['BAJO','#f87171'];}
-function saveCharStats(n){var g=function(id){return +document.getElementById(id).value||0};var o=charStatsAll();o[n]={atk:g('n_atk'),hp:g('n_hp'),cr:g('n_cr'),cd:g('n_cd')};localStorage.setItem('nte_sts',JSON.stringify(o));openChar(n);}
+function saveCharStats(n){var g=function(id){return +document.getElementById(id).value||0};var o=charStatsAll();o[n]={atk:g('n_atk'),hp:g('n_hp'),cr:g('n_cr'),cd:g('n_cd'),ud:g('n_ud'),dm:g('n_dm'),df:g('n_df'),br:g('n_br'),ci:g('n_ci')};localStorage.setItem('nte_sts',JSON.stringify(o));openChar(n);}
 function jsq(s){return String(s).replace(/'/g,"\\'");}
-function optO(lbl,rec){if(!rec)return '';var L=String(lbl).toLowerCase();
- if(L.indexOf('crit rate')>=0)return Math.min(75,Math.round(rec*1.15));
- if(L.indexOf('crit dmg')>=0)return Math.round(rec*1.32);
- return Math.round(rec*1.12);}
+// parsea el objetivo textual de Prydwen: 'HP 20k+ · ATK 2200+ · CRIT 50-80% · CRIT DMG 100%+ · UDMG 10%+ · Chaos DMG 50-87.5%+'
+function parseT(st){var t={};if(!st)return t;var m;
+ m=st.match(/HP\s+([\d.]+)\s*(k?)\+?/i);if(m)t.hp={min:+m[1]*(m[2]?1000:1),u:'',lbl:'HP'};
+ m=st.match(/ATK\s+([\d.]+)\+?/i);if(m)t.atk={min:+m[1],u:'',lbl:'ATK',minOnly:1};
+ m=st.match(/CRIT(?! DMG)\s+([\d.]+)(?:\s*-\s*([\d.]+))?\s*%/i);if(m)t.cr={min:+m[1],max:m[2]?+m[2]:null,u:'%',lbl:'CRIT Rate',cap:100};
+ m=st.match(/CRIT\s+DMG\s+([\d.]+)\s*%/i);if(m)t.cd={min:+m[1],u:'%',lbl:'CRIT DMG',minOnly:1};
+ m=st.match(/UDMG\s+([\d.]+)\s*%/i);if(m)t.ud={min:+m[1],u:'%',lbl:'UDMG',minOnly:1};
+ var rx=/([A-Za-z]+)\s+DMG\s+([\d.]+)(?:\s*-\s*([\d.]+))?\s*%/g,mm;
+ while((mm=rx.exec(st))){var U=mm[1].toUpperCase();if(U!=='UDMG'&&U!=='CRIT'){t.dm={min:+mm[2],max:mm[3]?+mm[3]:null,u:'%',lbl:mm[1]+' DMG'};break;}}
+ m=st.match(/\bDEF\s+([\d.]+)\+/i);if(m)t.df={min:+m[1],u:'',lbl:'DEF',minOnly:1};
+ m=st.match(/\bBreak\s+([\d.]+)\+/i);if(m)t.br={min:+m[1],u:'',lbl:'Break',minOnly:1};
+ m=st.match(/Cycle\s+Intensity\s+([\d.]+)\+/i);if(m)t.ci={min:+m[1],u:'',lbl:'Cycle Intensity',minOnly:1};
+ return t;}
+// estado por stat: verde OK dentro del objetivo / amarillo CASI cerca / naranja-rojo BAJO lejos
+// devuelve [estado, color, textoObjetivo, textoOptimo]
+function rateStat(v,T){
+ if(!T)return['?','#334155','-','-'];
+ var obj=T.max!=null?(T.min+'-'+T.max+T.u):(T.min+(T.u||'')+(T.minOnly?'+':''));
+ var opt=T.max!=null?(T.max+T.u):((T.u==='%'&&T.cap?Math.min(T.cap,Math.round(T.min*1.15)):Math.round(T.min*1.15))+T.u);
+ if(!v)return['?','#334155',obj,opt];
+ var st=v>=T.min?['OK','#34d399']:(v>=0.85*T.min?['CASI','#fbbf24']:['BAJO',v>=0.65*T.min?'#fb923c':'#f87171']);
+ return[st[0],st[1],obj,opt];}
 var N_S2N={};CHARS.forEach(function(c){N_S2N[c.slug]=c.name;});
 function openChar(n){
  var c=CHARS.find(function(x){return x.name===n;});if(!c)return;
@@ -235,15 +253,24 @@ function openChar(n){
  (isMine(n)?'<b style="color:#34d399">Tuyo</b>':'<button class="btn2" onclick="toggleOne(\''+jsq(n)+'\');openChar(\''+jsq(n)+'\')">Marcar como mio</button>')+'</p>'
  +'<p>'+c.fun+'</p>'
  +'<div class="atabs"><button class="atab" onclick="goSec(\'sec_stats\')">Mis stats</button><button class="atab" onclick="goSec(\'sec_skills\')">Habilidades</button><button class="atab" onclick="goSec(\'sec_build\')">Build prime</button><button class="atab" onclick="goSec(\'sec_rot\')">Rotacion</button><button class="atab" onclick="goSec(\'sec_teams\')">Equipos</button><button class="atab" onclick="window.open(\'https://www.prydwen.gg/neverness-to-everness/characters/'+c.slug+'\',\'_blank\')">Guia Prydwen</button></div></div>';
- // stats: objetivo textual (BUILDS) mas filas genericas
+ // stats: objetivo textual (BUILDS) + filas por stat con color segun tu valor
  var TXT=(bd?'<div class="statline" style="display:block"><b>Objetivo</b><span> '+bd.st+'</span></div>':'<p style="color:#94a3b8">Sin objetivos numerados de Prydwen - la build sirve de guia.</p>');
- var ROW=row('CRIT Rate',s.cr,null,null,'%')+row('CRIT DMG',s.cd,null,null,'%')+row('ATK',s.atk,null,null,'')+row('HP',s.hp,null,null,'');
+ var T=parseT(bd?bd.st:'');
+ var rw=function(lb,v,ts,u){return '<div class="statline"><span class="ratebit" style="background:'+ts[1]+'">'+ts[0]+'</span><b>'+lb+'</b><span>Tuyo <b>'+(v||'-')+(v?(u||''):'')+'</b></span><span style="margin-left:auto">Objetivo <span class="rec">'+(ts[2]&&ts[2]!=='-'?'='+ts[2]:'-')+'</span></span><span>Optimo <span class="opt">'+(ts[3]&&ts[3]!=='-'?'='+ts[3]:'-')+'</span></span></div>';};
+ var ROW=rw('CRIT Rate',s.cr,rateStat(s.cr,T.cr),'%')+rw('CRIT DMG',s.cd,rateStat(s.cd,T.cd),'%')+rw('ATK',s.atk,rateStat(s.atk,T.atk),'')+rw('HP',s.hp,rateStat(s.hp,T.hp),'')
+ +(T.ud?rw('UDMG',s.ud,rateStat(s.ud,T.ud),'%'):'')+(T.dm?rw(T.dm.lbl,s.dm,rateStat(s.dm,T.dm),'%'):'')
+ +(T.df?rw('DEF',s.df,rateStat(s.df,T.df),''):'')+(T.br?rw('Break',s.br,rateStat(s.br,T.br),''):'')+(T.ci?rw('Cycle Intensity',s.ci,rateStat(s.ci,T.ci),''):'');
  var STATS='<h3 id="sec_stats" style="margin:14px 0 4px">Mis stats vs objetivo</h3><div class="statgrid">'+TXT+ROW+'</div>'
  +'<div class="filters" style="margin:8px 0 0">'
  +'<input class="num" id="n_cr" type="number" value="'+(s.cr||'')+'" placeholder="CRIT%">'
  +'<input class="num" id="n_cd" type="number" value="'+(s.cd||'')+'" placeholder="CDMG%">'
  +'<input class="num" id="n_atk" type="number" value="'+(s.atk||'')+'" placeholder="ATK">'
  +'<input class="num" id="n_hp" type="number" value="'+(s.hp||'')+'" placeholder="HP">'
+ +(T.ud?'<input class="num" id="n_ud" type="number" value="'+(s.ud||'')+'" placeholder="UDMG%">':'')
+ +(T.dm?'<input class="num" id="n_dm" type="number" value="'+(s.dm||'')+'" placeholder="'+T.dm.lbl+'%">':'')
+ +(T.df?'<input class="num" id="n_df" type="number" value="'+(s.df||'')+'" placeholder="DEF">':'')
+ +(T.br?'<input class="num" id="n_br" type="number" value="'+(s.br||'')+'" placeholder="Break">':'')
+ +(T.ci?'<input class="num" id="n_ci" type="number" value="'+(s.ci||'')+'" placeholder="Cycle Int.">':'')
  +'<button class="btn2" onclick="saveCharStats(\''+jsq(n)+'\')">Guardar</button></div>';
  // habilidades
  var sk=(P.skills||[]);

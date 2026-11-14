@@ -172,6 +172,31 @@ Electro usa wuthering.gg `T_IconRole_Pile_zhujue_UI.png`.
 - Verificado local: 4 webs con endgames + iconos (60 imgs WuWa, 80 HSR, 30 ZZZ, 22 NTE), 0 errores consola.
   ⚠️ Las imgs con `loading=lazy` no cargan en tab en-background del browser: probarlas con `new Image()`.
 
+## 4d. CALCULADORA DE STATS NTE (14-nov-2026) ✅
+- Problema: filas generadas con `rec=null` -> siempre "?" gris y Objetivo/Optimo "-" aunque
+  marcases el PJ como tuyo y metieses stats.
+- Fix en `nte/index.html` (bloque ficha):
+  - `parseT(st)`: parsea el objetivo textual de `BUILDS[n].st` a numeros. Tokens reales:
+    `HP 20k+` (k->x1000), `ATK 2000+`, `CRIT 50-80%` (rango) o `CRIT 90%+` (min),
+    `CRIT DMG 200%+`, `UDMG 10%+`, `X DMG 50-87.5%` (Chaos/Anima/Incant/Cosmos/Lakshana,
+    bucle global saltando CRIT/UDMG), `DEF 1200+`, `Break 50+`, `Cycle Intensity 200+`.
+  - `rateStat(v,T)`: devuelve [estado, color, txtObjetivo, txtOptimo].
+    Verde OK `#34d399` si v>=min (o dentro del rango) · Amarillo CASI `#fbbf24` si >=0.85*min ·
+    Naranja BAJO `#fb923c` si >=0.65*min · Rojo `#f87171` por debajo. Sin stat: "?" gris
+    pero Objetivo/Optimo SIEMPRE visibles.
+  - Optimo: max del rango si hay; si no min*1.15. Tope 100% SOLO para CRIT Rate (flag `cap`),
+    NO para CRIT DMG (Linko pide 90%+ y su optimo es >100).
+  - Formato objetivo: `min+unit+` (200%+, no 200+%) y rangos `50-80%`.
+  - Filas extra dinamicas + inputs `n_ud/n_dm/n_df/n_br/n_ci` segun pida el PJ; `saveCharStats`
+    guarda los 9 campos en `nte_sts`.
+- Verificado en browser: Zankou (CRIT 62 OK verde, CDMG 150 BAJO, ATK 1800 CASI, Cycle Int OK),
+  Lacrimosa rango (CRIT 45 CASI, Chaos 60 OK dentro de 50-87.5, optimo =87.5%), rojo con
+  ATK 1000/HP 8000. 0 errores consola.
+- ZZZ/HSR no necesitan fix: sus objetivos ya son numericos desde data.js (verificado Alice:
+  Objetivo =13%/Optimo =15% visibles; el "?" gris desaparece al meter stats).
+- Pendiente menor HSR: CRIT Rate muestra Optimo (=75%) menor que Objetivo (=91%) por el cap
+  de optO heredado — revisar otro dia.
+
 ## 5. Recuerdos operativos
 - Servidor pruebas: `C:\Users\loshi\AppData\Local\Temp\opencode\webserver.ps1` → http://127.0.0.1:8642/
   sirve `C:\Users\loshi\Documents`. ⚠️ Conflicto de puerto si ya hay uno vivo (usar el ya activo).
