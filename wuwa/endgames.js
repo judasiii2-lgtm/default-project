@@ -1,45 +1,46 @@
 // Endgames WuWa — Torre de la Adversidad + Whimpering Wastes (equipos de Prydwen)
 // + Endstate Matrix (recomendacion por buffs del ciclo; no hay leaderboard de equipos).
+// Datos recalados 14-nov-2026 (Prydwen actualizado 13-nov-2026, parche 3.8 con Lily).
 // m: [nombre, icono]
 const EG = {
-  fecha: "9-nov-2026",
-  fuente: "Prydwen (ToA + Whimpering Wastes) · recomendacion Endstate segun buffs del ciclo",
+  fecha: "14-nov-2026",
+  fuente: "Prydwen (ToA + Whimpering Wastes, 13-nov) · recomendacion Endstate segun buffs del ciclo",
   css: { av: "https://cdn.prydwen.gg/images/" },
   endgames: [
     {
       id: "toa",
       nombre: "Torre de la Adversidad (Tower of Adversity)",
       tag: "pisos",
-      desc: "El endgame principal de WuWa: zonas Estable/Experimental permanentes y Zona Peligrosa rotativa (cada ~28 dias, reset de recompensas). Cada personaje gasta Vigor por piso, asi que necesitas 3-4 cores distintos. Conviene variar el DPS por bloque porque penaliza reusar. El top T0 actual: Hiyuki Hypercarry.",
+      desc: "El endgame principal de WuWa: zonas Estable/Experimental permanentes y Zona Peligrosa rotativa (cada ~28 dias, reset de recompensas). Cada personaje gasta Vigor por piso, asi que necesitas 3-4 cores distintos. Conviene variar el DPS por bloque porque penaliza reusar. Equipos T0 del parche 3.8: Hiyuki, Hsin Unison (ahora con Lily), Jingran, Qingxiao y Xuanling.",
       teams: [
         { tier: "T0", nombre: "Hiyuki Hypercarry", m: [["Hiyuki", "ww/characters/hiyuki_sm.webp"], ["Lucilla", "ww/characters/47_icon.webp"], ["Lynae", "ww/characters/48_icon.webp"], ["Suisui", "wuthering-waves/characters/suisui_icon.webp"]] },
-        { tier: "T0", nombre: "Hsin Unison", m: [["Hsin", "wuthering-waves/characters/hsin_icon.webp"], ["Suoming", "wuthering-waves/characters/suoming_icon.webp"], ["The Shorekeeper", "ww/characters/icon_keeper.webp"], ["Verina", "ww/characters/verina_icon.webp"]] },
-        { tier: "T0", nombre: "Jingran Hypercarry", m: [["Jingran", "wuthering-waves/characters/jingran_icon.webp"], ["Iuno", "ww/characters/ioun_icon.webp"], ["Mortefi", "ww/characters/mortefi_icon.webp"], ["The Shorekeeper", "ww/characters/icon_keeper.webp"]] },
+        { tier: "T0", nombre: "Hsin Unison", m: [["Hsin", "wuthering-waves/characters/hsin_icon.webp"], ["Suoming", "wuthering-waves/characters/suoming_icon.webp"], ["Lily", "wuthering-waves/characters/lily_icon.webp"], ["The Shorekeeper", "ww/characters/icon_keeper.webp"], ["Verina", "ww/characters/verina_icon.webp"]] },
+        { tier: "T0", nombre: "Jingran Hypercarry", m: [["Jingran", "wuthering-waves/characters/jingran_icon.webp"], ["Iuno", "ww/characters/ioun_icon.webp"], ["Mortefi", "ww/characters/mortefi_icon.webp"], ["The Shorekeeper", "ww/characters/icon_keeper.webp"], ["Lupa", "ww/characters/lupa_icon.webp"]] },
         { tier: "T0", nombre: "Qingxiao Hypercarry", m: [["Qingxiao", "wuthering-waves/characters/qingxiao_icon.webp"], ["Denia", "ww/characters/denia_sm.webp"], ["Lynae", "ww/characters/48_icon.webp"], ["Mornye", "ww/characters/46_icon.webp"]] },
-        { tier: "T0", nombre: "Xuanling Hypercarry", m: [["Yangyang Xuanling", "wuthering-waves/characters/yangyang-xuanling_icon.webp"], ["Chisa", "ww/characters/chisa_icon.webp"], ["Rebecca", "ww/characters/rebecca_icon.webp"], ["Phrolova", "ww/characters/phr_icon.webp"]] }
+        { tier: "T0", nombre: "Xuanling Hypercarry", m: [["Yangyang Xuanling", "wuthering-waves/characters/yangyang-xuanling_icon.webp"], ["Chisa", "ww/characters/chisa_icon.webp"], ["Rebecca", "wuthering-waves/characters/rebecca_icon.webp"], ["Phrolova", "ww/characters/phr_icon.webp"]] }
       ]
     },
     {
       id: "whimpering",
       nombre: "Whimpering Wastes (Páramos de Rinascita)",
       tag: "2 equipos",
-      desc: "El endgame de Rinascita (desde 2.1): 12 etapas, cada una con DOS equipos separados y puntuacion por velocidad, mas el sistema de Tokens como capa de buffs. Mide profundidad de inversion, no amplitud: un solo equipo tope no basta. Sin Vigor, puedes reintentar sin limite. T0 actual: Hiyuki, Hsin, Phrolova Echo y Sigrika.",
+      desc: "El endgame de Rinascita (desde 2.1): 12 etapas, cada una con DOS equipos separados y puntuacion por velocidad, mas el sistema de Tokens como capa de buffs. Mide profundidad de inversion, no amplitud: un solo equipo tope no basta. Sin Vigor, puedes reintentar sin limite. T0 del parche 3.8: Hiyuki, Hsin Unison (con Lily), Phrolova Echo y Sigrika.",
       teams: [
         { tier: "T0", nombre: "Hiyuki Hypercarry", m: [["Hiyuki", "ww/characters/hiyuki_sm.webp"], ["Lucilla", "ww/characters/47_icon.webp"], ["Lynae", "ww/characters/48_icon.webp"], ["Suisui", "wuthering-waves/characters/suisui_icon.webp"]] },
-        { tier: "T0", nombre: "Hsin Unison", m: [["Hsin", "wuthering-waves/characters/hsin_icon.webp"], ["Suoming", "wuthering-waves/characters/suoming_icon.webp"], ["The Shorekeeper", "ww/characters/icon_keeper.webp"], ["Verina", "ww/characters/verina_icon.webp"]] },
-        { tier: "T0", nombre: "Phrolova Echo", m: [["Phrolova", "ww/characters/phr_icon.webp"], ["Lucilla", "ww/characters/47_icon.webp"], ["Cantarella", "ww/characters/icon_canta.webp"], ["Sigrika", "ww/characters/44_icon.webp"]] },
-        { tier: "T0", nombre: "Sigrika Hypercarry", m: [["Sigrika", "ww/characters/44_icon.webp"], ["Qiuyuan", "ww/characters/qiu_icon.webp"], ["Lucilla", "ww/characters/47_icon.webp"], ["Ciaccona", "ww/characters/cia_icon.webp"]] },
-        { tier: "T0.5", nombre: "Aemeath Fusion Burst", m: [["Aemeath", "ww/characters/math_icon.webp"], ["Denia", "ww/characters/denia_sm.webp"], ["Chisa", "ww/characters/chisa_icon.webp"], ["Suisui", "wuthering-waves/characters/suisui_icon.webp"]] }
+        { tier: "T0", nombre: "Hsin Unison", m: [["Hsin", "wuthering-waves/characters/hsin_icon.webp"], ["Suoming", "wuthering-waves/characters/suoming_icon.webp"], ["Lily", "wuthering-waves/characters/lily_icon.webp"], ["The Shorekeeper", "ww/characters/icon_keeper.webp"], ["Verina", "ww/characters/verina_icon.webp"]] },
+        { tier: "T0", nombre: "Phrolova Echo", m: [["Phrolova", "ww/characters/phr_icon.webp"], ["Lucilla", "ww/characters/47_icon.webp"], ["Cantarella", "ww/characters/icon_canta.webp"], ["Sigrika", "ww/characters/44_icon.webp"], ["Lynae", "ww/characters/48_icon.webp"]] },
+        { tier: "T0", nombre: "Sigrika Hypercarry", m: [["Sigrika", "ww/characters/44_icon.webp"], ["Qiuyuan", "ww/characters/qiu_icon.webp"], ["Lucilla", "ww/characters/47_icon.webp"], ["Ciaccona", "ww/characters/cia_icon.webp"], ["The Shorekeeper", "ww/characters/icon_keeper.webp"]] },
+        { tier: "T0.5", nombre: "Aemeath Fusion Burst", m: [["Aemeath", "ww/characters/math_icon.webp"], ["Denia", "ww/characters/denia_sm.webp"], ["Chisa", "ww/characters/chisa_icon.webp"], ["Suisui", "wuthering-waves/characters/suisui_icon.webp"], ["Lupa", "ww/characters/lupa_icon.webp"]] }
       ]
     },
     {
       id: "endstate",
       nombre: "Endstate Matrix",
       tag: "ciclos",
-      desc: "El tercer modo: jefes en cadena con varios equipos (la vida del jefe se traslada entre equipos), buffs de Power Circuit y resonadores demo ya construidos. Objetivo-tipico: 5.000 puntos por equipo, ciclo S2 'Adversity Vanguard' hasta 3.8. NO tiene leaderboard publico de equipos — recomendaciones segun los buffs del ciclo actual (Unison, Electro Flare, Echo Skill, escudos, Tune Break). Usa los demo resonators cuando falte gear.",
+      desc: "El tercer modo: jefes en cadena con varios equipos (la vida del jefe se traslada entre equipos), buffs de Power Circuit y resonadores demo ya construidos. El ciclo S2 'Adversity Vanguard' abarca las versiones 3.5 a 3.8. NO tiene leaderboard publico de equipos — recomendaciones segun los buffs del ciclo actual (Unison, Electro Flare, Echo Skill, escudos, Tune Break). Usa los demo resonators cuando falte gear.",
       teams: [
-        { tier: "buff Unison", nombre: "Hsin Unison", m: [["Hsin", "wuthering-waves/characters/hsin_icon.webp"], ["Suoming", "wuthering-waves/characters/suoming_icon.webp"], ["The Shorekeeper", "ww/characters/icon_keeper.webp"], ["Verina", "ww/characters/verina_icon.webp"]] },
-        { tier: "buff ATK basico", nombre: "Xuanling Hypercarry", m: [["Yangyang Xuanling", "wuthering-waves/characters/yangyang-xuanling_icon.webp"], ["Chisa", "ww/characters/chisa_icon.webp"], ["Rebecca", "ww/characters/rebecca_icon.webp"], ["Phrolova", "ww/characters/phr_icon.webp"]] },
+        { tier: "buff Unison", nombre: "Hsin Unison", m: [["Hsin", "wuthering-waves/characters/hsin_icon.webp"], ["Suoming", "wuthering-waves/characters/suoming_icon.webp"], ["Lily", "wuthering-waves/characters/lily_icon.webp"], ["The Shorekeeper", "ww/characters/icon_keeper.webp"]] },
+        { tier: "buff ATK basico", nombre: "Xuanling Hypercarry", m: [["Yangyang Xuanling", "wuthering-waves/characters/yangyang-xuanling_icon.webp"], ["Chisa", "ww/characters/chisa_icon.webp"], ["Rebecca", "wuthering-waves/characters/rebecca_icon.webp"], ["Phrolova", "ww/characters/phr_icon.webp"]] },
         { tier: "buff Echo Skill", nombre: "Phrolova Echo", m: [["Phrolova", "ww/characters/phr_icon.webp"], ["Lucilla", "ww/characters/47_icon.webp"], ["Cantarella", "ww/characters/icon_canta.webp"], ["Sigrika", "ww/characters/44_icon.webp"]] },
         { tier: "buff escudo", nombre: "Hiyuki Hypercarry", m: [["Hiyuki", "ww/characters/hiyuki_sm.webp"], ["Lucilla", "ww/characters/47_icon.webp"], ["Lynae", "ww/characters/48_icon.webp"], ["Suisui", "wuthering-waves/characters/suisui_icon.webp"]] },
         { tier: "buff electro", nombre: "Hsin Flare", m: [["Hsin", "wuthering-waves/characters/hsin_icon.webp"], ["Rover (Electro)", "ww/characters/rover_icon.webp"], ["Suisui", "wuthering-waves/characters/suisui_icon.webp"], ["Chisa", "ww/characters/chisa_icon.webp"]] }

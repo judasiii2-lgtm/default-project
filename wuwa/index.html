@@ -126,7 +126,7 @@ input.num{width:90px;background:#0f172a;color:#fff;border:1px solid #334155;bord
 <main>
 <section id="tab-portada" class="tab active">
 <div class="hero"><h1>SONANCE</h1><p>Tu cuenta, tus builds, tu mapa. Todo Wuthering Waves en un solo mando. <b style="color:#fbbf24">Reconstruido tras el borrado — vuelve a marcar tus 47.</b></p>
-<div><span class="chip">Europa</span><span class="chip">Parche 3.7 F2</span><span class="chip" id="chipCount">60 PJs</span><span class="chip" style="background:#7dd3fc;color:#000;font-weight:800">✨ 3.8: Lily — 12 nov</span><span class="chip">v8.0</span></div></div>
+<div><span class="chip">Europa</span><span class="chip">Parche 3.8</span><span class="chip" id="chipCount">61 PJs</span><span class="chip" style="background:#7dd3fc;color:#000;font-weight:800">✨ 3.8 LIVE · Lily S+</span><span class="chip">v8.0</span></div></div>
 <div class="tiles">
 <div class="tile" onclick="goTab('mapa')"><span class="ic">🗺️</span><b>Mapa interactivo</b><small>Cofres y rutas 3.7</small></div>
 <div class="tile" onclick="goTab('pjs')"><span class="ic">👥</span><b>Personajes</b><small>61 kits con ficha</small></div>
@@ -180,40 +180,40 @@ input.num{width:90px;background:#0f172a;color:#fff;border:1px solid #334155;bord
 </main>
 <div style="position:fixed;bottom:8px;right:10px;background:#000a;border:1px solid #ffffff2e;color:#7dd3fc;font-size:11px;padding:4px 10px;border-radius:20px">v8.0 · 61 pjs · arte completo prydwen.gg</div>
 <div id="modal" onclick="if(event.target===this)closeModal()"><div class="sheet" id="sheet"></div></div>
-<script src="endgames.js?v=2"></script>
+<script src="endgames.js?v=3"></script>
 <script>
 const RESONATORS=[
 {name:'Qingxiao',el:'Aero',arma:'Espada',rol:'DPS principal',tier:'S+'},{name:'Jingran',el:'Fusion',arma:'Mandoble',rol:'DPS principal',tier:'S+'},
-{name:'Augusta',el:'Electro',arma:'Mandoble',rol:'DPS principal',tier:'S+'},{name:'Iuno',el:'Aero',arma:'Guantelete',rol:'Sub-DPS',tier:'S+'},
-{name:'Cartethyia',el:'Aero',arma:'Espada',rol:'DPS principal',tier:'S+'},{name:'Phrolova',el:'Havoc',arma:'Rectificador',rol:'DPS principal',tier:'S+'},
-{name:'Carlotta',el:'Glacio',arma:'Pistola',rol:'DPS principal',tier:'S+'},{name:'Jinhsi',el:'Spectro',arma:'Mandoble',rol:'DPS principal',tier:'S+'},
+{name:'Augusta',el:'Electro',arma:'Mandoble',rol:'DPS principal',tier:'S'},{name:'Iuno',el:'Aero',arma:'Guantelete',rol:'Sub-DPS',tier:'S+'},
+{name:'Cartethyia',el:'Aero',arma:'Espada',rol:'DPS principal',tier:'S'},{name:'Phrolova',el:'Havoc',arma:'Rectificador',rol:'DPS principal',tier:'S'},
+{name:'Carlotta',el:'Glacio',arma:'Pistola',rol:'DPS principal',tier:'S'},{name:'Jinhsi',el:'Spectro',arma:'Mandoble',rol:'DPS principal',tier:'S'},
 {name:'Shorekeeper',el:'Spectro',arma:'Rectificador',rol:'Support',tier:'S+'},{name:'Verina',el:'Spectro',arma:'Rectificador',rol:'Support',tier:'S+'},
-{name:'Zhezhi',el:'Glacio',arma:'Rectificador',rol:'Sub-DPS',tier:'A'},{name:'Cantarella',el:'Havoc',arma:'Rectificador',rol:'Sub-DPS',tier:'S'},
-{name:'Zani',el:'Spectro',arma:'Guantelete',rol:'DPS principal',tier:'S'},{name:'Phoebe',el:'Spectro',arma:'Rectificador',rol:'Sub-DPS',tier:'S'},
-{name:'Changli',el:'Fusion',arma:'Espada',rol:'Sub-DPS',tier:'S'},{name:'Jiyan',el:'Aero',arma:'Mandoble',rol:'DPS principal',tier:'S'},
-{name:'Yinlin',el:'Electro',arma:'Rectificador',rol:'Sub-DPS',tier:'S'},{name:'Xiangli Yao',el:'Electro',arma:'Guantelete',rol:'DPS principal',tier:'A'},
-{name:'Camellya',el:'Havoc',arma:'Espada',rol:'DPS principal',tier:'A'},{name:'Roccia',el:'Havoc',arma:'Guantelete',rol:'Sub-DPS',tier:'S'},
+{name:'Zhezhi',el:'Glacio',arma:'Rectificador',rol:'Sub-DPS',tier:'A'},{name:'Cantarella',el:'Havoc',arma:'Rectificador',rol:'Sub-DPS',tier:'A'},
+{name:'Zani',el:'Spectro',arma:'Guantelete',rol:'DPS principal',tier:'A'},{name:'Phoebe',el:'Spectro',arma:'Rectificador',rol:'Sub-DPS',tier:'A'},
+{name:'Changli',el:'Fusion',arma:'Espada',rol:'Sub-DPS',tier:'A'},{name:'Jiyan',el:'Aero',arma:'Mandoble',rol:'DPS principal',tier:'A'},
+{name:'Yinlin',el:'Electro',arma:'Rectificador',rol:'Sub-DPS',tier:'A'},{name:'Xiangli Yao',el:'Electro',arma:'Guantelete',rol:'DPS principal',tier:'A'},
+{name:'Camellya',el:'Havoc',arma:'Espada',rol:'DPS principal',tier:'A'},{name:'Roccia',el:'Havoc',arma:'Guantelete',rol:'Sub-DPS',tier:'A'},
 {name:'Lupa',el:'Fusion',arma:'Mandoble',rol:'Sub-DPS',tier:'S'},{name:'Brant',el:'Fusion',arma:'Espada',rol:'Support',tier:'S'},
-{name:'Ciaccona',el:'Aero',arma:'Pistola',rol:'Sub-DPS',tier:'S'},{name:'Qiuyuan',el:'Aero',arma:'Espada',rol:'Sub-DPS',tier:'S'},
+{name:'Ciaccona',el:'Aero',arma:'Pistola',rol:'Sub-DPS',tier:'S'},{name:'Qiuyuan',el:'Aero',arma:'Espada',rol:'Sub-DPS',tier:'S+'},
 {name:'Lynae',el:'Spectro',arma:'Rectificador',rol:'Sub-DPS',tier:'S+'},{name:'Hiyuki',el:'Glacio',arma:'Espada',rol:'DPS principal',tier:'S+'},
 {name:'Mornye',el:'Fusion',arma:'Mandoble',rol:'Support',tier:'S+'},{name:'Denia',el:'Fusion',arma:'Rectificador',rol:'Sub-DPS',tier:'S+'},
 {name:'Chisa',el:'Havoc',arma:'Guantelete',rol:'Support',tier:'S+'},{name:'Sigrika',el:'Electro',arma:'Guantelete',rol:'DPS principal',tier:'S+'},
-{name:'Rebecca',el:'Electro',arma:'Pistola',rol:'DPS principal',tier:'S'},{name:'Lucy',el:'Spectro',arma:'Pistola',rol:'Sub-DPS',tier:'S'},
-{name:'Galbrena',el:'Fusion',arma:'Pistola',rol:'DPS principal',tier:'S+'},{name:'Aemeath',el:'Fusion',arma:'Espada',rol:'DPS principal',tier:'S'},
+{name:'Rebecca',el:'Electro',arma:'Pistola',rol:'DPS principal',tier:'S+'},{name:'Lucy',el:'Spectro',arma:'Pistola',rol:'Sub-DPS',tier:'S'},
+{name:'Galbrena',el:'Fusion',arma:'Pistola',rol:'DPS principal',tier:'S'},{name:'Aemeath',el:'Fusion',arma:'Espada',rol:'DPS principal',tier:'S+'},
 {name:'Yangyang: Xuanling',el:'Havoc',arma:'Espada',rol:'DPS principal',tier:'S+'},{name:'Suisui',el:'Glacio',arma:'Rectificador',rol:'Support',tier:'S+'},
 {name:'Luuk Herssen',el:'Spectro',arma:'Guantelete',rol:'DPS principal',tier:'S+'},{name:'Lucilla',el:'Glacio',arma:'Rectificador',rol:'Sub-DPS',tier:'S+'},
-{name:'Encore',el:'Fusion',arma:'Rectificador',rol:'DPS principal',tier:'A'},{name:'Calcharo',el:'Electro',arma:'Mandoble',rol:'DPS principal',tier:'A'},
-{name:'Jianxin',el:'Aero',arma:'Guantelete',rol:'Support',tier:'A'},{name:'Lingyang',el:'Glacio',arma:'Guantelete',rol:'DPS principal',tier:'A'},
+{name:'Encore',el:'Fusion',arma:'Rectificador',rol:'DPS principal',tier:'A'},{name:'Calcharo',el:'Electro',arma:'Mandoble',rol:'DPS principal',tier:'B'},
+{name:'Jianxin',el:'Aero',arma:'Guantelete',rol:'Support',tier:'B'},{name:'Lingyang',el:'Glacio',arma:'Guantelete',rol:'DPS principal',tier:'A'},
 {name:'Danjin',el:'Havoc',arma:'Espada',rol:'DPS principal',tier:'A'},{name:'Sanhua',el:'Glacio',arma:'Espada',rol:'Sub-DPS',tier:'S'},
-{name:'Mortefi',el:'Fusion',arma:'Pistola',rol:'Sub-DPS',tier:'A'},{name:'Rover (Havoc)',el:'Havoc',arma:'Espada',rol:'DPS principal',tier:'A'},
-{name:'Rover (Spectro)',el:'Spectro',arma:'Espada',rol:'Support',tier:'A'},{name:'Rover (Aero)',el:'Aero',arma:'Espada',rol:'Support',tier:'A'},
-{name:'Rover (Electro)',el:'Electro',arma:'Espada',rol:'DPS principal',tier:'A'},{name:'Yangyang',el:'Aero',arma:'Espada',rol:'Support',tier:'A'},
+{name:'Mortefi',el:'Fusion',arma:'Pistola',rol:'Sub-DPS',tier:'S'},{name:'Rover (Havoc)',el:'Havoc',arma:'Espada',rol:'DPS principal',tier:'B'},
+{name:'Rover (Spectro)',el:'Spectro',arma:'Espada',rol:'Support',tier:'A'},{name:'Rover (Aero)',el:'Aero',arma:'Espada',rol:'Support',tier:'S'},
+{name:'Rover (Electro)',el:'Electro',arma:'Espada',rol:'DPS principal',tier:'S'},{name:'Yangyang',el:'Aero',arma:'Espada',rol:'Support',tier:'B'},
 {name:'Baizhi',el:'Glacio',arma:'Rectificador',rol:'Support',tier:'A'},{name:'Buling',el:'Electro',arma:'Rectificador',rol:'Support',tier:'S'},
 {name:'Lumi',el:'Electro',arma:'Mandoble',rol:'Sub-DPS',tier:'B'},{name:'Youhu',el:'Glacio',arma:'Guantelete',rol:'Support',tier:'B'},
 {name:'Taoqi',el:'Havoc',arma:'Mandoble',rol:'Support',tier:'B'},{name:'Aalto',el:'Aero',arma:'Pistola',rol:'Sub-DPS',tier:'B'},
 {name:'Chixia',el:'Fusion',arma:'Pistola',rol:'Sub-DPS',tier:'B'},{name:'Yuanwu',el:'Electro',arma:'Guantelete',rol:'Sub-DPS',tier:'B'},
 {name:'Hsin',el:'Electro',arma:'Rectificador',rol:'DPS principal',tier:'S+'},{name:'Suoming',el:'Electro',arma:'Espada',rol:'Support',tier:'S+'},
-{name:'Lily',el:'Spectro',arma:'Pistola',rol:'Support',tier:'S',nuevo:true}];
+{name:'Lily',el:'Spectro',arma:'Pistola',rol:'Support',tier:'S+'}];
 const HEAD_ID={Yangyang:'1',Chixia:'2',Verina:'3','Rover (Havoc)':'4','Rover (Electro)':'4','Rover (Aero)':'5','Rover (Spectro)':'5',Baizhi:'6',Sanhua:'7',Taoqi:'9',Danjin:'10',Jiyan:'11',Aalto:'12',Mortefi:'13',Lingyang:'14',Yuanwu:'15',Yinlin:'17',Calcharo:'18',Jianxin:'23_UI',Jinhsi:'24_UI','Xiangli Yao':'25_UI',Changli:'26_UI',Zhezhi:'27_UI',Shorekeeper:'28_UI',Camellya:'29_UI',Lumi:'30_UI',Youhu:'31_UI',Carlotta:'32_UI',Roccia:'33_UI',Cantarella:'34_UI',Ciaccona:'37_UI',Zani:'38_UI',Cartethyia:'40_UI',Phrolova:'41_UI',Brant:'44_UI',Phoebe:'45_UI',Lupa:'46_UI',Iuno:'48_UI',Augusta:'51_UI',Aemeath:'53_UI','Luuk Herssen':'54_UI',Galbrena:'55_UI',Qiuyuan:'56_UI',Chisa:'57_UI',Buling:'58_UI',Lynae:'60_UI',Mornye:'61_UI',Denia:'64_UI',Sigrika:'65_UI',Lucilla:'66_UI',Hiyuki:'67_UI',Lucy:'68_UI',Rebecca:'69_UI','Yangyang: Xuanling':'70_UI',Suisui:'71_UI',Qingxiao:'73_UI',Jingran:'74_UI',Hsin:'75_UI',Suoming:'76_UI',Encore:'8'};
 function portrait(n){const id=(HEAD_ID[n]||'5');return 'https://wuthering.gg/_ipx/q_70&s_100x100/images/iconrolehead150/T_IconRoleHead150_'+id+'.png';}
 const SPLASH={Qingxiao:'qingxiao',Jingran:'jingran',Augusta:'augusta',Iuno:'iuno',Cartethyia:'cartethyia',Phrolova:'phrolova',Carlotta:'carlotta',Jinhsi:'jinhsi',Shorekeeper:'shorekeeper',Verina:'verina',Zhezhi:'zhezhi',Cantarella:'cantarella',Zani:'zani',Phoebe:'phoebe',Changli:'changli',Jiyan:'jiyan',Yinlin:'yinlin','Xiangli Yao':'xiangli-yao',Camellya:'camellya',Roccia:'roccia',Lupa:'lupa',Brant:'brant',Ciaccona:'ciaccona',Qiuyuan:'qiuyuan',Lynae:'lynae',Hiyuki:'hiyuki',Mornye:'mornye',Denia:'denia',Chisa:'chisa',Sigrika:'sigrika',Rebecca:'rebecca',Lucy:'lucy',Galbrena:'galbrena',Aemeath:'aemeath','Yangyang: Xuanling':'yangyang-xuanling',Suisui:'suisui','Luuk Herssen':'luuk-herssen',Lucilla:'lucilla',Encore:'encore',Calcharo:'calcharo',Jianxin:'jianxin',Lingyang:'lingyang',Danjin:'danjin',Sanhua:'sanhua',Mortefi:'mortefi','Rover (Havoc)':'rover-havoc','Rover (Spectro)':'rover-spectro','Rover (Aero)':'rover-aero','Rover (Electro)':'PILE_ZHUJUE',Yangyang:'yangyang',Baizhi:'baizhi',Buling:'buling',Lumi:'lumi',Youhu:'youhu',Taoqi:'taoqi',Aalto:'aalto',Chixia:'chixia',Yuanwu:'yuanwu',Hsin:'hsin',Suoming:'suoming',Lily:'lily'};
@@ -232,7 +232,7 @@ const GUIDE={
 'Phrolova':{tal:'Skill > Liberación',cr:[70,80],cd:[240,260],atk:[2000,2300],er:[115,125],bonus:['Havoc DMG%',60,100],eco:'Nightmare Hecate · C4 CRIT',asc:'Material Havoc + drops TD',donde:'Black Shores ruta Havoc.',teams:['Havoc: Phrolova+Chisa+Rover Havoc']},
 'Hsin':{tal:'Skill > Liberación > Eco',cr:[70,80],cd:[220,260],atk:[1900,2200],er:[110,125],bonus:['Electro DMG%',60,100],eco:'Suhsin the Inevitable · Heart of Sworn Vigil 5pc',asc:"Solidarity's Loneflame x16 + Bloom of Hearkening x20 (wuthering.gg)",donde:'Simulacrum Nexus · Mengzhou (jefe Suhsin + ruta Electro Flare).',teams:['Hsin Flare: Hsin+Iuno+Shorekeeper (Unison)']},
 'Suoming':{tal:'Liberación > Intro (apoyo Electro)',cr:[60,70],cd:[200,240],atk:[1800,2100],er:[130,150],bonus:['Electro DMG%',60,100],eco:'Suhsin the Inevitable · Heart of Sworn Vigil 5pc',asc:"Forged Empyrean's Sigh x16 + Miasmic Branch x20 (wuthering.gg)",donde:'Simulacrum Nexus · Mengzhou (fase 2 desde 22-oct, con Lynae + Luuk Herssen).',teams:['Soporte Electro: Suoming+Hsin+Verina (amplifica Electro al equipo)']},
-'Lily':{tal:'Liberación > Intro (curandera Unison)',cr:[55,65],cd:[200,240],atk:[1700,2000],er:[200,230],bonus:['Spectro DMG%',40,60],eco:'Flower of Tinged Yearning 5pc (cura que sube el ATK de todo el equipo)',asc:'Material Spectro + drops TD',donde:'Debuta en banner 3.8 el 12-nov · con su firma Lullaby.',teams:['Unison (previsto): Hsin+Lily+Suoming']}};
+'Lily':{tal:'Liberación > Intro (curandera Unison)',cr:[55,65],cd:[200,240],atk:[1700,2000],er:[200,230],bonus:['Spectro DMG%',40,60],eco:'Flower of Tinged Yearning 5pc (cura que sube el ATK de todo el equipo)',asc:'Material Spectro + drops TD',donde:'Debutó el 12-nov en el banner 3.8 · con su firma Lullaby.',teams:['Unison: Hsin+Lily+Suoming']}};
 function guideFor(n){if(GUIDE[n])return GUIDE[n];const r=RESONATORS.find(x=>x.name===n);if(!r)return{tal:'-',cr:[0,0],cd:[0,0],atk:[0,0],er:[0,0],bonus:['DMG%',0,0],eco:'-',asc:'-',donde:'Personaje desconocido (revisa el import).',teams:[]};const bonus=r.el+' DMG%';const sup=r.rol==='Support';return{tal:sup?'Liberación > Intro':'Forte > Liberación > Habilidad',cr:sup?[50,65]:[65,75],cd:sup?[180,220]:[200,240],atk:[1800,2200],er:sup?[200,230]:[115,130],bonus:[bonus,60,100],eco:buildFor(n).main+' · 43311',asc:'Material '+r.el+' + drops TD',donde:'Ver en mi mapa (jefe TD '+r.el+').',teams:[]};}
 function st2(n){const s=stats[n]||{};return{cr:s.cr||s.prob||0,cd:s.cd||s.cdm||0,atk:s.atk||0,hp:s.hp||0,er:s.er||0,bonus:s.bo||s.bonus||0,heal:s.heal||s.cura||0};}
 function buildPct(n){let p=0;if(ck(n,'w'))p+=34;if(echoOK(n))p+=33;if(ck(n,'s'))p+=33;return p;}
@@ -321,7 +321,7 @@ const rank=n=>{const r=RESONATORS.find(x=>x.name===n);return !r?1:(r.tier==='S+'
 dps.sort((a,b)=>rank(b)-rank(a));sub.sort((a,b)=>rank(b)-rank(a));sup.sort((a,b)=>rank(b)-rank(a));
 const out=[];for(let i=0;i<6;i++){if(!dps[i])break;out.push([dps[i],sub[i%Math.max(sub.length,1)],sup[i%Math.max(sup.length,1)]].filter(Boolean));}return out;}
 function mateHTML(n){const r=RESONATORS.find(x=>x.name===n);const s=stats[n];const sub=r?(r.el+' · '+r.arma+' · '+r.rol+' · '+r.tier):'desconocido (revisa el nombre)';return '<div class="mate" onclick="openChar(\''+n.replace(/'/g,"\\'")+'\')" title="Abrir ficha de '+n+'"><div class="mateport"><img loading="lazy" src="'+artWithFallback(n)+'" alt="'+n+'" onerror="artFix(this,\''+n.replace(/'/g,"\\'")+'\')"></div><b>'+n+'</b><small>'+sub+'</small><small>'+(isMine(n)?'✅ tuyo':'⚠️ no lo tienes')+(s&&s.atk?' · 📊 con stats':' · sin stats')+' · 🛠️'+buildPct(n)+'%</small></div>';}
-function renderTeams(){const t=bestTeams();const perf=[...owned].filter(n=>ck(n,'w')&&ck(n,'e')&&ck(n,'s')).length;document.getElementById('eqInfo').textContent='Parche 3.7 · '+t.length+' equipos auto con tus '+owned.size+' PJs · '+perf+' perfectos · '+myTeams.length+' tuyos · datos de ahora mismo (se actualizan al marcar, editar stats o importar)';
+function renderTeams(){const t=bestTeams();const perf=[...owned].filter(n=>ck(n,'w')&&ck(n,'e')&&ck(n,'s')).length;document.getElementById('eqInfo').textContent='Parche 3.8 · '+t.length+' equipos auto con tus '+owned.size+' PJs · '+perf+' perfectos · '+myTeams.length+' tuyos · datos de ahora mismo (se actualizan al marcar, editar stats o importar)';
 document.getElementById('teams').innerHTML='<h3>⭐ Mis equipos ('+myTeams.length+')</h3>'+myTeams.map((tm,i)=>'<div class="team"><b>'+tm.name+'</b> <small>score '+Math.round(teamScore(tm.members))+'</small> <button class="btn2" onclick="delMyTeam('+i+')">❌</button><div class="mates">'+tm.members.map(n=>mateHTML(n)).join('')+'</div></div>').join('')+'<div class="filters"><input id="ntName" placeholder="Nombre equipo (ej: Mi ToA)"><input id="ntMembers" placeholder="PJ1, PJ2, PJ3" style="flex:1;min-width:200px"><button class="btn" onclick="addMyTeam()">＋ Guardar mi equipo</button></div><h3>🤖 Sugeridos auto (toca un retrato para su ficha)</h3>'+t.map((m,i)=>'<div class="team"><b>Equipo '+(i+1)+'</b> <small>score '+Math.round(teamScore(m))+'</small><div class="mates">'+m.map(n=>mateHTML(n)).join('')+'</div></div>').join('')||'Marca tus PJs primero';
 const mine=[...owned];document.getElementById('statSummary').innerHTML=mine.map(n=>{const s=stats[n];const cls=!s||!s.atk?'':(s.cr>=65&&s.cd>=220?'st-opt':'st-bad');return '<div class="mate" onclick="openChar(\''+n.replace(/'/g,"\\'")+'\')" title="Abrir ficha de '+n+'"><div class="mateport"><img loading="lazy" src="'+artWithFallback(n)+'" alt="'+n+'" onerror="artFix(this,\''+n.replace(/'/g,"\\'")+'\')"></div><h4 class="'+cls+'">'+n+'</h4><small>'+(s&&s.atk?('ATK '+s.atk+' · CR '+s.cr+'% · CD '+s.cd+'%'):'sin datos — toca para la ficha')+'</small></div>';}).join('')||'Marca tus PJs primero';}
 function teamDPS(){const t=bestTeams();document.getElementById('dpsOut').innerHTML=t.map((m,i)=>'<div class="skill"><b>Equipo '+(i+1)+':</b> '+m.join(' + ')+' → <b>'+Math.round(teamScore(m))+'</b></div>').join('')||'Sin datos';}

@@ -197,6 +197,32 @@ Electro usa wuthering.gg `T_IconRole_Pile_zhujue_UI.png`.
 - Pendiente menor HSR: CRIT Rate muestra Optimo (=75%) menor que Objetivo (=91%) por el cap
   de optO heredado — revisar otro dia.
 
+## 4e. PAUTA WUWA 3.8 APLICADA (14-nov-2026) ✅
+- 3.8 salio 12-nov con Lily (5★ Spectro, pistola, Support Unison). Prydwen tier-list actualizado 13-nov.
+- Hecho en `wuwa/index.html`:
+  - Chip "Parche 3.7 F2" -> "Parche 3.8"; chip "60 PJs" -> 61 (dinamico); "✨ 3.8: Lily — 12 nov" -> "✨ 3.8 LIVE · Lily S+".
+  - Lily: `nuevo:true` QUITADO (ya debutó), tier S -> **S+** (Prydwen la pone T0 Support),
+    GUIDE 'donde' actualizado ("Debutó el 12-nov"), teams "Unison: Hsin+Lily+Suoming".
+  - RESYNC de tiers con el tier list ToA de Prydwen 3.8 (mapeo: T0+T0.5->S+, T1+T1.5->S,
+    T2+T3->A, T4->B; en duplicados de rol gana el mejor tier). 19 cambios:
+    SUBEN a S+: Lily, Qiuyuan, Rebecca, Aemeath · SUBEN a S: Mortefi, Rover Electro, Rover Aero ·
+    BAJAN a S: Augusta, Cartethyia, Phrolova, Carlotta, Jinhsi, Galbrena ·
+    BAJAN a A: Cantarella, Zani, Phoebe, Changli, Jiyan, Yinlin, Roccia ·
+    BAJAN a B: Calcharo, Jianxin, Yangyang, Rover Havoc.
+  - `renderTeams` texto "Parche 3.7" -> 3.8. `endgames.js?v=3` para cache.
+- Endgames re-scrapeados (Prydwen team-tier-list actualizado 13-nov, antes era 22-oct):
+  - ToA T0: Hiyuki Hypercarry (+Chisa), **Hsin Unison AHORA CON LILY** (Hsin+Suoming+Lily+Shorekeeper+Verina),
+    Jingran (+Lupa 5º), Qingxiao, Xuanling.
+  - WW T0: Hiyuki, Hsin Unison (con Lily), Phrolova Echo (+Lynae 5º), Sigrika; T0.5 Aemeath Fusion Burst.
+  - Endstate: ciclo S2 'Adversity Vanguard' ABARCA 3.5-3.8 (fandom) — sigue vigente, desc actualizada.
+  - El SSR de la team-tier-list SOLO trae la lista ToA; el bloque WW sigue necesitando el
+    clic del switcher en browser in-app (mismo metodo de siempre).
+- Verificado local: chips 3.8/61, Lily S+ con arte (lily_full.webp 200), tier tab repintada,
+  endgames 66 iconos con Lily en 3 equipos, 0 errores consola.
+- NOTA metodo tier page personajes: `custom-tier-list-ww` (50444) es el switcher WW; cada
+  `custom-tier-container` tiene fila DPS + fila Support (marcadores `burst-type-mobile`/`>DPS<`);
+  asignar cada tarjeta al ultimo marcador previo para no colar personajes del tier vecino.
+
 ## 5. Recuerdos operativos
 - Servidor pruebas: `C:\Users\loshi\AppData\Local\Temp\opencode\webserver.ps1` → http://127.0.0.1:8642/
   sirve `C:\Users\loshi\Documents`. ⚠️ Conflicto de puerto si ya hay uno vivo (usar el ya activo).
