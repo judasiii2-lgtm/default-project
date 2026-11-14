@@ -203,6 +203,21 @@ Electro usa wuthering.gg `T_IconRole_Pile_zhujue_UI.png`.
   CDMG 200 CASI amarillo, ATK 2100 OK sin %.
 - NTE ya hecho arriba. **Los 4 juegos tienen la calculadora identica** (verde/amarillo/
   naranja/rojo + Objetivo + Optimo siempre visibles).
+- v2 DINAMICA (14-nov, peticion "mas dinamico y creativo") en los 4 juegos:
+  - Cada stat es ahora una BARRA ANIMADA: fill con degradado del color de estado,
+    brillo (shimmer) en loop, `sgrow` al abrir la ficha (scaleX 0->1), y una MARCA
+    blanca brillante en la posicion del objetivo dentro de la barra.
+  - Bajo la barra: Objetivo / Optimo / "te faltan X" (o "objetivo cumplido ✓").
+  - Encima: chip de estado + nombre + "tu valor / objetivo".
+  - Panel global "SALUD DE BUILD" (class .overall): badge okN/hasN coloreado por estado,
+    barra violeta animada, % global (media de stats RELLENADOS, los vacios no penalizan,
+    se listan como "N sin meter"). Texto dinamico: "todo al objetivo 🎯" / "N por mejorar +
+    N sin meter". Animacion pop de entrada.
+  - CSS compartido: .statrow/.stop/.statbar/.statfill/.statmark/.statmeta/.overall/
+    .obadge/.obar/.ofill + keyframes sgrow/sshim/spop (copiado en los 4 index).
+  - Verificado local en los 4: WuWa Augusta 4/5 98% (CASI con te faltan 20%), ZZZ Alice
+    3/3 100% 🎯, HSR Ashveil 2/6 con 1 por mejorar + 3 sin meter, NTE Zankou 3/5 83%.
+    0 errores consola.
 
 ## 4e. PAUTA WUWA 3.8 APLICADA (14-nov-2026) ✅
 - 3.8 salio 12-nov con Lily (5★ Spectro, pistola, Support Unison). Prydwen tier-list actualizado 13-nov.

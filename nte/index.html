@@ -77,6 +77,21 @@ footer{text-align:center;color:#64748b;font-size:11px;padding:26px}
 .rec{color:#7dd3fc;font-weight:600}
 .opt{color:#c4b5fd;font-weight:600}
 .ratebit{padding:3px 8px;border-radius:7px;color:#0c0a12;font-weight:800;font-size:11px;min-width:46px;text-align:center;display:inline-block}
+.statrow{margin:9px 0}
+.stop{display:flex;gap:8px;align-items:center}
+.stop b{font-size:14px}
+.statbar{position:relative;height:12px;border-radius:8px;background:rgba(15,12,28,.55);border:1px solid rgba(125,140,200,.22);margin-top:5px}
+.statfill{height:100%;border-radius:7px;transform-origin:left;animation:sgrow 1s cubic-bezier(.22,1,.36,1) both;position:relative;overflow:hidden}
+.statfill:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);animation:sshim 2.4s infinite}
+.statmark{position:absolute;top:-3px;bottom:-3px;width:2px;background:#e8ecf8;opacity:.85;border-radius:2px;box-shadow:0 0 6px rgba(232,236,248,.8)}
+.statmeta{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;font-size:11.5px;color:#94a3b8;margin-top:4px}
+.overall{display:flex;align-items:center;gap:12px;background:rgba(30,22,44,.5);border:1px solid rgba(125,140,200,.3);border-radius:14px;padding:10px 14px;margin:10px 0;animation:spop .5s cubic-bezier(.34,1.56,.64,1) both}
+.obadge{color:#0c0a12;font-weight:900;border-radius:9px;padding:4px 10px;font-size:14px;white-space:nowrap}
+.obar{height:8px;border-radius:6px;background:rgba(15,12,28,.6);margin-top:5px;overflow:hidden}
+.ofill{height:100%;border-radius:6px;transform-origin:left;animation:sgrow 1.2s cubic-bezier(.22,1,.36,1) both}
+@keyframes sgrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes sshim{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@keyframes spop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
 input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #3b3a54;border-radius:8px;padding:7px}
 .atabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 2px}
 .atab{background:rgba(30,22,44,.5);border:0;box-shadow:none;border-radius:9px;padding:8px 13px;cursor:pointer;color:#d8dcf0;font-weight:600}
@@ -256,11 +271,25 @@ function openChar(n){
  // stats: objetivo textual (BUILDS) + filas por stat con color segun tu valor
  var TXT=(bd?'<div class="statline" style="display:block"><b>Objetivo</b><span> '+bd.st+'</span></div>':'<p style="color:#94a3b8">Sin objetivos numerados de Prydwen - la build sirve de guia.</p>');
  var T=parseT(bd?bd.st:'');
- var rw=function(lb,v,ts,u){return '<div class="statline"><span class="ratebit" style="background:'+ts[1]+'">'+ts[0]+'</span><b>'+lb+'</b><span>Tuyo <b>'+(v||'-')+(v?(u||''):'')+'</b></span><span style="margin-left:auto">Objetivo <span class="rec">'+(ts[2]&&ts[2]!=='-'?'='+ts[2]:'-')+'</span></span><span>Optimo <span class="opt">'+(ts[3]&&ts[3]!=='-'?'='+ts[3]:'-')+'</span></span></div>';};
- var ROW=rw('CRIT Rate',s.cr,rateStat(s.cr,T.cr),'%')+rw('CRIT DMG',s.cd,rateStat(s.cd,T.cd),'%')+rw('ATK',s.atk,rateStat(s.atk,T.atk),'')+rw('HP',s.hp,rateStat(s.hp,T.hp),'')
- +(T.ud?rw('UDMG',s.ud,rateStat(s.ud,T.ud),'%'):'')+(T.dm?rw(T.dm.lbl,s.dm,rateStat(s.dm,T.dm),'%'):'')
- +(T.df?rw('DEF',s.df,rateStat(s.df,T.df),''):'')+(T.br?rw('Break',s.br,rateStat(s.br,T.br),''):'')+(T.ci?rw('Cycle Intensity',s.ci,rateStat(s.ci,T.ci),''):'');
- var STATS='<h3 id="sec_stats" style="margin:14px 0 4px">Mis stats vs objetivo</h3><div class="statgrid">'+TXT+ROW+'</div>'
+ var optN=function(Tt){if(!Tt)return 0;return Tt.max!=null?Tt.max:((Tt.u==='%'&&Tt.cap)?Math.min(Tt.cap,Math.round(Tt.min*1.15)):Math.round(Tt.min*1.15));};
+ var LST=[['CRIT Rate',s.cr,T.cr,'%'],['CRIT DMG',s.cd,T.cd,'%'],['ATK',s.atk,T.atk,''],['HP',s.hp,T.hp,'']];
+ if(T.ud)LST.push(['UDMG',s.ud,T.ud,'%']);
+ if(T.dm)LST.push([T.dm.lbl,s.dm,T.dm,'%']);
+ if(T.df)LST.push(['DEF',s.df,T.df,'']);
+ if(T.br)LST.push(['Break',s.br,T.br,'']);
+ if(T.ci)LST.push(['Cycle Intensity',s.ci,T.ci,'']);
+ var okN=0,hasN=0,scoreN=0,cntN=0,pendN=0,unfN=0;
+ LST.forEach(function(x){if(x[2]){hasN++;if(x[1]){cntN++;if(x[1]>=x[2].min)okN++;else pendN++;scoreN+=Math.min(100,x[1]/optN(x[2])*100);}else{unfN++;}}});
+ var pctAll=cntN?Math.round(scoreN/cntN):0;
+ var SUM=hasN?'<div class="overall" style="border-color:'+(okN===hasN?'rgba(52,211,153,.55)':(okN?'rgba(251,191,36,.55)':'rgba(248,113,113,.55)'))+'"><span class="obadge" style="background:'+(okN===hasN?'#34d399':(okN?'#fbbf24':'#f87171'))+'">'+okN+'/'+hasN+'</span><div style="flex:1;min-width:120px"><b>Salud de build</b>'+(okN===hasN?' · todo al objetivo 🎯':' · '+[pendN?pendN+' por mejorar':'',unfN?unfN+' sin meter':''].filter(Boolean).join(' + '))+'<div class="obar"><div class="ofill" style="width:'+pctAll+'%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div></div><b style="font-size:20px;color:#e2e8f0">'+pctAll+'%</b></div>':'';
+ var rw=function(lb,v,Tt,u){var ts=rateStat(v,Tt);var on=optN(Tt);var pct=(v&&on)?Math.min(100,Math.round(v/on*100)):0;
+  var left=(Tt&&on)?Math.min(100,Math.round(Tt.min/on*100)):0;
+  var extra=!Tt?'<span style="color:#64748b">sin objetivo</span>':(!v?'<span style="color:#64748b">sin dato: rellena abajo</span>':(v>=Tt.min?'<span style="color:#34d399">objetivo cumplido ✓</span>':'<span style="color:'+(ts[0]==='CASI'?'#fbbf24':'#fb923c')+'">te faltan '+(Math.round((Tt.min-v)*100)/100)+(Tt.u||'')+'</span>'));
+  return '<div class="statrow"><div class="stop"><span class="ratebit" style="background:'+ts[1]+'">'+ts[0]+'</span><b>'+lb+'</b><span style="margin-left:auto;font-size:12.5px;color:#e2e8f0"><b>'+(v||'—')+(v?(u||''):'')+'</b>'+(Tt?' / '+(Tt.min+(Tt.u||'')+(Tt.max!=null?'-'+Tt.max+(Tt.u||''):'')+(Tt.minOnly?'+':'')):'')+'</span></div>'
+  +'<div class="statbar"><div class="statfill" style="width:'+pct+'%;background:linear-gradient(90deg,'+ts[1]+'99,'+ts[1]+')"></div>'+(Tt?'<div class="statmark" style="left:'+left+'%" title="Objetivo '+(Tt.min+(Tt.u||''))+'"></div>':'')+'</div>'
+  +'<div class="statmeta"><span>Objetivo '+(ts[2]&&ts[2]!=='-'?'='+ts[2]:'-')+'</span><span>Optimo '+(ts[3]&&ts[3]!=='-'?'='+ts[3]:'-')+'</span>'+extra+'</div></div>';};
+ var ROW=LST.map(function(x){return rw(x[0],x[1],x[2],x[3]);}).join('');
+ var STATS='<h3 id="sec_stats" style="margin:14px 0 4px">✨ Mis stats vs objetivo</h3>'+SUM+'<div class="statgrid">'+TXT+ROW+'</div>'
  +'<div class="filters" style="margin:8px 0 0">'
  +'<input class="num" id="n_cr" type="number" value="'+(s.cr||'')+'" placeholder="CRIT%">'
  +'<input class="num" id="n_cd" type="number" value="'+(s.cd||'')+'" placeholder="CDMG%">'

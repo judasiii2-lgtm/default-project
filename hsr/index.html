@@ -73,6 +73,21 @@ footer{text-align:center;color:#64748b;font-size:11px;padding:26px}
 .rec{color:#7dd3fc;font-weight:600}
 .opt{color:#c4b5fd;font-weight:600}
 .ratebit{padding:3px 8px;border-radius:7px;color:#0c0a12;font-weight:800;font-size:11px;min-width:46px;text-align:center;display:inline-block}
+.statrow{margin:9px 0}
+.stop{display:flex;gap:8px;align-items:center}
+.stop b{font-size:14px}
+.statbar{position:relative;height:12px;border-radius:8px;background:rgba(15,12,28,.55);border:1px solid rgba(125,140,200,.22);margin-top:5px}
+.statfill{height:100%;border-radius:7px;transform-origin:left;animation:sgrow 1s cubic-bezier(.22,1,.36,1) both;position:relative;overflow:hidden}
+.statfill:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);animation:sshim 2.4s infinite}
+.statmark{position:absolute;top:-3px;bottom:-3px;width:2px;background:#e8ecf8;opacity:.85;border-radius:2px;box-shadow:0 0 6px rgba(232,236,248,.8)}
+.statmeta{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;font-size:11.5px;color:#94a3b8;margin-top:4px}
+.overall{display:flex;align-items:center;gap:12px;background:rgba(30,22,44,.5);border:1px solid rgba(125,140,200,.3);border-radius:14px;padding:10px 14px;margin:10px 0;animation:spop .5s cubic-bezier(.34,1.56,.64,1) both}
+.obadge{color:#0c0a12;font-weight:900;border-radius:9px;padding:4px 10px;font-size:14px;white-space:nowrap}
+.obar{height:8px;border-radius:6px;background:rgba(15,12,28,.6);margin-top:5px;overflow:hidden}
+.ofill{height:100%;border-radius:6px;transform-origin:left;animation:sgrow 1.2s cubic-bezier(.22,1,.36,1) both}
+@keyframes sgrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes sshim{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@keyframes spop{0%{transform:scale(.7);opacity:0}100%{transform:scale(1);opacity:1}}
 input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #3b3a54;border-radius:8px;padding:7px}
 .atabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 2px}
 .atab{background:rgba(30,22,44,.5);border:0;box-shadow:none;border-radius:9px;padding:8px 13px;cursor:pointer;color:#d8dcf0;font-weight:600}
@@ -258,8 +273,12 @@ function openChar(n){
  var ec=ELC[c.el]||'#64748b',tc=TIER_COL[c.tier]||'#64748b';
  var sh=document.getElementById('sheet');
  sh.style.setProperty('--charart','url("'+art(n)+'")');
- var row=function(lb,v,rec,opt,u){var rt=rateOf(v,rec);
-  return '<div class="statline"><span class="ratebit" style="background:'+rt[1]+'">'+rt[0]+'</span><b>'+lb+'</b><span>Tuyo <b>'+(v||'-')+(v?(u||''):'')+'</b></span><span style="margin-left:auto">Objetivo <span class="rec">'+(rec!==''&&rec!=null?'='+(rec+(u||'')):'-')+'</span></span><span>Optimo <span class="opt">'+(opt!==''&&opt!=null?'='+(opt+(u||'')):'-')+'</span></span></div>';};
+ var row=function(lb,v,rec,opt,u){var rt=rateOf(v,rec);var pct=(v&&opt)?Math.min(100,Math.round(v/opt*100)):0;
+  var left=(rec&&opt)?Math.min(100,Math.round(rec/opt*100)):0;
+  var extra=!rec?'<span style="color:#64748b">sin objetivo de Prydwen</span>':(!v?'<span style="color:#64748b">sin dato: rellena abajo</span>':(v>=rec?'<span style="color:#34d399">objetivo cumplido ✓</span>':'<span style="color:'+(rt[0]==='CASI'?'#fbbf24':'#fb923c')+'">te faltan '+(Math.round((rec-v)*100)/100)+(u||'')+'</span>'));
+  return '<div class="statrow"><div class="stop"><span class="ratebit" style="background:'+rt[1]+'">'+rt[0]+'</span><b>'+lb+'</b><span style="margin-left:auto;font-size:12.5px;color:#e2e8f0"><b>'+(v||'—')+(v?(u||''):'')+'</b>'+(rec?' / ≥'+rec+(u||''):'')+'</span></div>'
+  +'<div class="statbar"><div class="statfill" style="width:'+pct+'%;background:linear-gradient(90deg,'+rt[1]+'99,'+rt[1]+')"></div>'+(rec?'<div class="statmark" style="left:'+left+'%" title="Objetivo ≥'+rec+(u||'')+'"></div>':'')+'</div>'
+  +'<div class="statmeta"><span>Objetivo '+(rec?'≥'+rec+(u||''):'-')+'</span><span>Optimo '+(opt?'='+opt+(u||''):'-')+'</span>'+extra+'</div></div>';};
  // header (mantiene ratings por modo)
  var H='<button class="btn2" style="float:right" onclick="closeModal()">X Cerrar</button>'
  +'<div class="glass" style="display:block"><h2 style="font-size:30px;margin:6px 0">'+c.name+'</h2>'
@@ -269,14 +288,13 @@ function openChar(n){
  +'<div class="atabs"><button class="atab" onclick="goSec(\'sec_stats\')">Mis stats</button><button class="atab" onclick="goSec(\'sec_skills\')">Habilidades</button><button class="atab" onclick="goSec(\'sec_build\')">Build prime</button><button class="atab" onclick="goSec(\'sec_rot\')">Rotacion</button><button class="atab" onclick="goSec(\'sec_teams\')">Equipos</button><button class="atab" onclick="window.open(\'https://www.prydwen.gg/star-rail/characters/'+c.slug+'\',\'_blank\')">Guia Prydwen</button></div></div>';
  // stats
  var stL=(P.build&&P.build.st)||[];var hm={};stL.forEach(function(x){hm[x[0]]=x[1];});
- var ROW='';
- if(hm['CRIT Rate'])ROW+=row('CRIT Rate',s.cr,hm['CRIT Rate'],optO('CRIT Rate',hm['CRIT Rate']),'%');
- if(hm['CRIT DMG'])ROW+=row('CRIT DMG',s.cd,hm['CRIT DMG'],optO('CRIT DMG',hm['CRIT DMG']),'%');
- if(hm['ATK'])ROW+=row('ATK',s.atk,hm['ATK'],optO('ATK',hm['ATK']),'');
- if(hm['HP'])ROW+=row('HP',s.hp,hm['HP'],optO('HP',hm['HP']),'');
- if(hm['SPD'])ROW+=row('SPD',s.spd,hm['SPD'],optO('SPD',hm['SPD']),'');
- if(hm['DEF'])ROW+=row('DEF',s.df,hm['DEF'],optO('DEF',hm['DEF']),'');
- var STATS='<h3 id="sec_stats" style="margin:14px 0 4px">Mis stats vs objetivo</h3><div class="statgrid">'+(ROW||'<p style="color:#94a3b8">Objetivos no disponibles: pon tus numeros abajo y guarda.</p>')+'</div>'
+ var LST=[['CRIT Rate',s.cr,hm['CRIT Rate'],'%'],['CRIT DMG',s.cd,hm['CRIT DMG'],'%'],['ATK',s.atk,hm['ATK'],''],['HP',s.hp,hm['HP'],''],['SPD',s.spd,hm['SPD'],''],['DEF',s.df,hm['DEF'],'']].filter(function(x){return x[2]||x[1];});
+ var okN=0,hasN=0,scoreN=0,cntN=0,pendN=0,unfN=0;
+ LST.forEach(function(x){if(x[2]){hasN++;if(x[1]){cntN++;if(x[1]>=x[2])okN++;else pendN++;scoreN+=Math.min(100,x[1]/x[2]*100);}else{unfN++;}}});
+ var pctAll=cntN?Math.round(scoreN/cntN):0;
+ var SUM=hasN?'<div class="overall" style="border-color:'+(okN===hasN?'rgba(52,211,153,.55)':(okN?'rgba(251,191,36,.55)':'rgba(248,113,113,.55)'))+'"><span class="obadge" style="background:'+(okN===hasN?'#34d399':(okN?'#fbbf24':'#f87171'))+'">'+okN+'/'+hasN+'</span><div style="flex:1;min-width:120px"><b>Salud de build</b>'+(okN===hasN?' · todo al objetivo 🎯':' · '+[pendN?pendN+' por mejorar':'',unfN?unfN+' sin meter':''].filter(Boolean).join(' + '))+'<div class="obar"><div class="ofill" style="width:'+pctAll+'%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div></div><b style="font-size:20px;color:#e2e8f0">'+pctAll+'%</b></div>':'';
+ var ROW=LST.map(function(x){return row(x[0],x[1],x[2],x[2]?optO(x[0],x[2]):null,x[3]);}).join('');
+ var STATS='<h3 id="sec_stats" style="margin:14px 0 4px">✨ Mis stats vs objetivo</h3>'+SUM+'<div class="statgrid">'+(ROW||'<p style="color:#94a3b8">Objetivos no disponibles: pon tus numeros abajo y guarda.</p>')+'</div>'
  +'<div class="filters" style="margin:8px 0 0">'
  +'<input class="num" id="h_cr" type="number" value="'+(s.cr||'')+'" placeholder="CRIT%">'
  +'<input class="num" id="h_cd" type="number" value="'+(s.cd||'')+'" placeholder="CDMG%">'
