@@ -274,3 +274,29 @@ Electro usa wuthering.gg `T_IconRole_Pile_zhujue_UI.png`.
 - Si hay que actualizar descripciones/objetivos: repetir scraping contra
   `https://www.prydwen.gg/zenless|star-rail|neverness-to-everness/characters/<slug>/` con fetch de Code Mode.
 - Proximo hito: 12-nov WuWa 3.8 (ver arriba).
+
+## 4f) Port de pestañas de WuWa a los 3 juegos (14-nov-2026)
+- Peticion: "hazlo en todos los juegos igual, y fijate en todas las pestañas que hay en wuwa, introducelo en todos los juegos lo mismo o equivalente si existe".
+- WuWa tiene 10 tabs: Portada, Mapa, Personajes, Builds, Equipos, Endgames, Tier, Gacha, Hoy, Tools, Cuenta.
+- Portado a ZZZ/HSR/NTE (antes solo tenian 4-5 tabs):
+  - **Portada** (nueva, tab por defecto activa): hero + 10 tiles de acceso rapido. chipCount se rellena por JS.
+  - **Builds** (nueva en ZZZ y HSR; NTE ya la tenia): listado con buscador + filtro mios/todos,
+    muestra build de Prydwen (ZZZ: W-Engine + Discos + objetivos st; HSR: Cono + Reliquias + Planar + objetivos st)
+    + boton a la ficha completa.
+  - **Equipos** (nueva): equipos meta de Prydwen de TUS personajes (PRYD[n].teams, cada juego con su formato:
+    ZZZ string "A + B + C" con Rank; HSR array de slugs via H_S2N; NTE array de strings-comma de slugs via CHARS)
+    + "Mis equipos" propios (localStorage {g}_teams) con score por teamScore (stats + tier).
+  - **Gacha** (nueva): registro manual de tiradas + contador de pity (ZZZ S-Rank 90, HSR 5★ 90 soft ~74, NTE 90 generico),
+    stats total/S/A + historial tabla. localStorage {g}_gacha.
+  - **Hoy** (nueva): fecha, reset diario 04:00 servidor + calculadora de bateria/trampeo/energia (240 max, 6 min/punto).
+  - **Tools** (nueva): comparador de equipos (top 6 con tus stats), evaluador de discos/reliquias/modulos
+    (mismo scoring que WuWa: 50+8/sub+10 CRIT main), cola "¿a quien subo primero?" (top 10 por tier + estado de stats).
+  - **Cuenta** (nueva): exportar/importar TODO (mine + stats + gacha + teams) en un JSON {g}-backup-full.json.
+  - **Mapa**: WuWa-only, no se porto (no hay mapa interactivo equivalente verificado en los otros juegos).
+- goTab en los 3 ahora resalta el nav por id nb-<tab> si no se pasa btn (los tiles lo usan).
+- CSS nuevo compartido (copiado en los 3 index): .hero/.chip/.tiles/.tile/.gtable/.item/.skill/.team/.mates/.mate.
+- localStorage nuevo por juego: {g}_teams, {g}_gacha ({g} = zzz/hsr/nte).
+- Verificado local en los 3: 11 tabs visibles, portada activa con 10 tiles, equipos meta renderizados
+  (ZZZ 6 equipos con 2 agentes, HSR 3, NTE 9), builds (ZZZ/HSR), gacha pity, tools con score, 0 errores consola.
+  Las fichas con la calculadora dinamica siguen intactas.
+- Pendiente puntual: revisar resets/pity exactos de NTE (usado generico 90/04:00) cuando se scrapee de nuevo.

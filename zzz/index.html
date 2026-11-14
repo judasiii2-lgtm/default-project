@@ -89,18 +89,60 @@ input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #
 .atab{background:rgba(30,22,44,.5);border:0;box-shadow:none;border-radius:9px;padding:8px 13px;cursor:pointer;color:#d8dcf0;font-weight:600}
 .atab:hover{background:rgba(60,50,90,.7);color:#fff}
 .skx{background:rgba(30,22,44,.42);border:0;box-shadow:none;border-radius:12px;padding:10px 13px;margin:6px 0}
-.chip2{display:inline-block;background:rgba(125,140,200,.25);color:#dbe2ff;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:700;vertical-align:middle}</style>
+.chip2{display:inline-block;background:rgba(125,140,200,.25);color:#dbe2ff;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:700;vertical-align:middle}
+.hero{background:linear-gradient(160deg,rgba(30,22,44,.65),rgba(15,12,28,.5));border:1px solid rgba(125,140,200,.25);border-radius:20px;padding:26px;margin-bottom:16px;text-align:center}
+.hero h1{margin:0;font-size:34px;letter-spacing:6px}
+.hero p{color:#94a3b8;max-width:640px;margin:10px auto}
+.chip{display:inline-block;background:rgba(125,140,200,.22);color:#dbe2ff;border-radius:20px;padding:4px 12px;font-size:12px;margin:3px;font-weight:700}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.tile{background:linear-gradient(160deg,rgba(30,22,44,.6),rgba(15,12,28,.45));border:1px solid rgba(125,140,200,.22);border-radius:16px;padding:18px 14px;cursor:pointer;text-align:center;transition:transform .25s,border-color .25s}
+.tile:hover{transform:translateY(-4px);border-color:#a78bfa88}
+.tile .ic{font-size:30px;display:block;margin-bottom:6px}
+.tile small{color:#94a3b8;display:block;margin-top:3px}
+.gtable{width:100%;border-collapse:collapse;font-size:13px}
+.gtable th,.gtable td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left}
+.item{background:rgba(30,22,44,.5);border:1px solid rgba(125,140,200,.22);border-radius:14px;padding:14px}
+.skill{background:rgba(30,22,44,.5);border:1px solid rgba(125,140,200,.22);border-radius:12px;padding:10px 13px;margin:6px 0}
+.team{background:rgba(30,22,44,.5);border:1px solid rgba(125,140,200,.22);border-radius:14px;padding:12px;margin:8px 0}
+.mates{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.mate{background:rgba(15,12,28,.5);border:1px solid rgba(125,140,200,.2);border-radius:12px;padding:10px;cursor:pointer;font-size:12px;min-width:150px}
+.mate:hover{border-color:#a78bfa88}
+.mate b{display:block}
+.mate small{color:#94a3b8;display:block;font-size:11px}</style>
 </head>
 <body>
 <header><div class="brandname">SONANCE</div><h1>🧡 ZENLESS ZONE ZERO COMMAND</h1></header>
 <nav id="mainnav">
 <button style="background:linear-gradient(90deg,#f9731633,#e11d4833)" onclick="location.href='../SONANCE.html'">⬅ SONANCE</button>
-<button class="active" id="nb-pjs" onclick="goTab('pjs',this)">👥 Agentes</button>
+<button class="active" id="nb-portada" onclick="goTab('portada',this)">🏠 Portada</button>
+<button id="nb-pjs" onclick="goTab('pjs',this)">👥 Agentes</button>
+<button id="nb-builds" onclick="goTab('builds',this)">🛠️ Builds</button>
+<button id="nb-equipos" onclick="goTab('equipos',this)">⚔️ Equipos</button>
 <button id="nb-tier" onclick="goTab('tier',this)">🏅 Tier</button>
-<button id="nb-eg" onclick="goTab('eg',this)">🎯 Endgames</button><button id="nb-sis" onclick="goTab('sis',this)">🔧 Sistemas</button>
+<button id="nb-eg" onclick="goTab('eg',this)">🎯 Endgames</button><button id="nb-gacha" onclick="goTab('gacha',this)">🎰 Gacha</button>
+<button id="nb-hoy" onclick="goTab('hoy',this)">📅 Hoy</button>
+<button id="nb-tools" onclick="goTab('tools',this)">🧰 Tools</button>
+<button id="nb-cuenta" onclick="goTab('cuenta',this)">🔗 Cuenta</button>
+<button id="nb-sis" onclick="goTab('sis',this)">🔧 Sistemas</button>
 </nav>
 <main>
-<section id="tab-pjs" class="tab active"><div class="card">
+<section id="tab-portada" class="tab active">
+<div class="hero"><h1>SONANCE</h1><p>Tu cuenta, tus builds, tus equipos. Todo Zenless Zone Zero en un solo mando.</p>
+<div><span class="chip">Fuente: Prydwen · nov 2026</span><span class="chip" id="chipCount">61 agentes</span><span class="chip">todo local en tu navegador</span></div></div>
+<div class="tiles">
+<div class="tile" onclick="goTab('pjs')"><span class="ic">👥</span><b>Agentes</b><small>61 kits con ficha</small></div>
+<div class="tile" onclick="goTab('builds')"><span class="ic">🛠️</span><b>Builds</b><small>W-Engines y discos</small></div>
+<div class="tile" onclick="goTab('equipos')"><span class="ic">⚔️</span><b>Equipos</b><small>Meta y tuyos</small></div>
+<div class="tile" onclick="goTab('tier')"><span class="ic">🏅</span><b>Tier List</b><small>Meta nov 2026</small></div>
+<div class="tile" onclick="goTab('eg')"><span class="ic">🎯</span><b>Endgames</b><small>Shiyu, Asalto Mortal y mas</small></div>
+<div class="tile" onclick="goTab('gacha')"><span class="ic">🎰</span><b>Gacha</b><small>Pity y suerte</small></div>
+<div class="tile" onclick="goTab('hoy')"><span class="ic">📅</span><b>Hoy</b><small>Resets y bateria</small></div>
+<div class="tile" onclick="goTab('tools')"><span class="ic">🧰</span><b>Tools</b><small>Daño y discos</small></div>
+<div class="tile" onclick="goTab('cuenta')"><span class="ic">🔗</span><b>Cuenta</b><small>Backup y ajustes</small></div>
+<div class="tile" onclick="goTab('sis')"><span class="ic">🔧</span><b>Sistemas</b><small>Como funciona ZZZ</small></div>
+</div>
+</section>
+<section id="tab-pjs" class="tab"><div class="card">
 <h2>👥 Agentes (61)</h2>
 <div class="filters"><input placeholder="Buscar…" oninput="renderPjs()"><select id="fEl" onchange="renderPjs()"><option value="all">Todos los atributos</option><option>Physical</option><option>Fire</option><option>Ice</option><option>Electric</option><option>Ether</option><option>Wind</option><option>Lumiflux</option></select><select id="fCat" onchange="renderPjs()"><option value="all">Todas las clases</option><option value="CritDPS">DPS Crítico</option><option value="AnoDPS">DPS Anomalía</option><option value="Support">Soporte</option><option value="mine">Solo los míos</option></select><button class="btn2" onclick="exportMine()">⬇ Exportar</button><button class="btn2" onclick="importMine()">⬆ Importar</button></div>
 <div class="grid" id="pjs"></div>
@@ -119,6 +161,31 @@ input.num{width:96px;background:rgba(30,22,44,.55);color:#fff;border:1px solid #
 <h3>📺 TV / Protomundos</h3><p>Dive Study:治疗效果 misiones del Hollow; el sistema de Hollow TV fue simplificado en las versiones actuales — más acción directa.</p>
 <h3>🧭 Faction /增幅</h3><p>Los agentes de la misma facción se activan buff mutuos; el"Duo/Trío bonus" de equipo importa al armar squad (p. ej. Victoria Housekeeping, N.E.P.S., Stars of Lyra).</p>
 </div>
+</div></section>
+<section id="tab-hoy" class="tab"><div class="card"><h2>📅 Hoy en ZZZ</h2><div id="hoyBody"></div>
+<h3>⚡ Bateria (max 240)</h3><div class="filters"><input id="stCur" class="num" type="number" placeholder="Actual"><button class="btn2" onclick="stCalc()">Calcular lleno</button></div><p id="stOut"></p></div></section>
+<section id="tab-gacha" class="tab"><div class="card"><h2>🎰 Gacha</h2>
+<p style="font-size:13px;color:#94a3b8">Registro manual rapido de tiradas. Pity S-Rank 90 en el canal estandar.</p>
+<div class="filters"><select id="gRar"><option value="5">S-Rank</option><option value="4">A-Rank</option></select><input id="gName" placeholder="Nombre (ej: Alice)"><button class="btn2" onclick="gachaAdd()">＋ Añadir tirada</button><button class="btn2" onclick="if(confirm('¿Borrar historial?')){GACHA=[];saveExtras();renderGacha();}">Borrar</button></div>
+<div class="grid" id="gachaStats"></div><h3>📜 Historial</h3><div style="overflow-x:auto"><table class="gtable" id="gachaHist"></table></div></div></section>
+<section id="tab-equipos" class="tab">
+<div class="card"><h2>🤖 Equipos meta de tus agentes</h2><p id="eqInfo" style="font-size:13px;color:#94a3b8"></p><div id="teams"></div></div>
+<div class="card"><h2>⭐ Mis equipos</h2><div class="filters"><input id="ntName" placeholder="Nombre equipo (ej: Mi Shiyu)"><input id="ntMembers" placeholder="Agente1, Agente2, Agente3" style="flex:1;min-width:200px"><button class="btn2" onclick="addMyTeam()">＋ Guardar mi equipo</button></div><div id="myTeamsOut"></div></div>
+</section>
+<section id="tab-tools" class="tab">
+<div class="card"><h2>⚔️ Comparador de equipos (aprox)</h2><button class="btn2" onclick="dpsCalc()">Calcular con mis stats</button><div id="dpsOut" style="margin-top:8px"></div></div>
+<div class="card"><h2>🧮 Evaluador de discos</h2>
+<div class="filters"><select id="eChar"></select><select id="eMain"><option>CRIT Rate</option><option>CRIT DMG</option><option>ATK%</option><option>HP%</option><option>Anomalia Prof</option><option>Element DMG</option><option>Energia</option></select><button class="btn2" onclick="relicCalc()">Evaluar</button></div>
+<div class="filters" id="eSubs"></div><div id="relicOut"></div></div>
+<div class="card"><h2>⬆️ ¿A quien subo primero?</h2><div id="queueOut"></div></div>
+</section>
+<section id="tab-cuenta" class="tab"><div class="card"><h2>🔗 Mi cuenta</h2>
+<p style="font-size:13px">Todo local en este dispositivo. Exporta a menudo: incluye tus agentes, stats, gacha y equipos.</p>
+<div class="filters"><button class="btn2" onclick="exportAll()">⬇ Exportar todo</button><button class="btn2" onclick="document.getElementById('impAll').click()">⬆ Importar</button><input type="file" id="impAll" hidden accept=".json" onchange="importAll(event)"></div></div></section>
+<section id="tab-builds" class="tab"><div class="card">
+<h2>🛠️ Mejores builds — Prydwen nov 2026</h2>
+<div class="filters"><input id="bSearch" placeholder="Buscar build..." oninput="renderBuilds()" style="flex:1;min-width:160px"><select id="bFilter" onchange="renderBuilds()"><option value="mine">Solo los mios</option><option value="all">Todos (61)</option></select></div>
+<p id="buildStats" style="font-size:13px;color:#6ee7b7"></p><div id="builds" class="grid"></div>
 </div></section>
 </main>
 <footer>SONANCE · Fuente: Prydwen (nov 2026) · todo local en tu navegador</footer>
@@ -159,7 +226,7 @@ function toggleOne(n){isMine(n)?MINE.splice(MINE.indexOf(n),1):MINE.push(n);save
 function art(n){const c=CHARS.find(c=>c.name===n);return 'https://cdn.prydwen.gg/images/zenless-zone-zero/characters/'+c.slug+'_full.webp';}
 function artB(n){const c=CHARS.find(c=>c.name===n);return 'https://cdn.prydwen.gg/images/zenless-zone-zero/characters/'+c.slug+'_card.webp';}
 function artFix(img,n){img.onerror=null;img.src=artB(n);}
-function goTab(t,btn){document.querySelectorAll('section.tab').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.querySelectorAll('#mainnav button').forEach(b=>b.classList.remove('active'));btn&&btn.classList.add('active');}
+function goTab(t,btn){document.querySelectorAll('section.tab').forEach(x=>x.classList.remove('active'));document.getElementById('tab-'+t).classList.add('active');document.querySelectorAll('#mainnav button').forEach(b=>b.classList.remove('active'));if(!btn)btn=document.getElementById('nb-'+t);if(btn)btn.classList.add('active');}
 function renderPjs(){
  const el=document.getElementById('fEl').value,ct=document.getElementById('fCat').value,q=(document.querySelector('.filters input')||{}).value||'';
  const l=CHARS.filter(c=>(el==='all'||c.el===el)&&(ct==='all'||c.cat===ct||ct==='mine'&&isMine(c.name))&&(!q||c.name.toLowerCase().includes(q.toLowerCase())));
@@ -246,6 +313,45 @@ function closeModal(){document.getElementById('modal').classList.remove('open');
 function exportMine(){const el=document.createElement('a');el.href='data:application/json,'+encodeURIComponent(JSON.stringify(MINE));el.download='zzz-backup.json';el.click();}
 function importMine(){const i=document.createElement('input');i.type='file';i.accept='.json';i.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{MINE.length=0;JSON.parse(r.result).forEach(x=>{if(!MINE.includes(x))MINE.push(x)});saveMine();renderPjs();renderTiers();alert('Importado ✓');};r.readAsText(f);};i.click();}
 renderPjs();renderTiers();
+// ===== Pestañas nuevas (port desde WuWa) =====
+var GT=JSON.parse(localStorage.getItem('zzz_teams')||'[]');
+var GACHA=JSON.parse(localStorage.getItem('zzz_gacha')||'[]');
+function saveExtras(){localStorage.setItem('zzz_teams',JSON.stringify(GT));localStorage.setItem('zzz_gacha',JSON.stringify(GACHA));}
+function myRank(n){var c=CHARS.find(function(x){return x.name===n});return c?c.rate:0;}
+function renderHoy(){var d=new Date();document.getElementById('hoyBody').innerHTML='<div class="skill">Hoy '+d.toLocaleDateString('es-ES')+' · reset diario 04:00 hora del servidor · misiones diarias se reinician · eventos y banners: revisalos en el juego</div>';}
+function stCalc(){var c=+document.getElementById('stCur').value||0;var m=Math.max(0,240-c);var mins=m*6;document.getElementById('stOut').textContent='Lleno en '+Math.floor(mins/60)+'h '+(mins%60)+'min';}
+function gachaAdd(){var n=document.getElementById('gName').value||'Tirada';GACHA.unshift({n:n,r:document.getElementById('gRar').value,d:new Date().toLocaleDateString()});document.getElementById('gName').value='';saveExtras();renderGacha();}
+function renderGacha(){var p5=GACHA.findIndex(function(g){return g.r==='5'});var s5=p5<0?GACHA.length:p5;
+document.getElementById('gachaStats').innerHTML='<div class="item"><h4>Total '+GACHA.length+'</h4><small>S-Rank: '+GACHA.filter(function(g){return g.r==='5'}).length+' · A-Rank: '+GACHA.filter(function(g){return g.r==='4'}).length+'</small></div><div class="item"><h4>Pity S-Rank: '+s5+'/90</h4><small>'+(s5>=70?'soft-pity cerca, tira ya':(s5>=50?'a medio camino':'zona segura'))+'</small></div>';
+document.getElementById('gachaHist').innerHTML='<tr><th>Nombre</th><th>Rar</th><th>Fecha</th></tr>'+GACHA.slice(0,100).map(function(g){return '<tr><td>'+g.n+'</td><td>'+g.r+'</td><td>'+g.d+'</td></tr>';}).join('');}
+function mateHTML(n){var c=CHARS.find(function(x){return x.name===n});var s=charStatsAll()[n];return '<div class="mate" onclick="openChar(\''+jsq(n)+'\')" title="Abrir ficha de '+n+'"><b>'+n+'</b><small>'+(c?(c.el+' · '+c.tier):'')+'</small><small>'+(s&&s.atk?'ATK '+s.atk+' · CR '+(s.cr||0)+'%':'sin stats')+'</small></div>';}
+function membersOf(m){var arr=[];if(Array.isArray(m)){m.forEach(function(x){String(x).split(',').forEach(function(y){arr.push(y.trim())})});}else{String(m||'').split(' + ').forEach(function(y){arr.push(y.trim())});}return arr.filter(Boolean);}
+function teamScore(members){return (members||[]).reduce(function(a,n){var s=charStatsAll()[n];var r=myRank(n);var w=r>=11?1:(r>=10?.85:(r>=9?.7:.5));if(s&&s.atk){var dps=s.atk*(1+Math.min(s.cr||0,100)/100*((s.cd||0)/100));return a+dps*w*0.01;}return a+100*w;},0);}
+function renderTeamsTab(){var mine=MINE.slice();var out='';var nMeta=0;
+mine.forEach(function(n){var P=PRYD[n]||{};((P.teams)||[]).forEach(function(t){nMeta++;
+out+='<div class="team"><b>'+n+'</b> <small>'+(t.r||((t.rk?'Rank '+t.rk+(t.u?' · uso '+t.u+'%':''):'')||''))+'</small><div class="mates">'+membersOf(t.m).map(mateHTML).join('')+'</div>'+(t.c?'<p style="font-size:12px;color:#94a3b8;margin:8px 0 0">'+t.c+'</p>':'')+'</div>';});});
+document.getElementById('eqInfo').textContent=mine.length+' agentes tuyos · '+nMeta+' equipos meta de Prydwen (se actualizan al marcar)';
+document.getElementById('teams').innerHTML=out||'<p style="color:#94a3b8">Marca tus agentes primero (en Agentes).</p>';
+document.getElementById('myTeamsOut').innerHTML=GT.map(function(t,i){return '<div class="team"><b>'+t.name+'</b> <small>score '+Math.round(teamScore(t.members))+'</small> <button class="btn2" onclick="delMyTeam('+i+')">❌</button><div class="mates">'+t.members.map(mateHTML).join('')+'</div></div>';}).join('')||'<p style="color:#94a3b8">Sin equipos tuyos todavia.</p>';}
+function addMyTeam(){var nm=(document.getElementById('ntName').value||'').trim()||('Mi equipo '+(GT.length+1));var mb=(document.getElementById('ntMembers').value||'').split(',').map(function(s){return s.trim();}).filter(Boolean).slice(0,4);if(!mb.length){alert('Escribe al menos 1 agente');return;}GT.push({name:nm,members:mb});saveExtras();renderTeamsTab();}
+function delMyTeam(i){if(!confirm('¿Borrar '+GT[i].name+'?'))return;GT.splice(i,1);saveExtras();renderTeamsTab();}
+function myBestTeams(){var mine=MINE.slice();var dps=[],sup=[];
+mine.sort(function(a,b){return myRank(b)-myRank(a);});
+mine.forEach(function(n){var c=CHARS.find(function(x){return x.name===n});if(!c)return;if(String(c.cat).indexOf('DPS')>=0)dps.push(n);else sup.push(n);});
+var out=[];for(var i=0;i<6;i++){if(!dps[i])break;out.push([dps[i],sup[i%Math.max(sup.length,1)]].filter(Boolean));}return out;}
+function dpsCalc(){var t=myBestTeams();document.getElementById('dpsOut').innerHTML=t.map(function(m,i){return '<div class="skill"><b>Equipo '+(i+1)+':</b> '+m.join(' + ')+' → <b>'+Math.round(teamScore(m))+'</b></div>';}).join('')||'Sin datos: marca agentes y mete stats';}
+function relicCalc(){var c=document.getElementById('eChar').value,m=document.getElementById('eMain').value;var sel=Array.prototype.slice.call(document.querySelectorAll('.esub:checked')).map(function(x){return x.value});var sc=50+sel.length*8+(m.indexOf('CRIT')>=0?10:0);var v=sc>=85?'OP - guardalo':(sc>=70?'Bueno':(sc>=55?'Aceptable':'Comida'));document.getElementById('relicOut').innerHTML='<div class="skill"><b>'+c+' · '+m+':</b> '+v+' ('+sc+'/100) con '+sel.join(', ')+'</div>';}
+function renderTools(){document.getElementById('eChar').innerHTML=CHARS.map(function(r){return '<option>'+r.name+'</option>';}).join('');document.getElementById('eSubs').innerHTML=['CRIT Rate','CRIT DMG','ATK%','HP%','Energia'].map(function(s){return '<label style="margin-right:10px"><input type="checkbox" class="esub" value="'+s+'"> '+s+'</label>';}).join(' ');}
+function renderQueue(){var mine=MINE.slice().sort(function(a,b){return myRank(b)-myRank(a)});var sts=charStatsAll();document.getElementById('queueOut').innerHTML=mine.slice(0,10).map(function(n,i){var s=sts[n];return '<div class="skill"><b>'+(i+1)+'. '+n+'</b> '+(s&&s.atk?'✅ con stats ('+s.atk+' ATK)':'⚠️ sin stats: metelos en su ficha')+'</div>';}).join('')||'Marca tus agentes primero';}
+function renderBuilds(){var q=(document.getElementById('bSearch').value||'').toLowerCase(),f=document.getElementById('bFilter').value;
+var l=CHARS.filter(function(r){if(f==='mine'&&!isMine(r.name))return false;return !q||r.name.toLowerCase().indexOf(q)>=0;});
+document.getElementById('buildStats').textContent=l.length+' builds · stats objetivo de Prydwen (toca la ficha para medir los tuyos)';
+document.getElementById('builds').innerHTML=l.map(function(r){var P=PRYD[r.name]||{};var b=P.build||{};var st=(b.st||[]).map(function(x){return x[0]+' >= '+x[1];}).join(' · ')||'-';
+return '<div class="item"><img loading="lazy" src="'+art(r.name)+'" alt="'+r.name+'" style="width:100%;height:150px;object-fit:cover;object-position:center top;border-radius:10px" onerror="artFix(this,\''+jsq(r.name)+'\')"><h4>🛠️ '+r.name+' <span class="tierchip" style="background:'+(TIER_COL[r.tier]||'#64748b')+'">'+r.tier+'</span></h4><small>🔫 W-Engine: <b>'+(b.w||[]).join(' | ')+'</b><br>🌀 Discos: '+(b.a||[]).join(' | ')+'<br>📊 Objetivos: '+st+'</small><button class="btn2" style="margin-top:8px" onclick="openChar(\''+jsq(r.name)+'\')">Ficha completa</button></div>';}).join('');}
+function exportAll(){var b=new Blob([JSON.stringify({mine:MINE,sts:charStatsAll(),gacha:GACHA,teams:GT},null,2)],{type:'application/json'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='zzz-backup-full.json';a.click();}
+function importAll(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var d=JSON.parse(r.result);MINE.length=0;(d.mine||[]).forEach(function(x){if(!MINE.includes(x))MINE.push(x)});localStorage.setItem('zzz_sts',JSON.stringify(d.sts||{}));GACHA=d.gacha||[];GT=d.teams||[];saveExtras();saveMine();renderPjs();renderTiers();renderGacha();renderTeamsTab();renderQueue();alert('Importado ✓');}catch(err){alert('Error JSON');}};r.readAsText(f);}
+renderBuilds();renderTeamsTab();renderGacha();renderHoy();renderTools();renderQueue();
+document.getElementById('chipCount').textContent=CHARS.length+' agentes';
 </script>
 </body>
 </html>
