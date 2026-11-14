@@ -192,10 +192,17 @@ Electro usa wuthering.gg `T_IconRole_Pile_zhujue_UI.png`.
 - Verificado en browser: Zankou (CRIT 62 OK verde, CDMG 150 BAJO, ATK 1800 CASI, Cycle Int OK),
   Lacrimosa rango (CRIT 45 CASI, Chaos 60 OK dentro de 50-87.5, optimo =87.5%), rojo con
   ATK 1000/HP 8000. 0 errores consola.
-- ZZZ/HSR no necesitan fix: sus objetivos ya son numericos desde data.js (verificado Alice:
-  Objetivo =13%/Optimo =15% visibles; el "?" gris desaparece al meter stats).
-- Pendiente menor HSR: CRIT Rate muestra Optimo (=75%) menor que Objetivo (=91%) por el cap
-  de optO heredado — revisar otro dia.
+- ZZZ/HSR: ya tenian colores (objetivos numericos de data.js). Fix aplicado igualmente:
+  `optO` de ambos capaba CRIT Rate a 75 -> si el objetivo era mayor (ej. HSR Ashveil 91%)
+  el Optimo salia MENOR que el Objetivo. Ahora cap 100 (HSR Ashveil: 86% CASI amarillo,
+  Optimo =100%).
+- WUWA: no tenia chips de color. Anadidos a "📊 Cómo está" en la ficha:
+  CSS `.ratebit` + `rateOf()` + fila con chip coloreado (OK verde/CASI amarillo/BAJO
+  naranja-rojo, mismas reglas que NTE). Ademas fixed bug: ATK mostraba "%" falso
+  (`u||'%'` con u='' → ahora `u===undefined?'%':u`). Verificado Augusta: CRIT 72 OK verde,
+  CDMG 200 CASI amarillo, ATK 2100 OK sin %.
+- NTE ya hecho arriba. **Los 4 juegos tienen la calculadora identica** (verde/amarillo/
+  naranja/rojo + Objetivo + Optimo siempre visibles).
 
 ## 4e. PAUTA WUWA 3.8 APLICADA (14-nov-2026) ✅
 - 3.8 salio 12-nov con Lily (5★ Spectro, pistola, Support Unison). Prydwen tier-list actualizado 13-nov.

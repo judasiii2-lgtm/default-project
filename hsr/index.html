@@ -246,7 +246,7 @@ function rateOf(v,rec){if(!v||!rec)return['?','#334155'];var r=v/rec;if(r>=1)ret
 function saveCharStats(n){var g=function(id){return +document.getElementById(id).value||0};var o=charStatsAll();o[n]={atk:g('h_atk'),hp:g('h_hp'),df:g('h_df'),cr:g('h_cr'),cd:g('h_cd'),spd:g('h_spd')};localStorage.setItem('hsr_sts',JSON.stringify(o));openChar(n);}
 function jsq(s){return String(s).replace(/'/g,"\\'");}
 function optO(lbl,rec){if(!rec)return '';var L=String(lbl).toLowerCase();
- if(L.indexOf('crit rate')>=0)return Math.min(75,Math.round(rec*1.15));
+ if(L.indexOf('crit rate')>=0)return Math.min(100,Math.round(rec*1.15));
  if(L.indexOf('crit dmg')>=0)return Math.round(rec*1.32);
  if(L.indexOf('spd')>=0)return Math.round(rec*1.08);
  return Math.round(rec*1.12);}
